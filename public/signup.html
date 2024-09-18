@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - StudyReel</title>
+    <title>Sign Up - StudyReel</title>
     <link rel="stylesheet" href="output.css">
     <style>
         body {
@@ -60,12 +60,14 @@
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 text-center">Login to StudyReel</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up for StudyReel</h2>
 
-        <form id="authForm">
+        <form id="signupForm">
+            <input type="text" id="fullName" placeholder="Full Name" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
             <input type="email" id="email" placeholder="Email" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
             <input type="password" id="password" placeholder="Password" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
-            <button type="submit" class="w-full p-3 mb-4 bg-blue-500 text-white rounded-lg font-semibold">Login</button>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
+            <button type="submit" class="w-full p-3 mb-4 bg-blue-500 text-white rounded-lg font-semibold">Create Account</button>
         </form>
         <p id="message" class="text-green-500 text-center mb-4"></p>
         <p id="error" class="text-red-500 text-center mb-4"></p>
@@ -78,17 +80,17 @@
 
         <button class="w-full p-3 mb-4 border border-gray-300 rounded-lg flex items-center justify-center">
             <img src="../assets/google.svg" alt="Google icon" class="w-5 h-5 mr-2">
-            Continue with Google
+            Sign up with Google
         </button>
 
         <button class="w-full p-3 mb-4 border border-gray-300 rounded-lg flex items-center justify-center">
             <img src="../assets/apple.png" alt="Apple icon" class="w-5 h-5 mr-2">
-            Continue with Apple
+            Sign up with Apple
         </button>
 
         <div class="new-user-section mt-8 p-4 rounded-lg text-center">
-            <p class="mb-2 font-semibold">New to StudyReel?</p>
-            <a href="signup.html" class="block w-full p-3 bg-blue-100 text-blue-500 rounded-lg font-semibold">Create an account</a>
+            <p class="mb-2 font-semibold">Already have an account?</p>
+            <a href="login.html" class="block w-full p-3 bg-blue-100 text-blue-500 rounded-lg font-semibold">Log in</a>
         </div>
     </div>
 
@@ -107,6 +109,6 @@
         <img src="../assets/swift_playgrounds.png" alt="" class="absolute top-[70%] right-[15%] w-16 h-16">
     </div>
 
-    <script src="../src/renderer.js"></script>
+    <script src="../src/signup.js"></script>
 </body>
 </html>
