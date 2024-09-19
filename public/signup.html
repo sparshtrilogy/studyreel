@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - StudyReel</title>
     <link rel="stylesheet" href="output.css">
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' https://www.gstatic.com https://www.googleapis.com;
+      style-src 'self' 'unsafe-inline';
+      connect-src 'self' https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
+      object-src 'none';
+    ">
     <style>
         body {
             background: linear-gradient(135deg, #4A90E2 0%, #3B5998 100%);
@@ -50,6 +57,10 @@
 
 </head>
 <body class="flex items-center justify-center min-h-screen p-4 relative overflow-hidden">
+    <a href="signup_ask.html" class="absolute top-4 left-4 text-blue-500 hover:underline flex items-center">
+        <img src="../assets/back-arrow.svg" alt="Back" class="w-4 h-4 mr-1">
+        Back
+    </a>
     <div class="circular-gradient absolute inset-0"></div>
     <div class="login-container w-full max-w-md p-8 bg-white rounded-3xl shadow-lg relative z-10">
         <div class="flex items-center mb-8">

@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h3 {
+    @apply text-20 font-medium text-black;
+    font-family: 'Archivo', sans-serif;
+    }
+  }
+
+@layer utilities {
+  .bg-blue-600 { background-color: #2563eb; }
+  .backdrop-blur-sm { backdrop-filter: blur(4px); }
+  .bg-gray-100 { background-color: #f3f4f6; }
+  .bg-gray-400 { background-color: #9ca3af; }
+  .hover\:bg-gray-50:hover { background-color: #f9fafb; }
+  .hover\:bg-gray-400:hover { background-color: #9ca3af; }
+  .space-y-3 > * + * { margin-top: 0.75rem; }
+  .space-y-4 > * + * { margin-top: 1rem; }
+  .focus\:border-gray-500:focus { border-color: #6b7280; }
+  .focus\:bg-white:focus { background-color: #ffffff; }
+  .focus\:ring-0:focus { box-shadow: none; }
+  .placeholder-black-45::placeholder {
+    color: rgba(0, 0, 0, 0.45);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .h1-archivo-32-semi-bold {
+    @apply text-32 font-semibold;
+    font-family: 'Archivo', sans-serif;
+  }
+  .logo-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #3D75EA;
+  }
+  .logo-subtitle {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600; /* semibold */
+    font-size: 8px;
+    color: #494949;
+  }
+}
+
+/* Gradient backgrounds */
+.bg-gradient-blue {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  --tw-gradient-from: #bfdbfe;
+  --tw-gradient-via: #dbeafe;
+  --tw-gradient-to: #bfdbfe;
+}
+
+/* Radial gradients */
+.bg-radial-blue {
+  background-image: radial-gradient(circle at top left, rgba(59,130,246,0.2), transparent 70%);
+}

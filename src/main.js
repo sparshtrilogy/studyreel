@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron'); // Import ipcMain
 const path = require('path');
+const fs = require('fs'); // Added fs for reading CSS file
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -12,9 +13,17 @@ function createWindow() {
     }
   });
 
-  const loginPath = path.join(__dirname, '..', 'public', 'login.html');
-  console.log('Login path:', loginPath);
-  win.loadFile(loginPath);
+  win.loadFile('public/index.html');
+
+  // Inject the back button script and CSS
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'backButton.css'), 'utf8'));
+    win.webContents.executeJavaScript(`
+      const script = document.createElement('script');
+      script.src = '${path.join(__dirname, 'backButton.js').replace(/\\/g, '/')}';
+      document.body.appendChild(script);
+    `);
+  });
 
   // Open the DevTools.
   win.webContents.openDevTools();

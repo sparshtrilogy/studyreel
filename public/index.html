@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Electron Cursor App</title>
-    <link rel="stylesheet" href="output.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyReel - Home</title>
+    <link href="/output.css" rel="stylesheet">
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' https://www.gstatic.com https://www.googleapis.com;
+      style-src 'self' 'unsafe-inline';
+      connect-src 'self' https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
+      object-src 'none';
+    ">
 </head>
-<body>
-    <h1 class="text-3xl font-bold text-center mt-8">Hello Electron and Cursor!</h1>
-    <button id="loginButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Go to Login
-    </button>
-    <script src="../src/renderer.js"></script>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-3xl font-bold mb-6 text-center">StudyReel Pages</h1>
+        <nav>
+            <ul class="space-y-4">
+                <li>
+                    <a href="/signup.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Signup</a>
+                </li>
+                <li>
+                    <a href="/signup_ask.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Signup Ask</a>
+                </li>
+                <li>
+                    <a href="/login.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
+                </li>
+                <li>
+                    <a href="/login_v0.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login v0</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </body>
 </html>
