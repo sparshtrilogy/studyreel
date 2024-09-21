@@ -3,11 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  h3 {
-    @apply text-20 font-medium text-black;
-    font-family: 'Archivo', sans-serif;
-    }
+  h1 {
+    @apply font-archivo text-32 font-medium text-center !important;
   }
+  h3 {
+    @apply font-archivo text-20 font-medium text-center !important;
+  }
+  h4 {
+    @apply font-archivo text-18 font-bold !important;
+  }
+}
 
 @layer utilities {
   .bg-blue-600 { background-color: #2563eb; }
@@ -42,6 +47,18 @@
     font-weight: 600; /* semibold */
     font-size: 8px;
     color: #494949;
+  }
+  .app-card-title {
+    @apply font-archivo text-[12px] font-semibold;
+  }
+  .app-card-subtitle {
+    @apply font-archivo text-[9px] font-bold;
+  }
+}
+
+@layer components {
+  .h1-standard {
+    @apply font-archivo text-32 font-semibold text-center mb-8;
   }
 }
 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'slide-1': '#3D75EA',
+                        'slide-2': '#8374F7',
+                        'slide-3': '#F3573F',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F4F2FA] min-h-screen flex items-center justify-center antialiased">
+    <div class="container mx-auto flex">
+        <!-- Left section (3/5 width) -->
+        <div class="w-3/5 p-4 relative">
+            <div class="rounded-lg shadow-lg h-[calc(100vh-2rem)] overflow-hidden">
+                <!-- Carousel -->
+                <div class="carousel relative w-full h-full">
+                    <div class="slide bg-slide-1 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide1.png');">
+                        <h1 class="text-white mb-4">Expert-Curated</h1>
+                        <h4 class="text-white text-center max-w-md mb-4">Smart coaching for top-rated educational apps</h4>
+                    </div>
+                    <div class="slide bg-slide-2 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide2.png');">
+                        <h1 class="text-white mb-4 z-10">AI Coach that guides and accelerates learning</h1>
+                        <h4 class="text-white text-center max-w-md z-10">Secured environment free from distractions with child data privacy protection in place</h4>
+                    </div>
+                    <div class="slide bg-slide-3 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide3.png');">
+                        <h1 class="text-white mb-4">Insightful reporting</h1>
+                        <h4 class="text-white text-center max-w-md">X-ray vision into your knowledge, tracking progress with crystal-clear reports</h4>
+                    </div>
+                </div>
+                <!-- Slide indicator -->
+                <div class="absolute top-7 left-1/2 transform -translate-x-1/2 z-10 flex space-x-2 w-4/5">
+                    <div class="w-1/3 h-3 rounded-full bg-white bg-opacity-100 mt-3 cursor-pointer" data-slide="0"></div>
+                    <div class="w-1/3 h-3 rounded-full bg-white bg-opacity-20 mt-3 cursor-pointer" data-slide="1"></div>
+                    <div class="w-1/3 h-3 rounded-full bg-white bg-opacity-20 mt-3 cursor-pointer" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right section (2/5 width) -->
+        <div class="w-2/5 p-4">
+            <div class="bg-white rounded-lg shadow-lg h-[calc(100vh-2rem)] flex flex-col items-center justify-center">
+                <div data-component="Logo"></div>
+                <h1>Create account</h1>
+                
+                <!-- New containers -->
+                <div class="w-full max-w-sm space-y-4 mt-6">
+                    <div class="border border-[#E5E3EB] rounded-2xl p-4 flex items-center">
+                        <div class="bg-[#F4F2FA] w-12 h-12 rounded-lg p-2 mr-4 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>I'm a Student</h4>
+                            <p class="font-archivo text-14 font-bold text-gray-600">Engage in lessons and tests to progress</p>
+                        </div>
+                    </div>
+                    <div class="border border-[#E5E3EB] rounded-2xl p-4 flex items-center">
+                        <div class="bg-[#F4F2FA] w-12 h-12 rounded-lg p-2 mr-4 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M8.25 6.75a3 3 0 116 0 3 3 0 01-6 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z" clip-rule="evenodd" />
+                                <path d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>I'm a Parent/Guardian</h4>
+                            <p class="font-archivo text-14 font-bold text-gray-600">Setup a family, invite student and manage apps</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New "Already have an account?" text -->
+                <div class="mt-6 text-center">
+                    <p class="font-archivo text-14 font-bold">
+                        Already have an account? 
+                        <a href="login_v0.html" class="text-[#3D75EA] hover:underline">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="components.js"></script>
+</body>
+</html>
