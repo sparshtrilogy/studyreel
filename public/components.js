@@ -58,7 +58,9 @@ function renderH1(text) {
 
 // Update the renderComponents function to include the new Logo component
 function renderComponents() {
+  console.log('renderComponents called');
   const componentPlaceholders = document.querySelectorAll('[data-component]');
+  console.log('Found components:', componentPlaceholders.length);
   componentPlaceholders.forEach(placeholder => {
     const componentName = placeholder.getAttribute('data-component');
     const props = JSON.parse(placeholder.getAttribute('data-props') || '{}');
@@ -89,8 +91,20 @@ function renderComponents() {
   });
 }
 
-// Call renderComponents when the DOM is loaded
-document.addEventListener('DOMContentLoaded', renderComponents);
+// Expose renderComponents globally
+window.renderComponents = renderComponents;
+
+// New function to initialize components
+function initComponents() {
+  console.log('initComponents called');
+  renderComponents();
+}
+
+// Expose initComponents globally
+window.initComponents = initComponents;
+
+// Call initComponents when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initComponents);
 
 document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
