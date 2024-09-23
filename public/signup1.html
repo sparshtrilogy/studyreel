@@ -53,9 +53,9 @@
         <div class="w-2/5 p-4">
             <div class="bg-white rounded-lg shadow-lg h-[calc(100vh-2rem)] flex flex-col items-center justify-center">
                 <div data-component="Logo"></div>
-                <h1>Create account</h1>
+                <h1 id="signupTitle">Create account</h1>
                 
-                <div class="w-full max-w-sm space-y-4 mt-6">
+                <div id="initialContent" class="w-full max-w-sm space-y-4 mt-6">
                     <div class="border border-[#E5E3EB] rounded-2xl p-4 flex items-center cursor-pointer" id="studentSection">
                         <div class="bg-[#F4F2FA] w-12 h-12 rounded-lg p-2 mr-4 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -80,77 +80,85 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- New "Already have an account?" text -->
-                <div class="mt-6 text-center">
-                    <p class="font-archivo text-14 font-bold">
-                        Already have an account? 
-                        <a href="login_v0.html" class="text-[#3D75EA] hover:underline">Login</a>
-                    </p>
+
+                <div id="signupForm" class="w-full max-w-sm space-y-4 mt-6 hidden">
+                    <div data-component="Input" data-props='{"inputType": "email", "placeholder": "Email"}'></div>
+                    <div data-component="SecondaryButton" id="continueButton" data-props='{"text": "Continue with email", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"continueButton"}'></div>
+                    <div class="flex items-center justify-between my-4">
+                        <hr class="w-[45%] border-t border-[#EAE8F0]">
+                        <span class="text-[#8E8C95] font-archivo text-14">or</span>
+                        <hr class="w-[45%] border-t border-[#EAE8F0]">
+                    </div>
+                    <div data-component="SocialButton" data-props='{"icon": "<path d=\"M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z\" fill=\"#4285F4\"/><path d=\"M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z\" fill=\"#34A853\"/><path d=\"M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z\" fill=\"#FBBC05\"/><path d=\"M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z\" fill=\"#EA4335\"/><path d=\"M1 1h22v22H1z\" fill=\"none\"/>", "buttonText": "Continue with Google"}'></div>
+                    <div data-component="SocialButton" data-props='{"icon": "<path d=\"M22.5 12.5c0-5.52-4.48-10-10-10s-10 4.48-10 10c0 5 3.66 9.13 8.44 9.88v-6.99H7.9v-2.89h3.04V9.85c0-3.01 1.8-4.67 4.54-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.25h3.32l-.53 2.89h-2.79v6.99C18.84 21.63 22.5 17.5 22.5 12.5z\" fill=\"#1877F2\"/><path d=\"M16.69 15.5l.53-2.89h-3.32v-2.25c0-.95.46-1.87 1.95-1.87h1.51V5.54s-1.37-.23-2.68-.23c-2.74 0-4.54 1.66-4.54 4.67v2.63H7.9v2.89h3.04v6.99c.61.09 1.24.14 1.88.14s1.27-.05 1.88-.14v-6.99h2.79z\" fill=\"white\"/>", "buttonText": "Continue with Facebook"}'></div>
+                    <div data-component="SocialButton" data-props='{
+                        "icon": "<g><path d=\"M15.769,0c0.053,0,0.106,0,0.162,0c0.13,1.606-0.483,2.806-1.228,3.675c-0.731,0.863-1.732,1.7-3.351,1.573c-0.108-1.583,0.506-2.694,1.25-3.561C13.292,0.879,14.557,0.16,15.769,0z\"/><path d=\"M20.67,16.716c0,0.016,0,0.03,0,0.045c-0.455,1.378-1.104,2.559-1.896,3.655c-0.723,0.995-1.609,2.334-3.191,2.334c-1.367,0-2.275-0.879-3.676-0.903c-1.482-0.024-2.297,0.735-3.652,0.926c-0.155,0-0.31,0-0.462,0c-0.995-0.144-1.798-0.932-2.383-1.642c-1.725-2.098-3.058-4.808-3.306-8.276c0-0.34,0-0.679,0-1.019c0.105-2.482,1.311-4.5,2.914-5.478c0.846-0.52,2.009-0.963,3.304-0.765c0.555,0.086,1.122,0.276,1.619,0.464c0.471,0.181,1.06,0.502,1.618,0.485c0.378-0.011,0.754-0.208,1.135-0.347c1.116-0.403,2.21-0.865,3.652-0.648c1.733,0.262,2.963,1.032,3.723,2.22c-1.466,0.933-2.625,2.339-2.427,4.74C17.818,14.688,19.086,15.964,20.67,16.716z\"/></g>",
+                        "buttonText": "Continue with Apple"
+                    }'></div>
+                    <div id="termsText" class="mt-4 text-center hidden">
+                        <p class="font-archivo text-12 text-[#8E8C95]">
+                            By signing up, you agree to StudyReel's <a href="#" class="text-[#3D75EA]">Terms of Service</a> and <a href="#" class="text-[#3D75EA]">Privacy Policy</a>
+                        </p>
+                    </div>
+                    <div id="loginLink" class="mt-6 text-center">
+                        <p class="font-archivo text-14">
+                            Already have an account? 
+                            <a href="login_v0.html" class="text-[#3D75EA] hover:underline">Login</a>
+                        </p>
+                    </div>
                 </div>
+
+                <div id="verificationForm" class="w-full max-w-sm space-y-4 mt-6 hidden transition-opacity duration-500 ease-in-out">
+                    <p class="font-archivo text-16 font-bold mb-4 text-[#737373] text-center mx-auto">Please enter 6 digit code sent to <br><span id="userEmail"></span></p>
+                    <div class="flex justify-between mb-4">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center text-2xl border rounded-lg bg-[#F6F5F5]" />
+                    </div>
+                    
+                    <p class="font-archivo text-14 font-bold mb-4">Didn't receive a code? <a href="#" class="text-[#3D75EA]">Resend Code</a></p>
+                    
+                    <div data-component="SecondaryButton" id="verifyButton" data-props='{"text": "Continue", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"verifyButton", "isActive": false}'></div>
+                </div>
+
+                <div id="setPassword" class="w-full max-w-sm space-y-4 mt-6 hidden transition-opacity duration-500 ease-in-out">
+                    <!-- Input Components -->
+                    <div class="space-y-4">
+                        <div data-component="Input" data-props='{"inputType": "text", "placeholder": "Full Name"}'></div>
+                        <div data-component="Input" data-props='{"inputType": "password", "placeholder": "Create Password"}'></div>
+                        <div data-component="Input" data-props='{"inputType": "password", "placeholder": "Confirm Password"}'></div>
+                    </div>
+                    <p id="passwordMatchMessage" class="text-red-500 text-12"></p>
+                    <p id="passwordCriteriaMessage" class="text-red-500 text-12"></p>
+                    <p class="font-archivo font-bold text-14 text-gray-700">Create a password with at least 8 characters, 1 number and 1 special character and a combination of uppercase and lowercase</p>
+                    <div data-component="SecondaryButton" id="continuePassword" data-props='{"text": "Continue", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"continuePassword", "isActive": false}'></div>
+                </div>
+
             </div>
         </div>
-    </div>
 
     <script src="components.js"></script>
 
     <script>
-    document.getElementById('studentSection').addEventListener('click', function() {
-        console.log('Student section clicked');
-        const popup = document.createElement('div');
-        popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        popup.innerHTML = `
-            <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-end">
-                    <button id="closePopup" class="text-gray-500 hover:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div data-component="Logo" class="mx-auto mb-4 h-12"></div>
-                    <h1 class="mb-4">Are you 13 years old or older?</h1>
-                    <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">You're about to start an amazing learning adventure. StudyReel is here to make learning fun, exciting, and just for you!</p>
-                    <div class="flex space-x-4">
-                        <button id="yesButton" class="flex-1 bg-[#3D75EA] text-white py-3 px-4 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold">Yes, I'm 13 or older</button>
-                        <button id="noButton" class="flex-1 bg-[#F7F7F7] text-black py-3 px-4 rounded-[16px] hover:bg-[#F7F7F7]/90 font-archivo text-2xl font-semibold">No, I'm under 13</button>
-                    </div>
-            </div>
-        `;
+document.addEventListener('DOMContentLoaded', () => {
+    let initialContent = document.getElementById('initialContent');
+    let signupForm = document.getElementById('signupForm');
+    let termsText = document.getElementById('termsText');
+    let signupTitle = document.getElementById('signupTitle');
+    let verificationForm = document.getElementById('verificationForm');
+    let userEmailSpan = document.getElementById('userEmail');
 
-        document.body.appendChild(popup);
-        console.log('Popup added to DOM');
-
-        // Trigger a custom event to notify that new components have been added
-        window.dispatchEvent(new CustomEvent('componentsAdded'));
-        console.log('componentsAdded event dispatched');
-
-        // Force a re-render after a short delay
-        setTimeout(() => {
-            console.log('Forcing re-render');
-            if (typeof window.initComponents === 'function') {
-                window.initComponents();
-            }
-        }, 100);
-
-        // Add event listener to close the popup
-        document.getElementById('closePopup').addEventListener('click', function() {
-            document.body.removeChild(popup);
-        });
-
-        // Close popup when clicking outside the content area
-        popup.addEventListener('click', function(event) {
-            if (event.target === popup) {
-                document.body.removeChild(popup);
-            }
-        });
-
-        // Add event listener for the "No, I'm under 13" button
-        document.getElementById('noButton').addEventListener('click', function() {
-            document.body.removeChild(popup);
-            showUnderagePopup();
-        });
-    });
+    function showSignupForm() {
+        initialContent.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+        termsText.classList.remove('hidden');
+        signupTitle.textContent = 'Sign up';
+        // If you have a renderComponents function, uncomment the next line
+        // renderComponents();
+    }
 
     function showUnderagePopup() {
         const underagePopup = document.createElement('div');
@@ -159,9 +167,9 @@
             <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-end">
                     <button id="closeUnderagePopup" class="text-gray-500 hover:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        </svg>  
                     </button>
                 </div>
                 <div data-component="Logo" class="mx-auto mb-4 h-12"></div>
@@ -178,17 +186,17 @@
 
         document.body.appendChild(underagePopup);
 
-        // Trigger a custom event to notify that new components have been added
-        window.dispatchEvent(new CustomEvent('componentsAdded'));
-
         // Force a re-render after a short delay
         setTimeout(() => {
-            if (typeof window.initComponents === 'function') {
-                window.initComponents();
-            }
-        }, 100);
+            console.log('Forcing re-render');
+            if (typeof window.renderComponents === 'function') {
+                window.renderComponents();
+            } else {
+                console.error('renderComponents is not a function');
+                   }
+            }, 100);
 
-        // Add event listener to close the popup
+        // Add event listener for the "Close" button
         document.getElementById('closeUnderagePopup').addEventListener('click', function() {
             document.body.removeChild(underagePopup);
         });
@@ -206,77 +214,357 @@
         });
     }
 
-    // Add this event listener to the "I'm a Parent/Guardian" div
-    document.addEventListener('DOMContentLoaded', function() {
-        // Find the "I'm a Parent/Guardian" div and add the click event listener
-        const parentGuardianDiv = document.querySelector('.w-full.max-w-sm.space-y-4 > div:nth-child(2)');
-        if (parentGuardianDiv) {
-            parentGuardianDiv.classList.add('cursor-pointer');
-            parentGuardianDiv.addEventListener('click', function() {
-                showParentSignupPopup();
-            });
-        } else {
-            console.error("Parent/Guardian div not found");
-        }
+    function showParentSignupPopup() {
+    const parentPopup = document.createElement('div');
+    parentPopup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    parentPopup.innerHTML = `
+        <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+            <div class="flex justify-end mb-4">
+                <button id="closeParentPopup" class="text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-2">
+                    <!-- Close icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <img src="/assets/popup_signup_gotoweb.png" alt="Dashboard Preview" class="w-full mb-8 rounded-lg">
+            <h1 class="text-3xl font-bold mb-4 text-center">Visit website to signup</h1>
+            <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">To access our specialized parent features, please create your account on our website</p>
+            <a href="https://studyreel.com" target="_blank" rel="noopener noreferrer" class="w-full bg-[#3D75EA] text-white py-4 px-6 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold flex items-center justify-center">
+                Visit website
+                <!-- External link icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+            </a>
+        </div>
+    `;
+
+    document.body.appendChild(parentPopup);
+
+    // Add event listener for the "Close" button
+    document.getElementById('closeParentPopup').addEventListener('click', function() {
+        document.body.removeChild(parentPopup);
     });
 
-    function showParentSignupPopup() {
-        const parentPopup = document.createElement('div');
-        parentPopup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        parentPopup.innerHTML = `
+    // Close popup when clicking outside the content area
+    parentPopup.addEventListener('click', function(event) {
+        if (event.target === parentPopup) {
+            document.body.removeChild(parentPopup);
+        }
+    });
+}
+
+    // Event listener for "I'm a Student" section
+    document.getElementById('studentSection').addEventListener('click', function() {
+        const popup = document.createElement('div');
+        popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        popup.innerHTML = `
             <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-end mb-4">
-                    <button id="closeParentPopup" class="text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-2">
+                <div class="flex justify-end">
+                    <button id="closePopup" class="text-gray-500 hover:text-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        </svg>  
                     </button>
                 </div>
-                <img src="/assets/popup_signup_gotoweb.png" alt="Dashboard Preview" class="w-full mb-8 rounded-lg">
-                <h1 class="text-3xl font-bold mb-4 text-center">Visit website to signup</h1>
-                <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">To access our specialized parent features, please create your account on our website</p>
-                <a href="https://studyreel.com" target="_blank" rel="noopener noreferrer" class="w-full bg-[#3D75EA] text-white py-4 px-6 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold flex items-center justify-center">
-                    Visit website
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                    </svg>
-                </a>
+                <div id="popupLogo" data-component="Logo" class="mx-auto mb-4 h-12"></div>
+                <h1 class="mb-4">Are you 13 years old or older?</h1>
+                <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">You're about to start an amazing learning adventure. StudyReel is here to make learning fun, exciting, and just for you!</p>
+                <div class="flex space-x-4">
+                    <button id="yesButton" class="flex-1 bg-[#3D75EA] text-white py-3 px-4 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold">Yes, I'm 13 or older</button>
+                    <button id="noButton" class="flex-1 bg-[#F7F7F7] text-black py-3 px-4 rounded-[16px] hover:bg-[#F7F7F7]/90 font-archivo text-2xl font-semibold">No, I'm under 13</button>
+                </div>
             </div>
         `;
 
-        document.body.appendChild(parentPopup);
-        // Trigger a custom event to notify that new components have been added
-        window.dispatchEvent(new CustomEvent('componentsAdded'));
+        document.body.appendChild(popup);
 
         // Force a re-render after a short delay
-        setTimeout(() => {
-            if (typeof window.initComponents === 'function') {
-                window.initComponents();
+    setTimeout(() => {
+        console.log('Forcing re-render');
+            if (typeof window.renderComponents === 'function') {
+                window.renderComponents();
+            } else {
+                console.error('renderComponents is not a function');
             }
         }, 100);
 
         // Add event listener to close the popup
-        document.getElementById('closeParentPopup').addEventListener('click', function() {
-            document.body.removeChild(parentPopup);
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.body.removeChild(popup);
         });
 
         // Close popup when clicking outside the content area
-        parentPopup.addEventListener('click', function(event) {
-            if (event.target === parentPopup) {
-                document.body.removeChild(parentPopup);
+        popup.addEventListener('click', function(event) {
+            if (event.target === popup) {
+                document.body.removeChild(popup);
             }
         });
+
+        // Add event listeners for the buttons after they are added to the DOM
+        document.getElementById('yesButton').addEventListener('click', function() {
+            document.body.removeChild(popup);
+            showSignupForm();
+        });
+
+        document.getElementById('noButton').addEventListener('click', function() {
+            document.body.removeChild(popup);
+            showUnderagePopup();
+        });
+    });
+
+    // Event listener for "I'm a Parent/Guardian" section
+    const parentGuardianDiv = document.getElementById('parentSection');
+    if (parentGuardianDiv) {
+        parentGuardianDiv.classList.add('cursor-pointer');
+        parentGuardianDiv.addEventListener('click', function() {
+            showParentSignupPopup();
+        });
+    } else {
+        console.error("Parent/Guardian div not found");
     }
 
-    // At the end of the file
-    window.addEventListener('componentsAdded', function() {
-        console.log('componentsAdded event received');
-        if (typeof window.initComponents === 'function') {
-            window.initComponents();
+    // Verification code auto move to next field and only accept numbers
+    const verificationInputs = document.querySelectorAll('#verificationForm input[type="text"]');
+
+    verificationInputs.forEach((input, index) => {
+        input.addEventListener('input', function(e) {
+            // Restrict input to numbers only
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            if (this.value.length === 1) {
+                // Move to the next input if available
+                if (index < verificationInputs.length - 1) {
+                    verificationInputs[index + 1].focus();
+                }
+            }
+        });
+
+        input.addEventListener('keydown', function(e) {
+            // Handle backspace
+            if (e.key === 'Backspace' && this.value.length === 0) {
+                if (index > 0) {
+                    verificationInputs[index - 1].focus();
+                }
+            }
+        });
+    });
+
+    // {{ Begin: Added Code to Handle "Continue" Button State }}
+
+    const verifyButton = document.getElementById('verifyButton');
+
+    function updateVerifyButtonState() {
+        const allFilled = Array.from(verificationInputs).every(input => input.value.length === 1);
+        if (allFilled) {
+        // Enable the button and change its color to #3D75EA
+        verifyButton.classList.remove('bg-[#C7C5CC]', 'hover:bg-[#B8B6BD]', 'cursor-not-allowed');
+        verifyButton.classList.add('bg-[#3D75EA]', 'cursor-pointer');
+        verifyButton.disabled = false;
         } else {
-            console.error('initComponents is not a function');
+        // Disable the button and revert its color
+        verifyButton.classList.add('bg-[#C7C5CC]', 'hover:bg-[#B8B6BD]', 'cursor-not-allowed');
+        verifyButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+        verifyButton.disabled = true;
+        }
+    }
+
+    // Initialize button state on page load
+    updateVerifyButtonState();
+
+    // Attach the update function to each input's 'input' event
+    verificationInputs.forEach((input) => {
+    input.addEventListener('input', updateVerifyButtonState);
+    });
+    // {{ End: Added Code to Handle "Continue" Button State }}
+
+    // **Email Validation Logic**
+    // Wait for components to render
+    setTimeout(() => {
+        // Select the email input field
+        const emailInput = document.querySelector('input[type="email"]');
+        const continueButton = document.getElementById('continueButton');
+
+        if (emailInput && continueButton) {
+            // Initially disable the button
+            continueButton.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
+            continueButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+            continueButton.disabled = true;
+
+            // Add event listener for input changes
+            emailInput.addEventListener('input', function() {
+            const email = emailInput.value;
+
+        if (validateEmail(email)) {
+            // Enable the button and change its background color
+            continueButton.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
+            continueButton.classList.add('bg-[#3D75EA]', 'cursor-pointer');
+            continueButton.disabled = false;
+        } else {
+            // Disable the button and reset its background color
+            continueButton.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
+            continueButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+            continueButton.disabled = true;
         }
     });
-    </script>
+        continueButton.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+
+            // Optional: Re-validate the email before proceeding
+            if (validateEmail(email)) {
+                // Hide the signup form and related elements
+                initialContent.classList.add('hidden');
+                signupForm.classList.add('hidden');
+                termsText.classList.add('hidden');
+
+                // Show the verification form
+                verificationForm.classList.remove('hidden');
+                signupTitle.textContent = 'Verify your email';
+
+                // Set the user email in the verification form
+                userEmailSpan.textContent = email;
+
+                // Optional: Focus the first input of the verification form
+                verificationForm.querySelector('input[type="text"]').focus();
+            } else {
+                // Optionally, display an error message or handle invalid email
+                alert('Please enter a valid email address.');
+            }
+        });
+        } else {
+                    if (!emailInput) {
+                        console.error("Email input field not found");
+                    }
+                    if (!continueButton) {
+                        console.error('"Continue with email" button not found');
+                    }
+                }
+    }, 500); // Adjust timeout as needed based on component rendering time
+
+    // **Email Validation Function**
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    // **Transistion validation form to set password**
+    const setPassword = document.getElementById('setPassword');
+    verifyButton.addEventListener('click', function() {
+       // Hide the verification form
+       verificationForm.classList.add('hidden');
+       
+       // Show the set password section
+       setPassword.classList.remove('hidden');
+   });
+
+    // Enable button only when all fields are filled
+    const continuePassword = document.getElementById('continuePassword');
+    const fullNameInput = document.querySelector('#setPassword input[placeholder="Full Name"]');
+    const createPasswordInput = document.querySelector('#setPassword input[placeholder="Create Password"]');
+    const confirmPasswordInput = document.querySelector('#setPassword input[placeholder="Confirm Password"]');
+
+    function updateContinuePasswordState() {
+        const allFilled = fullNameInput.value.trim() !== '' &&
+            createPasswordInput.value.trim() !== '' &&
+            confirmPasswordInput.value.trim() !== '';
+        const fullName = fullNameInput.value.trim();
+        const createPassword = createPasswordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+        const passwordsMatch = createPassword === confirmPassword;
+        const isPasswordValid = validatePassword(createPassword);
+            
+        // Get message elements
+        const passwordMatchMessage = document.getElementById('passwordMatchMessage');
+        const passwordCriteriaMessage = document.getElementById('passwordCriteriaMessage');
+
+        // Update password match message
+        if (confirmPassword !== '') {
+            if (passwordsMatch) {
+                passwordMatchMessage.textContent = 'Passwords match.';
+                passwordMatchMessage.classList.remove('text-red-500');
+                passwordMatchMessage.classList.add('text-green-500');
+            } else {
+                passwordMatchMessage.textContent = 'Passwords do not match.';
+                passwordMatchMessage.classList.remove('text-green-500');
+                passwordMatchMessage.classList.add('text-red-500');
+            }
+        } else {
+            passwordMatchMessage.textContent = '';
+        }
+
+        // Update password criteria message
+        if (createPassword !== '') {
+            if (isPasswordValid) {
+                passwordCriteriaMessage.textContent = 'Password meets all criteria.';
+                passwordCriteriaMessage.classList.remove('text-red-500');
+                passwordCriteriaMessage.classList.add('text-green-500');
+            } else {
+                passwordCriteriaMessage.textContent = 'Password must be at least 8 characters, include 1 number, 1 special character, and both uppercase and lowercase letters.';
+                passwordCriteriaMessage.classList.remove('text-green-500');
+                passwordCriteriaMessage.classList.add('text-red-500');
+            }
+        } else {
+            passwordCriteriaMessage.textContent = '';
+        }
+        
+        if (allFilled && passwordsMatch && isPasswordValid) {
+            continuePassword.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
+            continuePassword.classList.add('bg-[#3D75EA]', 'cursor-pointer');
+            continuePassword.disabled = false;
+            } else {
+            continuePassword.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
+            continuePassword.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+            continuePassword.disabled = true;
+            }
+        }
+
+    // Initialize button state on page load
+    updateContinuePasswordState();
+
+    // Attach event listeners to input fields
+    fullNameInput.addEventListener('input', updateContinuePasswordState);
+    createPasswordInput.addEventListener('input', updateContinuePasswordState);
+    confirmPasswordInput.addEventListener('input', updateContinuePasswordState);
+
+    updatedContinuePassword.addEventListener('click', function() {
+    const fullName = fullNameInput.value.trim();
+    const password = createPasswordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    if (!validatePassword(password)) {
+        alert("Password does not meet the required criteria.");
+        return;
+    }
+
+    // Proceed with account creation
+    // Example:
+    // sendDataToServer({ fullName, email, password })
+    alert("Account created successfully!");
+    });
+
+    /**
+     * Validates if the password meets the required criteria:
+     * - At least 8 characters
+     * - Contains at least 1 number
+     * - Contains at least 1 special character
+     * - Includes both uppercase and lowercase letters
+     *
+     * @param {string} password - The password string to validate.
+     * @returns {boolean} - Returns true if valid, false otherwise.
+     */
+    function validatePassword(password) {
+        const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~])[A-Za-z\d@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~]{8,}$/;
+        return re.test(password);
+    }
+    
+});
+</script>
+
 </body>
 </html>

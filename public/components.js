@@ -2,7 +2,7 @@ function renderInput(inputType, placeholder) {
   return `<input
     type="${inputType}"
     placeholder="${placeholder}"
-    class="w-full px-4 py-3 rounded-full bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-archivo font-medium text-14 text-black-45 placeholder-black-45"
+    class="w-full px-4 py-3 rounded-2xl bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-archivo font-bold text-14 text-black placeholder-black-45"
   />`;
 }
 
@@ -24,12 +24,17 @@ function renderSocialButton(icon, buttonText) {
   `;
 }
 
-function renderSecondaryButton(text, iconPath, customClass = '') {
+function renderSecondaryButton(text, iconPath, customClass = '', id = '', isActive = false) {
   const defaultClass = "w-full py-3 px-4 rounded-2xl font-archivo font-bold transition-colors flex items-center justify-center gap-2";
-  const buttonClass = customClass || "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]";
-  
+  const activeClass = "bg-[#3D75EA] text-white text-16 hover:bg-[#3D75EA]/90 cursor-pointer";
+  const inactiveClass = "bg-[#C7C5CC] text-white text-16 cursor-not-allowed";
+  const buttonClass = isActive ? activeClass : inactiveClass;
+
+  const idAttribute = id ? `id="${id}"` : '';
+  const disabledAttribute = isActive ? '' : 'disabled';
+
   return `
-    <button class="${defaultClass} ${buttonClass}">
+    <button ${idAttribute} ${disabledAttribute} class="${defaultClass} ${buttonClass} ${customClass}">
       ${iconPath ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">${iconPath}</svg>` : ''}
       ${text}
     </button>
@@ -71,13 +76,13 @@ function renderComponents() {
         renderedHTML = renderInput(props.inputType, props.placeholder);
         break;
       case 'Button':
-        renderedHTML = renderButton(props.bgColor, props.textColor, props.hoverBgColor, props.icon, props.buttonText);
+        renderedHTML = renderSecondaryButton(props.text, props['icon-path'], props.customClass, props.id);
         break;
       case 'SocialButton':
         renderedHTML = renderSocialButton(props.icon, props.buttonText);
         break;
       case 'SecondaryButton':
-        renderedHTML = renderSecondaryButton(props.text, props['icon-path'], props.customClass);
+        renderedHTML = renderSecondaryButton(props.text, props['icon-path'], props.customClass, props.id);
         break;
       case 'Logo':
         renderedHTML = renderLogo();
