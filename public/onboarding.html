@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+        .slide1 {
+            background-color: #8374F7;
+            background-image: url('/assets/frame_onboarding1.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .slide2 {
+            background-color: #14BF95;
+            background-image: url('/assets/frame_onboarding2.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .active {
+            display: block;
+            opacity: 1;
+        }
+        .avatar-grid-container {
+            position: relative;
+            max-height: 300px; /* Reduced from 400px */
+            overflow: hidden;
+        }
+        .avatar-grid {
+            padding-bottom: 30px; /* Reduced from 60px */
+        }
+        .fade-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px; /* Reduced from 100px */
+            background: linear-gradient(to bottom, rgba(244, 242, 250, 0), rgba(244, 242, 250, 1));
+            pointer-events: none;
+        }
+        .avatar-caption {
+            max-width: 70px; /* Reduced from 80px */
+            word-break: break-word;
+            hyphens: auto;
+            font-size: 12px; /* Updated font size */
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap');
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .button-text {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 16px;
+            text-align: center;
+        }
+        
+        .permission-container {
+            background-color: #F4F2FA;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .permission-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .permission-icon {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Div with Tailwind Classes -->
+    <div class="flex items-center justify-left mx-4 mt-8 z-10 relative">
+        <div class="flex items-center">
+            <div class="mr-3">
+                <img src="/assets/studyreel_white.svg" alt="StudyReel" class="w-10 h-10 object-contain">
+            </div>
+            <div>
+                <h2 class="text-white text-xl font-semibold">StudyReel</h2>
+                <p class="text-white text-sm">Smart Coaching, Faster Learning</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide indicator -->
+    <div class="absolute top-10 left-0 right-0 z-10 flex justify-center space-x-1 w-1/6 mx-auto">
+        <div class="w-1/2 h-1 rounded-full bg-white bg-opacity-100 mt-3 cursor-pointer" data-slide="0"></div>
+        <div class="w-1/2 h-1 rounded-full bg-white bg-opacity-20 mt-3 cursor-pointer" data-slide="1"></div>
+    </div>
+
+    <!-- Slides -->
+    <div class="slide slide1 active">
+        <!-- Choose Your Study Coach Section -->
+        <div class="flex items-center justify-center mt-[150px] mx-2 sm:mx-4 md:mx-8 lg:mx-12">
+            <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6 w-full max-w-5xl">
+                <h2 class="text-lg sm:text-xl font-bold mb-2 text-center">Choose Your Study Coach</h2>
+                <p class="text-center mb-4 text-xs sm:text-sm">Pick your virtual AI coach to guide you through your learning journey. You can change this later if you want!</p>
+                <div class="bg-[#F4F2FA] p-3 sm:p-4 md:p-6 rounded-lg">
+                    <h3 class="text-base font-semibold mb-3 text-left">Pick an avatar</h3>
+                    <div class="avatar-grid-container">
+                        <div class="avatar-grid grid grid-cols-4 sm:grid-cols-5 md:grid-cols-5 gap-2">
+                            <!-- Avatar Options -->
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
+                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                                <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
+                            </div>
+                        </div>
+                        <div class="fade-overlay"></div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="button-text text-[#3D75EA] rounded-[16px]" onclick="showSlide(1)">I'll do this later</button>
+                    <button class="button-text bg-[#3D75EA] text-white rounded-[16px]" onclick="showSlide(1)">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide slide2">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl mx-4">
+                <h2 class="text-2xl font-bold mb-4 text-center">Teaming Up for Better Learning!</h2>
+                <p class="text-center mb-6 text-sm">We need you to grant StudyReel permissions on your computer. A pop-up will appear after you click "Give Permission" below</p>
+                <div class="bg-gradient-to-b from-[rgba(27,210,174,0.2)] to-[rgba(27,210,174,0)] rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold mb-4 text-center">Here's how it works, we will:</h3>
+                    <div class="flex items-center mb-4 bg-[#FEFEFE] rounded-xl p-3 space-x-3"">
+                        <div class="bg-white w-15 h-15 rounded-xl flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-[#15C39A]">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-archivo font-semibold text-xl">Record your screen</span>
+                            <span class="font-archivo font-medium text-sm text-[#1E1E1E] text-opacity-55">so we can follow along with your work</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#D2F5EF] rounded-2xl p-4 text-center">
+                        <p class="text-sm text-gray-600">Don't worry—everything stays private and secure.</p>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="button-text bg-[#3D75EA] text-white rounded-[16px] w-full">Give Permission</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('[data-slide]');
+            
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('bg-opacity-100', i <= index);
+                indicator.classList.toggle('bg-opacity-20', i > index);
+            });
+        }
+    </script>
+</body>
+</html>

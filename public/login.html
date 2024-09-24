@@ -3,113 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - StudyReel</title>
-    <link rel="stylesheet" href="output.css">
+    <title>StudyReel - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/output.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #4A90E2 0%, #3B5998 100%);
-            overflow: hidden;
-        }
-        .login-container {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        .new-user-section {
-            background: linear-gradient(135deg, #E6F0FF 0%, #F0F4FF 100%);
-        }
-        .circular-gradient::before,
-        .circular-gradient::after {
-            content: '';
-            position: absolute;
-            width: 150vmax;
-            height: 150vmax;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            pointer-events: none;
-        }
-        .circular-gradient::before {
-            top: -75vmax;
-            left: -75vmax;
-        }
-        .circular-gradient::after {
-            bottom: -75vmax;
-            right: -75vmax;
+            font-family: 'Archivo', sans-serif;
+            .bg-radial-white {
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.2) 100%);
+    }
         }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
-
-    <!-- Update your Content Security Policy to allow Firebase scripts -->
     <meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' https://www.gstatic.com https://www.googleapis.com;
-  style-src 'self' 'unsafe-inline';
-  connect-src 'self' https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
-  object-src 'none';
-">
-
+    default-src 'self';
+    script-src 'self' https://www.gstatic.com https://www.googleapis.com;
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self' https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
+    object-src 'none';
+  ">
+    <!-- Add Heroicons CDN -->
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
+    <script src="/components.js"></script>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 relative overflow-hidden">
-    
-    <div class="circular-gradient absolute inset-0"></div>
-    <div class="login-container w-full max-w-md p-8 bg-white rounded-3xl shadow-lg relative z-10">
-        <div class="flex items-center mb-8">
-            <img src="../assets/studyreel.svg" alt="StudyReel logo" class="w-10 h-10 mr-3">
-            <div>
-                <h1 class="text-2xl font-bold text-blue-500">StudyReel</h1>
-                <p class="text-xs text-gray-600">Smart Coaching, faster learning</p>
+<body>
+    <div class="relative flex items-center justify-center min-h-screen overflow-hidden">
+        <!-- Background with larger, more intense circular gradients -->
+        <div class="absolute inset-0 bg-blue-700">
+            <div class="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-radial-white opacity-50"></div>
+            <div class="absolute bottom-[-50%] right-[-50%] w-[200%] h-[200%] bg-radial-white opacity-50"></div>
+            
+            <!-- Floating icons -->
+            <div class="absolute top-[10%] left-[10%] w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <img src="/assets/photomath.png" alt="Photomath" class="w-10 h-10 object-contain">
+            </div>
+            <div class="absolute top-[30%] right-[15%] w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <img src="/assets/khan_academy.png" alt="Khan Academy" class="w-8 h-8 object-contain">
+            </div>
+            <div class="absolute bottom-[20%] left-[20%] w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <img src="/assets/prodigy_math.png" alt="Prodigy Math" class="w-7 h-7 object-contain">
+            </div>
+            <div class="absolute bottom-[40%] right-[10%] w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <img src="/assets/ixl.png" alt="IXL" class="w-10 h-10 object-contain">
+            </div>
+            <div class="absolute top-[60%] left-[5%] w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <img src="/assets/desmos.png" alt="Desmos" class="w-8 h-8 object-contain">
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 text-center">Login to StudyReel</h2>
-
-        <form id="authForm">
-            <input type="email" id="email" placeholder="Email" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
-            <input type="password" id="password" placeholder="Password" required class="w-full p-3 mb-4 border border-gray-300 rounded-lg">
-            <button type="submit" class="w-full p-3 mb-4 bg-blue-500 text-white rounded-lg font-semibold">Login</button>
-        </form>
-        <p id="message" class="text-green-500 text-center mb-4"></p>
-        <p id="error" class="text-red-500 text-center mb-4"></p>
-
-        <div class="flex items-center my-4">
-            <div class="flex-grow border-t border-gray-300"></div>
-            <span class="px-3 text-gray-500 text-sm">or</span>
-            <div class="flex-grow border-t border-gray-300"></div>
+        <!-- Main content -->
+        <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md relative z-10">
+            <div class="flex items-center justify-center mb-8">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mr-3">
+                        <img src="/assets/studyreel.svg" alt="StudyReel" class="w-8 h-8 object-contain">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="logo-title">StudyReel</h2>
+                        <p class="logo-subtitle">Smart Coaching, faster learning</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h1 class="h1-standard">Login to StudyReel</h1>
+            
+            <form class="space-y-4">
+                <div>
+                    <div data-component="Input" data-props='{"inputType": "email", "placeholder": "Email"}'></div>
+                </div>
+                <div data-component="SecondaryButton" data-props='{
+                    "text": "Continue with email",
+                    "icon-path": "<path d=\"M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z\" /><path d=\"M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z\" />"
+                }'></div>
+            </form>
+            
+            <div class="mt-4 space-y-3">
+                <div data-component="SocialButton" data-props='{
+                    "icon": "<path d=\"M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z\" fill=\"#4285F4\"/><path d=\"M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z\" fill=\"#34A853\"/><path d=\"M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z\" fill=\"#FBBC05\"/><path d=\"M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z\" fill=\"#EA4335\"/>",
+                    "buttonText": "Continue with Google"
+                }'></div>
+                <div data-component="SocialButton" data-props='{
+                    "icon": "<path d=\"M17.05 20.28c-.98.95-2.05.88-3.08.41-1.07-.5-2.06-.48-3.2 0-1.42.61-2.17.52-3.08-.41C3.33 15.85 3.96 8.94 8.42 8.65c1.2-.07 2.12.53 2.95.53.83 0 2.38-.65 3.57-.55 1.43.12 2.57.73 3.28 1.97-3.01 1.7-2.44 5.87.83 6.98-.78 1.85-1.81 3.69-3 4.7zM15.53 6.8c.73-.83 1.27-2.03 1.12-3.3-1.23.1-2.6.89-3.37 1.9-.69.88-1.24 2.07-1.08 3.27 1.32.04 2.6-.77 3.33-1.87z\" fill=\"#000000\"/>",
+                    "buttonText": "Continue with Apple"
+                }'></div>
+            </div>
+            
+            <div class="mt-8 rounded-2xl p-6 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-blue"></div>
+                <div class="absolute inset-0 bg-radial-blue"></div>
+                <div class="relative z-10">
+                    <h3 class="h3 text-center mb-4">New to StudyReel?</h3>
+                    <div data-component="SecondaryButton" data-props='{
+                        "text": "Create an account",
+                        "customClass": "bg-[#3D75EA33] text-[#3D75EA] text-14 hover:bg-[#3D75EA4D]"
+                    }'></div>
+                </div>
+            </div>
         </div>
-
-        <button class="w-full p-3 mb-4 border border-gray-300 rounded-lg flex items-center justify-center">
-            <img src="../assets/google.svg" alt="Google icon" class="w-5 h-5 mr-2">
-            Continue with Google
-        </button>
-
-        <button class="w-full p-3 mb-4 border border-gray-300 rounded-lg flex items-center justify-center">
-            <img src="../assets/apple.png" alt="Apple icon" class="w-5 h-5 mr-2">
-            Continue with Apple
-        </button>
-
-        <div class="new-user-section mt-8 p-4 rounded-lg text-center">
-            <p class="mb-2 font-semibold">New to StudyReel?</p>
-            <a href="signup_ask.html" class="block w-full p-3 bg-blue-100 text-blue-500 rounded-lg font-semibold">Create an account</a>
-        </div>
-
     </div>
-
-    <!-- Background icons -->
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[5]">
-        <img src="../assets/brainpop.png" alt="" class="absolute top-[10%] left-[15%] w-16 h-16">
-        <img src="../assets/khan_academy.png" alt="" class="absolute top-[25%] left-[10%] w-16 h-16">
-        <img src="../assets/desmos.png" alt="" class="absolute top-[40%] left-[15%] w-16 h-16">
-        <img src="../assets/photomath.png" alt="" class="absolute top-[55%] left-[10%] w-16 h-16">
-        <img src="../assets/swift_playgrounds.png" alt="" class="absolute top-[70%] left-[15%] w-16 h-16">
-
-        <img src="../assets/brainpop.png" alt="" class="absolute top-[10%] right-[15%] w-16 h-16">
-        <img src="../assets/khan_academy.png" alt="" class="absolute top-[25%] right-[10%] w-16 h-16">
-        <img src="../assets/desmos.png" alt="" class="absolute top-[40%] right-[15%] w-16 h-16">
-        <img src="../assets/photomath.png" alt="" class="absolute top-[55%] right-[10%] w-16 h-16">
-        <img src="../assets/swift_playgrounds.png" alt="" class="absolute top-[70%] right-[15%] w-16 h-16">
-    </div>
-
-    <script src="../src/renderer.js"></script>
 </body>
 </html>

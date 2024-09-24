@@ -90,9 +90,11 @@ function renderComponents() {
       case 'H1':
         renderedHTML = renderH1(props.text);
         break;
+      default:
+        console.warn(`Unknown component: ${componentName}`);
     }
 
-    placeholder.outerHTML = renderedHTML;
+    placeholder.innerHTML = renderedHTML;
   });
 }
 
@@ -111,12 +113,17 @@ window.initComponents = initComponents;
 // Call initComponents when the DOM is loaded
 document.addEventListener('DOMContentLoaded', initComponents);
 
+// Slide and Indicator Functionality
 document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
     const indicators = document.querySelectorAll('.absolute.top-7 > div');
     let currentSlide = 0;
     const slideDuration = 5000; // 5 seconds
     let animationFrameId;
+
+    // Only initialize slide functionality if slides and indicators exist
+    if (slides.length > 0 && indicators.length > 0) {
+      console.log('Slides and indicators found, initializing slide functionality');
 
     function showSlide(index) {
         slides.forEach((slide, i) => {
@@ -125,17 +132,17 @@ document.addEventListener('DOMContentLoaded', () => {
         updateIndicators(index);
     }
 
-    function updateIndicators(activeIndex) {
-        indicators.forEach((indicator, i) => {
-            if (i < activeIndex) {
-                indicator.style.background = 'white'; // Fully filled
-            } else if (i === activeIndex) {
-                indicator.style.background = `linear-gradient(to right, white 0%, white 0%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 100%)`;
-            } else {
-                indicator.style.background = 'rgba(255,255,255,0.2)'; // Empty
-            }
-        });
-    }
+        function updateIndicators(activeIndex) {
+            indicators.forEach((indicator, i) => {
+                if (i < activeIndex) {
+                    indicator.style.background = 'white'; // Fully filled
+                } else if (i === activeIndex) {
+                    indicator.style.background = `linear-gradient(to right, white 0%, white 0%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 100%)`;
+                } else {
+                    indicator.style.background = 'rgba(255,255,255,0.2)'; // Empty
+                }
+            });
+        }
 
     function nextSlide() {
         currentSlide = (currentSlide + 1) % slides.length;
@@ -144,6 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateIndicatorFill() {
         const indicator = indicators[currentSlide];
+        if (!indicator) {
+          console.warn(`Indicator for slide ${currentSlide} not found.`);
+          return;
+      }
         let fillPercentage = 0;
         const startTime = Date.now();
 
@@ -175,5 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     showSlide(currentSlide);
-    updateIndicatorFill();
+        updateIndicatorFill();
+    } else {
+        console.log('Slides or indicators not found, skipping slide functionality.');
+    }
 });
