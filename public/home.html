@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | StudyReel</title>
+    <link href="output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background-color: #EFEDF5;">
+    <div class="flex h-screen">
+        <!-- Left Navbar -->
+        <nav class="bg-EFEDF5 flex flex-col justify-between items-center py-5 px-5">
+            <!-- Top icons -->
+            <div class="flex flex-col items-center space-y-6">
+                <!-- Selected Icon -->
+                <div class="relative w-16 h-16 border-2 border-blue-500 rounded-xl flex items-center justify-center">
+                    <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Unselected Icons -->
+                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path d="M6 3a3 3 0 0 0-3 3v2.25a3 3 0 0 0 3 3h2.25a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6ZM15.75 3a3 3 0 0 0-3 3v2.25a3 3 0 0 0 3 3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3h-2.25ZM6 12.75a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h2.25a3 3 0 0 0 3-3v-2.25a3 3 0 0 0-3-3H6ZM17.625 13.5a.75.75 0 0 0-1.5 0v2.625H13.5a.75.75 0 0 0 0 1.5h2.625v2.625a.75.75 0 0 0 1.5 0v-2.625h2.625a.75.75 0 0 0 0-1.5h-2.625V13.5Z" />
+                    </svg>
+                </div>
+                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75ZM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 0 1-1.875-1.875V8.625ZM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 3 19.875v-6.75Z" />
+                    </svg>
+                </div>
+                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center">
+                    <img src="/assets/icon_homework_helper.svg" class="w-24 h-24" viewBox="0 0 24 24" class="size-24" alt="Homework Helper Icon">
+                </div>
+            </div>
+            <!-- Bottom icon -->
+            <div class="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background: linear-gradient(to bottom right, #7D6BF3, #27CBDE);">
+                J
+            </div>
+        </nav>
+
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header section -->
+            <header class="flex justify-between items-center p-5">
+                <h1 class="text-2xl font-bold">Welcome back, Jake</h1>
+                <span class="font-archivo text-sm font-bold text-[#474747]">Limited version</span>
+            </header>
+            <main class="flex-1 flex flex-col">
+                <div class="flex-1 flex">
+                    <!-- Main section -->
+                    <div class="flex-1 bg-white m-2 p-4 rounded-2xl" x-data="appsComponent()">
+                        <h2 class="text-2xl font-bold mb-4">My Apps</h2>
+                        
+                        <!-- Empty State -->
+                        <template x-if="appsState === 0">
+                            <div class="bg-gray-50 rounded-lg p-8 text-center">
+                                <div class="mb-4">
+                                    <img src="/assets/frame_home_no_apps.svg" alt="No apps" class="w-20 h-20 mx-auto">
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">No apps added</h3>
+                                <p class="text-gray-500 mb-6">Ready to start your app adventure?<br>Explore our app store for a world of free apps!</p>
+                                <button class="bg-[#3D75EA] hover:bg-blue-600 text-white font-semibold py-2 px-10 rounded-lg">
+                                    Explore free apps
+                                </button>
+                            </div>
+                        </template>
+
+                        <!-- Filled State -->
+                        <template x-if="appsState === 1">
+                            <div class="grid grid-cols-3 gap-4">
+                                <!-- Example app items, replace with your actual app data -->
+                                <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                    <img src="/assets/example_app_icon.svg" alt="App 1" class="w-16 h-16 mx-auto mb-2">
+                                    <h3 class="font-semibold">App 1</h3>
+                                </div>
+                                <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                    <img src="/assets/example_app_icon.svg" alt="App 2" class="w-16 h-16 mx-auto mb-2">
+                                    <h3 class="font-semibold">App 2</h3>
+                                </div>
+                                <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                    <img src="/assets/example_app_icon.svg" alt="App 3" class="w-16 h-16 mx-auto mb-2">
+                                    <h3 class="font-semibold">App 3</h3>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+        
+                    <!-- Right sidebar -->
+                    <div class="w-80 flex flex-col space-y-2 m-2">
+                        <!-- Progress container -->
+                        <div class="bg-white py-3 px-3 rounded-2xl" x-data="progressComponent()">
+                            <h2 class="text-xl font-bold mb-2">Progress this week</h2>
+                            <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-2 gap-y-2">
+                                <!-- Empty State -->
+                                <template x-if="progressState === 0">
+                                    <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-2 gap-y-2">
+                                        <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                            </svg>                                      
+                                        </div>
+                                        <!-- Text content -->
+                                        <p class="text-black font-archivo font-semibold text-sm mb-1">No progression data</p>
+                                        <p class="text-[#A6A6A6] font-archivo font-medium text-xs text-center">Embark on your learning journey to unlock your personal progress report</p>
+                                    </div>
+                                </template>
+                                <!-- Filled State -->
+                                <template x-if="progressState === 1">
+                                    <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-4 gap-y-2">
+                                        <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>                                      
+                                        </div>
+                                        <!-- Text content -->
+                                        <p class="text-black font-archivo font-semibold text-sm mb-1">Progress Achieved!</p>
+                                        <p class="text-[#A6A6A6] font-archivo font-medium text-xs text-center">Keep up the great work and continue your learning journey.</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+        
+                        <!-- Browse apps container -->
+                        <div class="p-4 rounded-2xl" style="background-image: url('/assets/frame_home_app_marketplace.png'); background-size: cover; background-position: center; width: 100%;">
+                            <h2 class="text-xl font-bold text-white mb-3 max-w-2/3">Browse Apps to <br> Enhance Your <br> Education</h2>
+                            <div class="flex items-center justify-left mt-3 mb-3">
+                                <button class="bg-[#F2F2F7]/10 text-white px-3 py-2 rounded-lg">Explore Apps</button>
+                            </div>
+                        </div>
+        
+                        <!-- AI tutor container -->
+                        <div class="bg-white p-4 rounded-2xl flex flex-col flex-grow">
+                            <div class="w-full flex justify-between items-center mb-4">
+                                <!-- AI Tutor Logo -->
+                                <img src="/assets/logo_ai_tutor.svg" alt="AI Tutor" class="h-6">
+                                
+                                <!-- Decorative Circle -->
+                                <div class="flex items-center justify-center space-x-2" x-data="creditComponent()" x-init="fetchCredits()">
+                                    <!-- Progress Ring -->
+                                    <svg class="w-6 h-6 transform rotate-90" viewBox="0 0 36 36">
+                                        <!-- Background Circle -->
+                                        <path
+                                            class="stroke-current text-white"
+                                            stroke-width="4"
+                                            fill="none"
+                                            d="M18 2.0845
+                                               a 15.9155 15.9155 0 0 1 0 31.831
+                                               a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        />
+                                        <!-- Progress Circle -->
+                                        <path
+                                            class="stroke-current text-[#33D4D0]"
+                                            stroke-width="4"
+                                            stroke-linecap="round"
+                                            fill="none"
+                                            :stroke-dasharray="`${progressValue}, 100`"
+                                            d="M18 2.0845
+                                               a 15.9155 15.9155 0 0 1 0 31.831
+                                               a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        />
+                                    </svg>
+                                    <!-- Credit Text -->
+                                    <span class="font-archivo font-bold text-xs text-[#33D4D0]" x-text="`${creditsLeft}/${totalCredits}`"></span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col items-center justify-center flex-grow">
+                                <div class="text-center">
+                                    <div class="relative mb-4">
+                                        <div class="absolute inset-0 flex items-center justify-center z-10">
+                                            <div class="w-24 h-24 border-8 border-[#33D4D0] rounded-full"></div>
+                                        </div>
+                                        <img src="/assets/avatar_einstein.png" alt="AI Tutor" class="w-20 h-20 mx-auto relative">
+                                    </div>
+                                    <div class="text-center">
+                                        <h3 class="mb-2">Need some help?</h3>
+                                        <p class="text-[#070707]55 font-archivo font-medium text-xs text-center">Feel free to ask any questions about your homework</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chat box -->
+                            <div class="mt-4">
+                                <div class="bg-[#F9F7FC] rounded-xl p-3">
+                                    <div class="relative">
+                                        <input type="text" placeholder="Type your question here..." class="w-full py-2 px-3 pr-12 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#49D7D5] text-black rounded-full w-8 h-8 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Alpine.js Initialization Script -->
+    <script>
+        function progressComponent() {
+            return {
+                progressState: 0, // default to empty state
+                init() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const state = urlParams.get('progress_state');
+                    if (state === '1') {
+                        this.progressState = 1;
+                    } else {
+                        this.progressState = 0;
+                    }
+                }
+            }
+        }
+
+        function creditComponent() {
+            return {
+                creditsLeft: 40,
+                totalCredits: 50, // Default value; can be adjusted based on API response
+                progressValue: 80, // Represents the percentage (e.g., 80 for 80%)
+
+                // Function to fetch credit data from the API
+                fetchCredits() {
+                // For testing, we'll use the default values instead of fetching from an API
+                this.calculateProgress();
+
+                // Commented out API call for future use
+                /*
+                fetch('https://api.example.com/user/credits')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.creditsLeft = data.creditsLeft;
+                        this.totalCredits = data.totalCredits;
+                        this.calculateProgress();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching credits:', error);
+                        // The default values will be used in case of an error
+                        this.calculateProgress();
+                    });
+                */
+                },
+
+                // Calculate the progress percentage
+                calculateProgress() {
+                    if (this.totalCredits === 0) {
+                        this.progressValue = 0;
+                        return;
+                    }
+                    const percentage = (this.creditsLeft / this.totalCredits) * 100;
+                    // Ensure the percentage is a number between 0 and 100
+                    this.progressValue = Math.min(Math.max(Math.round(percentage), 0), 100);
+                }
+            }
+        }
+
+        function appsComponent() {
+            return {
+                appsState: 0, // default to empty state
+                init() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const state = urlParams.get('apps_state');
+                    if (state === '1') {
+                        this.appsState = 1;
+                    } else {
+                        this.appsState = 0;
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>
