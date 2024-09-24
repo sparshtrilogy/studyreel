@@ -3,7 +3,7 @@ module.exports = {
   content: [
     "./public/**/*.{html,js}",
     "./styles/**/*.css",
-    "./src/**/*.{html,js}" // Keep this if you have a src folder with HTML or JS files
+    "./src/**/*.{html,js}"
   ],
   theme: {
     extend: {
@@ -31,7 +31,7 @@ module.exports = {
         'custom-blue': '#3D75EA',
       },
       fontFamily: {
-        sans: ['Archivo', 'sans-serif'],
+        sans: ['Archivo', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         archivo: ['Archivo', 'sans-serif'],
       },
       fontSize: {
