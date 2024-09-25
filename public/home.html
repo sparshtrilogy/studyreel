@@ -8,7 +8,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body style="background-color: #EFEDF5;">
+<body style="background-color: #EFEDF5;" x-data="popupComponent()">
+    <!-- New Popup -->
+    <div x-show="showPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-end">
+                <button @click="closePopup" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-center mb-4" x-text="popupTitle"></h2>
+            <p class="text-center text-gray-600 mb-6">You are using a limited version of StudyReel</p>
+            <div class="bg-[#F0F5FF] rounded-lg p-4 mb-6">
+                <p class="text-center text-[#3D75EA] font-semibold">Want even more?</p>
+                <p class="text-center text-gray-600">You need a parent/guardian to unlock the full version</p>
+            </div>
+            <button @click="closePopup" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Browse free apps
+            </button>
+        </div>
+    </div>
+
     <div class="flex h-screen">
         <!-- Left Navbar -->
         <nav class="bg-EFEDF5 flex flex-col justify-between items-center py-5 px-5">
@@ -48,7 +70,7 @@
             <!-- Header section -->
             <header class="flex justify-between items-center p-5">
                 <h1 class="text-2xl font-bold">Welcome back, Jake</h1>
-                <span class="font-archivo text-sm font-bold text-[#474747]">Limited version</span>
+                <span @click="showLimitedVersionPopup" class="font-archivo text-sm font-bold text-[#474747] cursor-pointer">Limited version</span>
             </header>
             <main class="flex-1 flex flex-col">
                 <div class="flex-1 flex">
@@ -72,19 +94,33 @@
 
                         <!-- Filled State -->
                         <template x-if="appsState === 1">
-                            <div class="grid grid-cols-3 gap-4">
-                                <!-- Example app items, replace with your actual app data -->
-                                <div class="bg-gray-100 p-4 rounded-lg text-center">
-                                    <img src="/assets/example_app_icon.svg" alt="App 1" class="w-16 h-16 mx-auto mb-2">
-                                    <h3 class="font-semibold">App 1</h3>
-                                </div>
-                                <div class="bg-gray-100 p-4 rounded-lg text-center">
-                                    <img src="/assets/example_app_icon.svg" alt="App 2" class="w-16 h-16 mx-auto mb-2">
-                                    <h3 class="font-semibold">App 2</h3>
-                                </div>
-                                <div class="bg-gray-100 p-4 rounded-lg text-center">
-                                    <img src="/assets/example_app_icon.svg" alt="App 3" class="w-16 h-16 mx-auto mb-2">
-                                    <h3 class="font-semibold">App 3</h3>
+                            <div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- Alpha Anywhere app -->
+                                    <div class="bg-[#F1EEFF] p-6 rounded-lg relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 right-0 h-2 bg-[#7D6BF3]"></div>
+                                        <div class="flex items-center mb-2">
+                                            <img src="/assets/app_logos/alpha_anywhere.png" alt="Alpha Anywhere" class="w-10 h-10 mr-3">
+                                            <h3 class="font-semibold">Alpha Anywhere</h3>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                                            Start Learning
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Khan Academy app -->
+                                    <div class="bg-[#E8F7F2] p-6 rounded-lg relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 right-0 h-2 bg-[#33D4D0]"></div>
+                                        <div class="flex items-center mb-2">
+                                            <img src="/assets/app_logos/khan_academy.png" alt="Khan Academy" class="w-10 h-10 mr-3">
+                                            <h3 class="font-semibold">Khan Academy</h3>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                                            Start Learning
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -93,9 +129,9 @@
                     <!-- Right sidebar -->
                     <div class="w-80 flex flex-col space-y-2 m-2">
                         <!-- Progress container -->
-                        <div class="bg-white py-3 px-3 rounded-2xl" x-data="progressComponent()">
+                        <div class="bg-white p-3 rounded-2xl" x-data="progressComponent()">
                             <h2 class="text-xl font-bold mb-2">Progress this week</h2>
-                            <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-2 gap-y-2">
+                            <div class="flex flex-col justify-center bg-[#F9F7FC] rounded-lg p-2 gap-y-2">
                                 <!-- Empty State -->
                                 <template x-if="progressState === 0">
                                     <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-2 gap-y-2">
@@ -111,15 +147,31 @@
                                 </template>
                                 <!-- Filled State -->
                                 <template x-if="progressState === 1">
-                                    <div class="flex flex-col items-center justify-center bg-[#F9F7FC] rounded-lg p-4 gap-y-2">
-                                        <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                            </svg>                                      
+                                    <div class="flex flex-col bg-[#F9F7FC] rounded-lg gap-y-6">
+                                        <!-- Lessons Mastered -->
+                                        <div class="w-full">
+                                            <div class="flex justify-between mb-2">
+                                                <span class="text-sm font-semibold">Lessons Mastered</span>
+                                                <span class="text-sm font-semibold text-blue-500">12/50</span>
+                                            </div>
+                                            <div class="w-full bg-blue-100 rounded-full h-4 overflow-hidden">
+                                                <div class="bg-blue-500 h-full rounded-full" style="width: 24%;"></div>
+                                            </div>
                                         </div>
-                                        <!-- Text content -->
-                                        <p class="text-black font-archivo font-semibold text-sm mb-1">Progress Achieved!</p>
-                                        <p class="text-[#A6A6A6] font-archivo font-medium text-xs text-center">Keep up the great work and continue your learning journey.</p>
+                                        
+                                        <!-- Time Committed -->
+                                        <div class="w-full">
+                                            <div class="flex justify-between mb-2">
+                                                <span class="text-sm font-semibold">Time Committed</span>
+                                                <span class="text-sm font-semibold text-blue-500">4hrs 20mins</span>
+                                            </div>
+                                            <div class="w-full bg-blue-100 rounded-full h-4">
+                                                <div class="bg-blue-500 h-4 rounded-full" style="width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- View full report link -->
+                                        <a href="#" class="text-blue-500 text-sm font-semibold">View full report</a>
                                     </div>
                                 </template>
                             </div>
@@ -272,6 +324,30 @@
                     } else {
                         this.appsState = 0;
                     }
+                }
+            }
+        }
+
+        // New function to handle popup visibility
+        function popupComponent() {
+            return {
+                showPopup: false,
+                popupTitle: "Welcome to StudyReel",
+                init() {
+                    // Check if it's the user's first visit
+                    if (!localStorage.getItem('hasVisitedBefore')) {
+                        this.showPopup = true;
+                    }
+                },
+                closePopup() {
+                    this.showPopup = false;
+                    if (this.popupTitle === "Welcome to StudyReel") {
+                        localStorage.setItem('hasVisitedBefore', 'true');
+                    }
+                },
+                showLimitedVersionPopup() {
+                    this.popupTitle = "Limited Version";
+                    this.showPopup = true;
                 }
             }
         }
