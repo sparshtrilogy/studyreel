@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Store | StudyReel</title>
+    <link href="output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background-color: #EFEDF5;" x-data="popupComponent()">
+    <!-- Limited Version Popup -->
+    <div x-show="showPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-end">
+                <button @click="closePopup" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-center mb-4" x-text="popupTitle"></h2>
+            <p class="text-center text-gray-600 mb-6">You are using a limited version of StudyReel</p>
+            <div class="bg-[#F0F5FF] rounded-lg p-4 mb-6">
+                <p class="text-center text-[#3D75EA] font-semibold">Want even more?</p>
+                <p class="text-center text-gray-600">You need a parent/guardian to unlock the full version</p>
+            </div>
+            <button @click="closePopup" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Browse free apps
+            </button>
+        </div>
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Left Navbar (Fixed) -->
+        <div id="navbar-container" class="w-24 flex-shrink-0 fixed h-full"></div>
+        
+        <!-- Main content area -->
+        <div class="flex-1 ml-24 flex flex-col">
+            <!-- Header section -->
+            <header class="flex justify-between items-center p-5 sticky top-0 z-10">
+                <h1 class="text-2xl font-bold">Welcome back, Jake</h1>
+                <span @click="showLimitedVersionPopup" class="font-archivo text-sm font-bold text-[#474747] cursor-pointer">Limited version</span>
+            </header>
+            
+            <!-- Main content -->
+            <main class="flex-1 overflow-y-auto">
+                <div class="px-6 space-y-6">
+                    <!-- Top container with title, search bar, and background -->
+                    <div>
+                        <div class="rounded-xl p-8 text-white relative overflow-hidden" style="background-image: url('/assets/frame_app_store.png'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 flex flex-col items-start" style="width:fit-content;">
+                                <h1-left class="font-archivo text-3xl font-medium mb-6 text-left inline-block">Browse Apps to Enhance<br>Your Education</h1-left>
+                                <div class="w-full relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <input type="text" placeholder="Search for apps" class="w-full pl-10 pr-4 py-4 rounded-2xl text-gray-800 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter buttons -->
+                    <div class="flex space-x-4">
+                        <button class="px-4 py-2 rounded-full bg-[#E5E3EB] text-gray-700 font-semibold">All</button>
+                        <button class="px-4 py-2 rounded-full bg-[#E5E3EB] text-gray-700 font-semibold">Math</button>
+                        <button class="px-4 py-2 rounded-full bg-[#E5E3EB] text-gray-700 font-semibold">Science</button>
+                        <button class="px-4 py-2 rounded-full bg-[#E5E3EB] text-gray-700 font-semibold">Language</button>
+                    </div>
+
+                    <!-- App cards grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Swift Playgrounds -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/swift_playground.png" alt="Swift Playground Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/swift_playground.png" alt="Swift Playgrounds" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Swift Playground</h3-left>
+                                <p class="text-gray-600 text-sm">Learn to code Swift on iPad and Mac</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+                        <!-- Khan Academy -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/khan_academy.png" alt="Khan Academy Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/khan_academy.png" alt="Khan Academy" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Khan Academy</h3-left>
+                                <p class="text-gray-600 text-sm">Free world-class education for anyone, anywhere</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+
+                        <!-- Prodigy Math -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/prodigy_math.png" alt="Prodigy Math Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/prodigy_math.png" alt="Prodigy Math" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Prodigy Math</h3-left>
+                                <p class="text-gray-600 text-sm">Where Learning Becomes an Epic Adventure!</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+
+                        <!-- Swift Playgrounds -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/swift_playground.png" alt="Swift Playground Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/swift_playground.png" alt="Swift Playgrounds" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Swift Playground</h3-left>
+                                <p class="text-gray-600 text-sm">Learn to code Swift on iPad and Mac</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+                        <!-- Khan Academy -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/khan_academy.png" alt="Khan Academy Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/khan_academy.png" alt="Khan Academy" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Khan Academy</h3-left>
+                                <p class="text-gray-600 text-sm">Free world-class education for anyone, anywhere</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+
+                        <!-- Prodigy Math -->
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="/assets/app_images/prodigy_math.png" alt="Prodigy Math Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="/assets/app_logos/prodigy_math.png" alt="Prodigy Math" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">Prodigy Math</h3-left>
+                                <p class="text-gray-600 text-sm">Where Learning Becomes an Epic Adventure!</p>
+                                <button class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300">Get App</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Alpine.js Initialization Script -->
+    <script>
+        // Function to handle popup visibility
+        function popupComponent() {
+            return {
+                showPopup: false,
+                popupTitle: "Welcome to StudyReel",
+                init() {
+                    // Check if it's the user's first visit
+                    if (!localStorage.getItem('hasVisitedBefore')) {
+                        this.showPopup = true;
+                    }
+                },
+                closePopup() {
+                    this.showPopup = false;
+                    if (this.popupTitle === "Welcome to StudyReel") {
+                        localStorage.setItem('hasVisitedBefore', 'true');
+                    }
+                },
+                showLimitedVersionPopup() {
+                    this.popupTitle = "Limited Version";
+                    this.showPopup = true;
+                }
+            }
+        }
+
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                setTimeout(() => {
+                    const navbarContainer = document.getElementById('navbar-container');
+                    if (navbarContainer) {
+                        navbarContainer.innerHTML = data;
+                        // Add another 100ms delay before loading navbar.js
+                        setTimeout(() => {
+                            const script = document.createElement('script');
+                            script.src = 'navbar.js';
+                            script.onload = () => {
+                                if (typeof window.setNavbarActive === 'function') {
+                                    window.setNavbarActive('app_store');
+                                } else {
+                                    console.error('setNavbarActive function not found');
+                                }
+                            };
+                            document.body.appendChild(script);
+                        }, 100);
+                    } else {
+                        console.error('Navbar container not found after delay');
+                    }
+                }, 100);
+            });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

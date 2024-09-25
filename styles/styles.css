@@ -9,10 +9,10 @@
     font-family: 'Archivo', ui-sans-serif, system-ui, sans-serif;
   }
   h1 {
-    @apply font-archivo text-32 font-medium text-center !important;
+    @apply font-archivo text-32 font-medium !important;
   }
   h3 {
-    @apply font-archivo text-20 font-medium text-center !important;
+    @apply font-archivo text-20 font-medium !important;
   }
   h4 {
     @apply font-archivo text-18 font-bold !important;
@@ -64,6 +64,12 @@
 @layer components {
   .h1-standard {
     @apply font-archivo text-32 font-semibold text-center mb-8;
+  }
+  .h1-left {
+    @apply font-archivo text-32 font-semibold text-left mb-8;
+  }
+  .h3-left {
+    @apply font-archivo text-20 font-medium text-left mb-4;
   }
 }
 
