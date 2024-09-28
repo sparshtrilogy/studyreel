@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Helper | StudyReel</title>
+    <link href="output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background-color: #EFEDF5;" x-data="popupComponent()">
+    <!-- Limited Version Popup -->
+    <div x-show="showPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-end">
+                <button @click="closePopup" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-center mb-4" x-text="popupTitle"></h2>
+            <p class="text-center text-gray-600 mb-6">You are using a limited version of StudyReel</p>
+            <div class="bg-[#F0F5FF] rounded-lg p-4 mb-6">
+                <p class="text-center text-[#3D75EA] font-semibold">Want even more?</p>
+                <p class="text-center text-gray-600">You need a parent/guardian to unlock the full version</p>
+            </div>
+            <button @click="closePopup" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
+                Browse free apps
+            </button>
+        </div>
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Left Navbar (Fixed) -->
+        <div id="navbar-container" class="w-24 flex-shrink-0 fixed h-full"></div>
+        
+        <!-- Main content area -->
+        <div class="flex-1 ml-24 flex flex-col">
+            <!-- Header section -->
+            <header class="flex justify-between items-center p-5 sticky top-0 z-10">
+                <h1 class="text-2xl font-bold">Welcome back, Jake</h1>
+                <span @click="showLimitedVersionPopup" class="font-archivo text-sm font-bold text-[#474747] cursor-pointer">Limited version</span>
+            </header>
+            <div class="w-full flex items-center mb-4 px-5 space-x-4">
+                <!-- AI Tutor Logo -->
+                <img src="/assets/logo_ai_tutor.svg" alt="AI Tutor" class="h-8">
+                
+                <!-- Decorative Circle -->
+                <div class="bg-white rounded-xl py-2 px-2 shadow-sm flex items-center space-x-2" x-data="creditComponent()" x-init="fetchCredits()">
+                    <div class="bg-[#38D7D3] bg-opacity-10 rounded-full py-1 px-3 flex items-center space-x-2">
+                        <div class="flex items-center space-x-1" x-data="creditComponent()" x-init="fetchCredits()">
+                            <!-- Progress Ring -->
+                            <svg class="w-4 h-4 transform -rotate-90" viewBox="0 0 36 36">
+                                <!-- Background Circle -->
+                                <path
+                                    class="stroke-current text-[#33D4D0] opacity-30"
+                                    stroke-width="5"
+                                    fill="none"
+                                    d="M18 2.0845
+                                       a 15.9155 15.9155 0 0 1 0 31.831
+                                       a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <!-- Progress Circle -->
+                                <path
+                                    class="stroke-current text-[#33D4D0]"
+                                    stroke-width="5"
+                                    stroke-linecap="round"
+                                    fill="none"
+                                    :stroke-dasharray="`${progressValue}, 100`"
+                                    d="M18 2.0845
+                                       a 15.9155 15.9155 0 0 1 0 31.831
+                                       a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                            </svg>
+                            <!-- Credit Text -->
+                            <span class="text-[#33D4D0] font-bold text-sm" x-text="`${creditsLeft}/${totalCredits}`"></span>
+                        </div>
+                    </div>
+                    <!-- Remaining Daily Messages Text -->
+                    <span class="text-gray-500 text-sm">Remaining Daily Messages</span>
+                </div>
+            </div>
+            
+            <!-- Main content -->
+            <main class="flex-1 overflow-hidden flex flex-col mb-6">
+                <div class="flex-1 mx-6 p-4 space-x-4 bg-white rounded-3xl flex overflow-hidden">
+                    <!-- New Left Menu -->
+                    <div class="w-64 overflow-y-auto rounded-3xl">
+                        <!-- New Question Button -->
+                        <div class="p-4">
+                            <button class="w-full bg-[#38D7D3] text-white font-bold py-2 px-4 rounded-xl flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                                New Question
+                            </button>
+                        </div>
+        
+                        <!-- History Section -->
+                        <div class="pl-10 py-2">
+                            <div class="mt-2 space-y-2">
+                                <p class="text-xs text-gray-500">Yesterday</p>
+                                <div class="bg-gray-100 p-2 rounded-lg">
+                                    <p class="text-sm">What is the water cycle</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Probability of Drawing Red</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Solve for x in the following e...</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">What is the correct steps in the</p>
+                                </div>
+                                <p class="text-xs text-gray-500">Last 7 days</p>
+                                <div class="p-2">
+                                    <p class="text-sm">Solve for X</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Probability of Drawing Red</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Math problem</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Help me with grammerrv</p>
+                                </div>
+                                <div class="p-2">
+                                    <p class="text-sm">Probability of Drawing Red</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- Chat Interface -->
+                    <div class="flex-1 flex flex-col bg-gray-100 p-4 rounded-2xl">
+                        <!-- Avatar image -->
+                        <div class="flex flex-col items-center justify-center w-full">
+                            <div class="text-center w-28 h-28 relative">
+                                <div class="absolute inset-0 flex items-center justify-center z-10">
+                                    <div class="w-28 h-28 border-8 border-[#33D4D0] rounded-full"></div>
+                                </div>
+                                <img src="/assets/avatar_einstein.png" alt="AI Tutor" class="w-24 h-24 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            </div>
+                        </div>
+                        <!-- Chat display area -->
+                        <div class="flex-1 p-4 overflow-y-auto">
+                            <!-- User's uploaded question -->
+                            <div class="flex justify-center mb-6">
+                                <div class="bg-white rounded-lg p-3 shadow max-w-3/4">
+                                    <img src="/assets/sample_question.png" alt="User's question" class="w-full h-auto max-h-[200px] rounded">
+                                    <p class="text-xs text-gray-500 mt-2">Uploaded question</p>
+                                </div>
+                            </div>
+
+                            <!-- System message -->
+                            <div class="flex mb-4">
+                                <div class="bg-white rounded-lg p-3 max-w-3/4 shadow">
+                                    <p class="text-sm">I can see the math problem in the image you've uploaded. It's about calculating the volume of a cylinder. How would you like me to help?</p>
+                                </div>
+                            </div>
+                            
+                            <!-- User message -->
+                            <div class="flex justify-end mb-4">
+                                <div class="bg-[#38D7D3] text-white rounded-lg p-3 max-w-3/4 shadow">
+                                    <p class="text-sm">Give me a hint</p>
+                                </div>
+                            </div>
+                            
+                            <!-- System message -->
+                            <div class="flex mb-4">
+                                <div class="bg-white rounded-lg p-3 max-w-3/4 shadow">
+                                    <p class="text-sm">Okay, here's a hint: Remember that to find the volume of a cylinder, you'll need to use the formula V = πr²h, where r is the radius of the base and h is the height of the cylinder</p>
+                                </div>
+                            </div>
+                            
+                            <!-- User message -->
+                            <div class="flex justify-end mb-4">
+                                <div class="bg-[#38D7D3] text-white rounded-lg p-3 max-w-3/4 shadow">
+                                    <p class="text-sm">I see the measurements, but I'm still not sure how to proceed</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Message input area -->
+                        <div class="bg-white p-4 rounded-xl">
+                            <div class="flex items-center rounded-full">
+                                <input type="text" placeholder="Ask follow-up" class="flex-1 bg-white px-4 py-2 focus:outline-none">
+                                <button class="p-2 px-4 mr-2 flex items-center bg-gray-100 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-xs text-gray-500">Image</p>
+                                </button>
+                                <button class="bg-[#38D7D3] text-white p-2 rounded-full hover:bg-[#2AC7C3]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle popup visibility
+        function popupComponent() {
+            return {
+                showPopup: false,
+                popupTitle: "Welcome to StudyReel",
+                init() {
+                    // Check if it's the user's first visit
+                    if (!localStorage.getItem('hasVisitedBefore')) {
+                        this.showPopup = true;
+                    }
+                },
+                closePopup() {
+                    this.showPopup = false;
+                    if (this.popupTitle === "Welcome to StudyReel") {
+                        localStorage.setItem('hasVisitedBefore', 'true');
+                    }
+                },
+                showLimitedVersionPopup() {
+                    this.popupTitle = "Limited Version";
+                    this.showPopup = true;
+                }
+            }
+        }
+
+        function progressComponent() {
+            return {
+                progressState: 0, // default to empty state
+                init() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const state = urlParams.get('progress_state');
+                    if (state === '1') {
+                        this.progressState = 1;
+                    } else {
+                        this.progressState = 0;
+                    }
+                }
+            }
+        }
+
+        function creditComponent() {
+            return {
+                creditsLeft: 40,
+                totalCredits: 50, // Default value; can be adjusted based on API response
+                progressValue: 80, // Represents the percentage (e.g., 80 for 80%)
+
+                // Function to fetch credit data from the API
+                fetchCredits() {
+                // For testing, we'll use the default values instead of fetching from an API
+                this.calculateProgress();
+
+                // Commented out API call for future use
+                /*
+                fetch('https://api.example.com/user/credits')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.creditsLeft = data.creditsLeft;
+                        this.totalCredits = data.totalCredits;
+                        this.calculateProgress();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching credits:', error);
+                        // The default values will be used in case of an error
+                        this.calculateProgress();
+                    });
+                */
+                },
+
+                // Calculate the progress percentage
+                calculateProgress() {
+                    if (this.totalCredits === 0) {
+                        this.progressValue = 0;
+                        return;
+                    }
+                    const percentage = (this.creditsLeft / this.totalCredits) * 100;
+                    // Ensure the percentage is a number between 0 and 100
+                    this.progressValue = Math.min(Math.max(Math.round(percentage), 0), 100);
+                }
+            }
+        }
+
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                setTimeout(() => {
+                    const navbarContainer = document.getElementById('navbar-container');
+                    if (navbarContainer) {
+                        navbarContainer.innerHTML = data;
+                        // Add another 100ms delay before loading navbar.js
+                        setTimeout(() => {
+                            const script = document.createElement('script');
+                            script.src = 'navbar.js';
+                            script.onload = () => {
+                                if (typeof window.setNavbarActive === 'function') {
+                                    window.setNavbarActive('homework_helper');
+                                } else {
+                                    console.error('setNavbarActive function not found');
+                                }
+                            };
+                            document.body.appendChild(script);
+                        }, 100);
+                    } else {
+                        console.error('Navbar container not found after delay');
+                    }
+                }, 100);
+            });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>
