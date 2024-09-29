@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Mode | StudyReel</title>
+    <link href="output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body style="background-color: #EFEDF5;">
+    <div x-data="learningModeComponent()" class="flex h-screen">
+        <!-- Left Navbar -->
+        <div id="navbar-container" class="w-24 flex-shrink-0"></div>
+
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header section -->
+            <header class="flex justify-between items-center p-5 bg-white">
+                <h1 class="text-2xl font-bold" x-text="appName + ' Learning Mode'"></h1>
+                <a href="/home.html" class="text-blue-500 hover:text-blue-600">Exit Learning Mode</a>
+            </header>
+            
+            <!-- Learning mode content -->
+            <main class="flex-1 bg-white m-2 rounded-2xl p-8 flex flex-col items-center justify-center">
+                <img :src="'/assets/app_logos/' + appLogo" :alt="appName" class="w-20 h-20 mb-4">
+                <h2 class="text-2xl font-bold mb-4" x-text="appName"></h2>
+                <p class="text-xl mb-6">You're now ready to start learning!</p>
+                <button @click="openLearningPlatform" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg text-lg">
+                    Launch Learning Platform
+                </button>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function learningModeComponent() {
+            return {
+                appName: '',
+                appUrl: '',
+                appLogo: '',
+                init() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    this.appName = urlParams.get('app') || 'Unknown App';
+                    this.appUrl = urlParams.get('url') || 'https://www.khanacademy.org';
+                    this.appName = this.appName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    this.appLogo = this.appName.toLowerCase().replace(/ /g, '_') + '.png';
+                    console.log('App Name:', this.appName);
+                    console.log('App URL:', this.appUrl);
+                },
+                openLearningPlatform() {
+                    window.open(this.appUrl, '_blank');
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    const navbarContainer = document.getElementById('navbar-container');
+                    if (navbarContainer) {
+                        navbarContainer.innerHTML = data;
+                        const script = document.createElement('script');
+                        script.src = 'navbar.js';
+                        script.onload = () => {
+                            if (typeof window.setNavbarActive === 'function') {
+                                window.setNavbarActive('home');
+                            } else {
+                                console.error('setNavbarActive function not found');
+                            }
+                        };
+                        document.body.appendChild(script);
+                    } else {
+                        console.error('Navbar container not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading navbar:', error);
+                });
+        });
+    </script>
+</body>
+</html>
