@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyReel - Home</title>
-    <link href="/output.css" rel="stylesheet">
+    <link href="output.css" rel="stylesheet">
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
-      script-src 'self' https://www.gstatic.com https://www.googleapis.com;
-      style-src 'self' 'unsafe-inline';
+      script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.googleapis.com https://unpkg.com https://cdn.tailwindcss.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data:;
       connect-src 'self' https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
       object-src 'none';
     ">
@@ -19,28 +21,31 @@
         <nav>
             <ul class="space-y-4">
                 <li>
-                    <a href="/signup.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Signup</a>
+                    <a href="signup.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Signup</a>
                 </li>
                 <li>
-                    <a href="/login.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
+                    <a href="login.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Login</a>
                 </li>
                 <li>
-                    <a href="/onboarding.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Onboarding</a>
+                    <a href="onboarding.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Onboarding</a>
                 </li>
                 <li>
-                    <a href="/home.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Home</a>
+                    <a href="home.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Home- New User</a>
                 </li>
                 <li>
-                    <a href="/app_store.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">App Store</a>
+                    <a href="home.html?apps_state=1" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Home- Returning User</a>
                 </li>
                 <li>
-                    <a href="/app_details.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">App Details</a>
+                    <a href="app_store.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">App Store</a>
                 </li>
                 <li>
-                    <a href="/homework_helper.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Homework Helper</a>
+                    <a href="app_details.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">App Details</a>
                 </li>
                 <li>
-                    <a href="/report_card.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Report Card</a>
+                    <a href="homework_helper.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Homework Helper</a>
+                </li>
+                <li>
+                    <a href="report_card.html" class="block w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Report Card</a>
                 </li>
             </ul>
         </nav>
