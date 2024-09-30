@@ -7,4 +7,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 });
 
+contextBridge.exposeInMainWorld('electron', {
+  moveOverlay: (x, y) => ipcRenderer.send('overlay-move', { x, y }),
+});
+
+window.addEventListener('message', (event) => {
+  if (event.data.type === 'move') {
+    window.electron.moveOverlay(event.data.x, event.data.y);
+  }
+});
+
 console.log('Preload script loaded');

@@ -19,7 +19,7 @@
             <!-- Header section -->
             <header class="flex justify-between items-center p-5 bg-white">
                 <h1 class="text-2xl font-bold" x-text="appName + ' Learning Mode'"></h1>
-                <a href="home.html?apps_state=1" class="text-blue-500 hover:text-blue-600">Exit Learning Mode</a>
+                <button @click="exitLearningMode" class="text-blue-500 hover:text-blue-600">Exit Learning Mode</button>
             </header>
             
             <!-- Learning mode content -->
@@ -42,9 +42,17 @@
                     this.appLogo = this.appName.toLowerCase().replace(/ /g, '_') + '.png';
                     console.log('App Name:', this.appName);
                     console.log('App URL:', this.appUrl);
+
+                    // Notify the main process that learning mode has started
+                    if (window.electron) {
+                        window.electron.send('learning-mode-started');
+                    }
                 },
-                startLearning() {
-                    this.isLearningStarted = true;
+                exitLearningMode() {
+                    if (window.electron) {
+                        window.electron.send('learning-mode-exited');
+                    }
+                    window.location.href = 'home.html?apps_state=1';
                 }
             }
         }

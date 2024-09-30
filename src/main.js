@@ -3,65 +3,125 @@ const path = require('path');
 const fs = require('fs'); // Added fs for reading CSS file
 
 let mainWindow;
-let overlayWindows = [];
+let overlayWindow;
 
 function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: width,
+    height: height,
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-      webviewTag: true  // Add this line
+      webviewTag: true
     }
   });
 
-  // Load the educational website or local HTML file
-  mainWindow.loadURL('https://www.khanacademy.org');
+  mainWindow.loadFile(path.join(__dirname, '..', 'public', 'index.html'));
 
-  // Inject the back button script and CSS
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'backButton.css'), 'utf8'));
-    mainWindow.webContents.executeJavaScript(`
-      const script = document.createElement('script');
-      script.src = '${path.join(__dirname, 'backButton.js').replace(/\\/g, '/')}';
-      document.body.appendChild(script);
-    `);
+  mainWindow.on('moved', updateOverlayPosition);
+  mainWindow.on('resized', updateOverlayPosition);
+
+  // Add this IPC listener here
+  ipcMain.on('learning-mode-started', () => {
+    createOverlayWindow();
   });
 
-  // Open the DevTools (you may want to remove this in production)
-  mainWindow.webContents.openDevTools();
-
-  createOverlayWindows();
+  ipcMain.on('learning-mode-exited', () => {
+    destroyOverlayWindow();
+  });
 }
 
-function createOverlayWindows() {
-  const displays = screen.getAllDisplays();
-  displays.forEach((display) => {
-    const { x, y, width, height } = display.bounds;
+function createOverlayWindow() {
+  if (overlayWindow) return;
 
-    const overlay = new BrowserWindow({
-      x,
-      y,
-      width,
-      height,
-      transparent: true,
-      frame: false,
-      alwaysOnTop: true,
-      skipTaskbar: true,
-      resizable: false,
-      focusable: false,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-      },
-    });
+  const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
 
-    overlay.loadFile(path.join(__dirname, '..', 'public', 'overlay.html'));
-    overlay.setAlwaysOnTop(true, 'screen-saver');
-    overlay.setIgnoreMouseEvents(true, { forward: true });
+  overlayWindow = new BrowserWindow({
+    width: 250,
+    height: 250,
+    x: 20, // 20 pixels from the left edge
+    y: screenHeight - 220, // 20 pixels from the bottom edge
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    resizable: false,
+    focusable: true, // Change this to true
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+    hasShadow: false,
+    backgroundColor: '#00000000'
   });
+
+  overlayWindow.loadFile(path.join(__dirname, '..', 'public', 'waste_meter.html'));
+  
+  // Remove this line or modify it to only ignore events on non-draggable areas
+  // overlayWindow.setIgnoreMouseEvents(true, { forward: true });
+
+  overlayWindow.setMenu(null);
+
+  // Ensure the window is truly frameless on macOS
+  if (process.platform === 'darwin') {
+    overlayWindow.setVibrancy('ultra-dark');
+  }
+
+  // Add these lines to handle dragging
+  let isDragging = false;
+  let startPosition = { x: 0, y: 0 };
+
+  overlayWindow.webContents.on('did-finish-load', () => {
+    overlayWindow.webContents.executeJavaScript(`
+      const dragHandle = document.getElementById('drag-handle');
+      dragHandle.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startPosition = { x: e.screenX, y: e.screenY };
+      });
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+              const deltaX = e.screenX - startPosition.x;
+              const deltaY = e.screenY - startPosition.y;
+              window.postMessage({ type: 'move', x: deltaX, y: deltaY });
+              startPosition = { x: e.screenX, y: e.screenY }; // Update startPosition
+          window.postMessage({ type: 'move', x: newX, y: newY });
+        }
+      });
+    `);
+  });
+}
+
+ipcMain.on('overlay-move', (event, { x, y }) => {
+  if (overlayWindow) {
+    const [currentX, currentY] = overlayWindow.getPosition();
+    overlayWindow.setPosition(currentX + x, currentY + y);
+  }
+});
+
+function destroyOverlayWindow() {
+  if (overlayWindow) {
+    overlayWindow.close();
+    overlayWindow = null;
+  }
+}
+
+function updateOverlayPosition() {
+  if (overlayWindow) {
+    const [, , width, height] = mainWindow.getBounds();
+    const overlayBounds = overlayWindow.getBounds();
+    overlayWindow.setBounds({
+      x: 20,
+      y: height - overlayBounds.height - 20,
+      width: overlayBounds.width,
+      height: overlayBounds.height
+    });
+  }
 }
 
 app.whenReady().then(createWindow);

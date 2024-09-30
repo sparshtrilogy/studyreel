@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waste Meter Overlay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @layer utilities {
+      .rotate-105 {
+        transform: rotate(-105deg);
+      }
+      .clip-meter {
+        clip: rect(0, 180px, 180px, 90px);
+      }
+      .clip-meter-inner {
+        clip: rect(0, 90px, 180px, 0);
+      }
+      .clip-meter-120 {
+        clip-path: polygon(50% 50%, 50% 0, 100% 0, 100% 50%, 50% 50%);
+      }
+      .clip-meter-135 {
+        clip-path: polygon(50% 50%, 50% 0, 100% 0, 100% 100%, 85.36% 85.36%, 50% 50%);
+      }
+    }
+  </style>
+</head>
+<body class="flex justify-center items-center h-screen m-0 p-0 overflow-hidden w-[250px] h-[250px] [-webkit-app-region:no-drag]">
+  <div>
+    <div id="waste-meter" class="w-[200px] h-[200px] relative bg-white rounded-full shadow-lg overflow-hidden">
+      <div id="outer-circle" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] bg-gray-100 rounded-full"></div>
+      <div id="meter-segment" class="absolute top-1/2 left-1/2 w-[180px] h-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
+        <div class="absolute top-0 left-0 w-[180px] h-[180px] bg-white rounded-full clip-meter-135 transform rotate-[112.5deg]"></div>
+      </div>
+      <div id="inner-circle" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px] bg-white rounded-full z-20"></div>
+      <svg id="meter-needle" class="absolute left-[98px] top-5 w-5 h-[90px] origin-bottom transform rotate-0 transition-transform duration-500 ease-out z-30" viewBox="0 0 20 90">
+        <path d="M9 0L13 85C13 87.7614 11.2091 90 9 90C6.79086 90 5 87.7614 5 85L9 0Z" fill="#1F2937" />
+      </svg>
+      <div class="absolute bottom-2 left-0 right-0">
+        <div id="meter-value" class="absolute -top-8 left-1/2 transform -translate-x-1/2 flex w-10 h-10 bg-black rounded-full items-center justify-center z-30 text-white text-sm font-bold">
+          <span>0%</span>
+        </div>
+        <div id="meter-label" class="flex items-center justify-center space-x mb-2">
+          <img src="assets/studyreel_white.svg" alt="StudyReel Logo" class="w-8 h-8">
+          <span class="text-[16px] font-archivo font-bold text-[#7374F4]">Waste Meter</span>
+        </div>
+        
+        <div class="flex justify-center">
+          <div id="drag-handle" class="grid grid-cols-3 gap-1 cursor-move [-webkit-app-region:drag] drag-handle-cursor" style="cursor: move;">
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value adjuster for testing
+    <div id="controls" class="mt-5 text-center">
+      <input type="range" id="percentage-slider" min="0" max="100" value="0" class="w-full">
+      <button id="update-button" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Update Meter</button>
+    </div> -->
+  </div> 
+
+  <script>
+    const needle = document.getElementById('meter-needle');
+    const value = document.getElementById('meter-value');
+    const slider = document.getElementById('percentage-slider');
+    const updateButton = document.getElementById('update-button');
+    
+    function updateMeter(percentage) {
+      const rotation = percentage * 2.1 - 105; // -105 to 105 degrees
+      needle.style.transform = `rotate(${rotation}deg)`;
+      value.textContent = `${percentage}%`;
+    }
+    
+    updateButton.addEventListener('click', () => {
+      const percentage = parseInt(slider.value);
+      updateMeter(percentage);
+    });
+
+    // Initial update
+    updateMeter(0);
+  </script>
+</body>
+</html>
