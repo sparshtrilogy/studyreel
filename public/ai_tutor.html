@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Tutor Overlay</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     body {
       background-color: transparent;
     }
   </style>
 </head>
-<body class="flex justify-center items-center m-0 p-0 overflow-hidden w-[300px] h-[400px] [-webkit-app-region:no-drag]">
-  <div class="bg-white p-4 rounded-2xl flex flex-col w-full h-full">
-    <div id="drag-handle" class="w-full flex justify-between items-center mb-4 ursor-move [-webkit-app-region:drag] drag-handle-cursor">
+<body class="flex justify-center m-2 p-2 [-webkit-app-region:no-drag]" x-data="aiTutorApp()" x-init="init()">
+  
+  <!-- AI Tutor Empty-->
+  <div class="bg-white p-4 shadow-lg rounded-2xl flex flex-col w-full h-full" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1);" x-show="currentMode === 'ai_tutor_empty'">
+    <div id="drag-handle" class="w-full flex justify-between items-center mb-4 cursor-move [-webkit-app-region:drag] drag-handle-cursor">
       <img src="assets/logo_ai_tutor.svg" alt="AI Tutor" class="h-6">
       
       <div class="flex items-center justify-center space-x-2" x-data="creditComponent()" x-init="fetchCredits()">
@@ -66,6 +69,47 @@
     </div>
   </div>
 
+  <!-- AI Coach Default-->
+  <div class="bg-white p-4 shadow-lg rounded-2xl flex items-center justify-between mx-4 space-x-8" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1); width: fit-content;" x-show="currentMode === 'ai_coach_default'">
+    <div id="drag-handle" class="flex items-center cursor-move [-webkit-app-region:drag] drag-handle-cursor">
+      <img src="assets/logo_ai_coach.svg" alt="AI Coach" class="h-6">
+    </div>
+    <div class="relative w-12 h-12 flex items-center justify-center">
+      <div class="absolute flex items-center justify-center z-10">
+        <div class="w-12 h-12 border-4 border-[#877CFE] rounded-full"></div>
+      </div>
+      <img src="assets/avatar_einstein.png" alt="AI Tutor" class="w-10 h-10 mx-auto relative">
+    </div>
+  </div>
+
+  <!-- AI Coach Active-->
+  <div class="flex flex-col items-center justify-center bg-white p-4 shadow-lg rounded-2xl" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1); width: fit-content;" x-show="currentMode === 'ai_coach_active'" x-transition">
+    <div class="bg-white p-4 flex justify-between w-full">
+      <div id="drag-handle" class="flex items-center cursor-move [-webkit-app-region:drag] drag-handle-cursor">
+        <img src="assets/logo_ai_coach.svg" alt="AI Coach" class="h-6">
+      </div>
+      <div class="relative w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+          <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
+        </svg>        
+      </div>
+    </div>
+    <div class="flex flex-col items-center justify-center flex-grow">
+      <div class="text-center">
+        <div class="relative mb-4">
+          <div class="absolute inset-0 flex items-center justify-center z-10">
+            <div class="w-24 h-24 border-8 border-[#877CFE] rounded-full"></div>
+          </div>
+          <img src="assets/avatar_einstein.png" alt="AI Tutor" class="w-20 h-20 mx-auto relative">
+        </div>
+        <div class="text-center">
+          <h3 class="mb-2">Hey there!</h3>
+          <p class="text-[#070707]55 font-archivo font-medium text-xs text-center">You’ve wasted 5 minutes talking to someone. Let’s get back to learning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const dragHandle = document.getElementById('drag-handle');
@@ -77,8 +121,6 @@
       } else {
         console.error('Drag handle element not found');
       }
-
-      // Rest of your code
     });
 
     function creditComponent() {
@@ -104,6 +146,30 @@
         }
       }
     }
+
+    // Add this new function to manage states
+    function aiTutorApp() {
+      return {
+        currentMode: 'ai_coach_default',
+        init() {
+          console.log('Initial mode:', this.currentMode);
+          
+          // Change to AI Coach Active after 2 seconds
+          setTimeout(() => {
+            this.setMode('ai_coach_active');
+          }, 2000);
+          
+          // Change to AI Tutor Empty after 5 seconds (2 seconds + 3 seconds)
+          setTimeout(() => {
+            this.setMode('ai_tutor_empty');
+          }, 5000);
+        },
+        setMode(mode) {
+          this.currentMode = mode;
+          console.log('Mode changed to:', mode);
+        }
+      }
+    }
   </script>
 
   <script>
@@ -112,7 +178,6 @@
       console.error('Stack:', error && error.stack);
     };
   </script>
-   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
 
