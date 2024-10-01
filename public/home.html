@@ -74,9 +74,9 @@
                                             <h3 class="font-semibold">Alpha Anywhere</h3>
                                         </div>
                                         <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
-                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                                        <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
                                             Start Learning
-                                        </button>
+                                        </a>
                                     </div>
                                     
                                     <!-- Khan Academy app -->
@@ -226,6 +226,40 @@
     </div>
 
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('navbarApps', {
+                apps: [],
+                init() {
+                    const storedApps = localStorage.getItem('userApps');
+                    if (storedApps) {
+                        this.apps = JSON.parse(storedApps);
+                    }
+                }
+            });
+        });
+
+        function appsComponent() {
+            return {
+                appsState: 0,
+                apps: [
+                    { name: 'Alpha Anywhere', logo: 'assets/app_logos/alpha_anywhere.png' },
+                    { name: 'Khan Academy', logo: 'assets/app_logos/khan_academy.png' }
+                ],
+                init() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const state = urlParams.get('apps_state');
+                    if (state === '1') {
+                        this.appsState = 1;
+                        localStorage.setItem('userApps', JSON.stringify(this.apps));
+                        Alpine.store('navbarApps').init();
+                    } else {
+                        this.appsState = 0;
+                        localStorage.removeItem('userApps');
+                        Alpine.store('navbarApps').apps = [];
+                    }
+                }
+            }
+        }
 
         function progressComponent() {
             return {
@@ -283,21 +317,6 @@
             }
         }
 
-        function appsComponent() {
-            return {
-                appsState: 0, // default to empty state
-                init() {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const state = urlParams.get('apps_state');
-                    if (state === '1') {
-                        this.appsState = 1;
-                    } else {
-                        this.appsState = 0;
-                    }
-                }
-            }
-        }
-
         // New function to handle popup visibility
         function popupComponent() {
             return {
@@ -351,5 +370,6 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="navbar.js"></script>
 </body>
 </html>

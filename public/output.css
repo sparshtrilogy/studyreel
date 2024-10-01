@@ -857,6 +857,11 @@ h4{
   margin-bottom: 1rem;
 }
 
+.my-6{
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .mb-1{
   margin-bottom: 0.25rem;
 }
@@ -2439,9 +2444,13 @@ h4{
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
-.hover\:text-blue-600:hover{
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
+.hover\:bg-gray-100:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-opacity-75:hover{
+  --tw-bg-opacity: 0.75;
 }
 
 .hover\:text-gray-700:hover{
@@ -2455,6 +2464,10 @@ h4{
 
 .hover\:bg-blue-600:hover {
   background-color: #2563eb;
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: #f3f4f6;
 }
 
 .focus\:border-blue-500:focus{

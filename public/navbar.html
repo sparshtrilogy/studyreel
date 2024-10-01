@@ -34,11 +34,19 @@
         </div>
 
         <!-- Separator line -->
-        <div class="w-10 h-px bg-gray-300 my-4"></div>
+        <div class="w-10 h-px bg-gray-300 my-6"></div>
 
-        <!-- App Icons -->
-        <div id="appIcons" class="flex flex-col items-center space-y-4 w-full">
-            <!-- App icons will be dynamically added here -->
+        <!-- Dynamic app icons -->
+        <div x-data class="flex flex-col items-start space-y-6">
+            
+            <!-- Dynamic app icons -->
+            <template x-if="$store.navbarApps">
+                <template x-for="app in $store.navbarApps.apps" :key="app.name">
+                    <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="w-14 h-14 rounded-xl bg-white flex items-center justify-center cursor-pointer hover:bg-gray-100">
+                        <img :src="app.logo" :alt="app.name" class="w-14 h-14 rounded-xl">
+                    </a>
+                </template>
+            </template>
         </div>
     </div>
      
@@ -47,3 +55,17 @@
         J
     </div>
 </nav>
+
+<script>
+    function navbarApps() {
+        return {
+            apps: [],
+            init() {
+                const storedApps = localStorage.getItem('userApps');
+                if (storedApps) {
+                    this.apps = JSON.parse(storedApps);
+                }
+            }
+        }
+    }
+</script>
