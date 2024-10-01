@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Tutor Overlay</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     body {
       background-color: transparent;
@@ -14,7 +13,7 @@
 </head>
 <body class="flex justify-center items-center m-0 p-0 overflow-hidden w-[300px] h-[400px] [-webkit-app-region:no-drag]">
   <div class="bg-white p-4 rounded-2xl flex flex-col w-full h-full">
-    <div class="w-full flex justify-between items-center mb-4">
+    <div id="drag-handle" class="w-full flex justify-between items-center mb-4 ursor-move [-webkit-app-region:drag] drag-handle-cursor">
       <img src="assets/logo_ai_tutor.svg" alt="AI Tutor" class="h-6">
       
       <div class="flex items-center justify-center space-x-2" x-data="creditComponent()" x-init="fetchCredits()">
@@ -68,6 +67,20 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dragHandle = document.getElementById('drag-handle');
+      if (dragHandle) {
+        dragHandle.addEventListener('mousedown', (e) => {
+          // Your existing mousedown logic
+          console.log('Drag started');
+        });
+      } else {
+        console.error('Drag handle element not found');
+      }
+
+      // Rest of your code
+    });
+
     function creditComponent() {
       return {
         creditsLeft: 40,
@@ -99,5 +112,7 @@
       console.error('Stack:', error && error.stack);
     };
   </script>
+   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
+
