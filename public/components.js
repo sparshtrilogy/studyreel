@@ -26,8 +26,8 @@ function renderSocialButton(icon, buttonText) {
 
 function renderSecondaryButton(text, iconPath, customClass = '', id = '', isActive = false) {
   const defaultClass = "w-full py-3 px-4 rounded-2xl font-archivo font-bold transition-colors flex items-center justify-center gap-2";
-  const activeClass = "bg-[#3D75EA] text-white text-16 hover:bg-[#3D75EA]/90 cursor-pointer";
-  const inactiveClass = "bg-[#C7C5CC] text-white text-16 cursor-not-allowed";
+  const activeClass = "bg-[#3D75EA] py-3 px-4 rounded-2xl text-white text-16 hover:bg-[#3D75EA]/90 cursor-pointer";
+  const inactiveClass = "bg-[#C7C5CC] py-3 px-4 rounded-2xl text-white text-16 cursor-not-allowed";
   const buttonClass = isActive ? activeClass : inactiveClass;
 
   const idAttribute = id ? `id="${id}"` : '';
@@ -46,7 +46,7 @@ function renderLogo() {
     <div class="flex items-center justify-center mb-8">
       <div class="flex items-center">
         <div class="mr-3">
-          <img src="/assets/studyreel.svg" alt="StudyReel" class="w-10 h-10 object-contain">
+          <img src="assets/studyreel.svg" alt="StudyReel" class="w-10 h-10 object-contain">
         </div>
         <div>
           <h2 class="logo-title">StudyReel</h2>
@@ -82,7 +82,7 @@ function renderComponents() {
         renderedHTML = renderSocialButton(props.icon, props.buttonText);
         break;
       case 'SecondaryButton':
-        renderedHTML = renderSecondaryButton(props.text, props['icon-path'], props.customClass, props.id);
+        renderedHTML = renderSecondaryButton(props.text, props['icon-path'], props.customClass, props.id, props.isActive);
         break;
       case 'Logo':
         renderedHTML = renderLogo();

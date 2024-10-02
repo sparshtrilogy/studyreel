@@ -27,15 +27,15 @@
             <div class="rounded-lg shadow-lg h-[calc(100vh-2rem)] overflow-hidden">
                 <!-- Carousel -->
                 <div class="carousel relative w-full h-full">
-                    <div class="slide bg-slide-1 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide1.png');">
+                    <div class="slide bg-slide-1 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/frame_signup1_slide1.png');">
                         <h1 class="text-white mb-4">Expert-Curated</h1>
                         <h4 class="text-white text-center max-w-md mb-4">Smart coaching for top-rated educational apps</h4>
                     </div>
-                    <div class="slide bg-slide-2 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide2.png');">
+                    <div class="slide bg-slide-2 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/frame_signup1_slide2.png');">
                         <h1 class="text-white mb-4 z-10">AI Coach that guides and accelerates learning</h1>
                         <h4 class="text-white text-center max-w-md z-10">Secured environment free from distractions with child data privacy protection in place</h4>
                     </div>
-                    <div class="slide bg-slide-3 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/frame_signup1_slide3.png');">
+                    <div class="slide bg-slide-3 w-full h-full absolute transition-opacity duration-500 ease-in-out opacity-0 flex flex-col items-center justify-start pt-20 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/frame_signup1_slide3.png');">
                         <h1 class="text-white mb-4">Insightful reporting</h1>
                         <h4 class="text-white text-center max-w-md">X-ray vision into your knowledge, tracking progress with crystal-clear reports</h4>
                     </div>
@@ -83,7 +83,7 @@
 
                 <div id="signupForm" class="w-full max-w-sm space-y-4 mt-6 hidden">
                     <div data-component="Input" data-props='{"inputType": "email", "placeholder": "Email"}'></div>
-                    <div data-component="SecondaryButton" id="continueButton" data-props='{"text": "Continue with email", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"continueButton"}'></div>
+                    <div data-component="SecondaryButton" data-props='{"text": "Continue with email", "customClass": "", "id": "continueButton", "isActive": false}'></div>
                     <div class="flex items-center justify-between my-4">
                         <hr class="w-[45%] border-t border-[#EAE8F0]">
                         <span class="text-[#8E8C95] font-archivo text-14">or</span>
@@ -103,7 +103,7 @@
                     <div id="loginLink" class="mt-6 text-center">
                         <p class="font-archivo text-14">
                             Already have an account? 
-                            <a href="login_v0.html" class="text-[#3D75EA] hover:underline">Login</a>
+                            <a href="login.html" class="text-[#3D75EA] hover:underline">Login</a>
                         </p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     
                     <p class="font-archivo text-14 font-bold mb-4">Didn't receive a code? <a href="#" class="text-[#3D75EA]">Resend Code</a></p>
                     
-                    <div data-component="SecondaryButton" id="verifyButton" data-props='{"text": "Continue", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"verifyButton", "isActive": false}'></div>
+                    <div data-component="SecondaryButton" id="verifyButton" data-props='{"text": "Continue", "customClass": "", "id": "verifyButton", "isActive": false}'></div>
                 </div>
 
                 <div id="setPassword" class="w-full max-w-sm space-y-4 mt-6 hidden transition-opacity duration-500 ease-in-out">
@@ -143,22 +143,22 @@
     <script src="components.js"></script>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    let initialContent = document.getElementById('initialContent');
-    let signupForm = document.getElementById('signupForm');
-    let termsText = document.getElementById('termsText');
-    let signupTitle = document.getElementById('signupTitle');
-    let verificationForm = document.getElementById('verificationForm');
-    let userEmailSpan = document.getElementById('userEmail');
+    document.addEventListener('DOMContentLoaded', () => {
+        let initialContent = document.getElementById('initialContent');
+        let signupForm = document.getElementById('signupForm');
+        let termsText = document.getElementById('termsText');
+        let signupTitle = document.getElementById('signupTitle');
+        let verificationForm = document.getElementById('verificationForm');
+        let userEmailSpan = document.getElementById('userEmail');
 
-    function showSignupForm() {
-        initialContent.classList.add('hidden');
-        signupForm.classList.remove('hidden');
-        termsText.classList.remove('hidden');
-        signupTitle.textContent = 'Sign up';
-        // If you have a renderComponents function, uncomment the next line
-        // renderComponents();
-    }
+        function showSignupForm() {
+            initialContent.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+            termsText.classList.remove('hidden');
+            signupTitle.textContent = 'Sign up';
+            // If you have a renderComponents function, uncomment the next line
+            // renderComponents();
+        }
 
     function showUnderagePopup() {
         const underagePopup = document.createElement('div');
@@ -166,11 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         underagePopup.innerHTML = `
             <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-end">
-                    <button id="closeUnderagePopup" class="text-gray-500 hover:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>  
-                    </button>
+                    <button id="closeUnderagePopup" class="text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-2">
+                    <!-- Close icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
                 </div>
                 <div data-component="Logo" class="mx-auto mb-4 h-12"></div>
                 <h1 class="text-3xl font-bold mb-4 text-center">Oops! You're not old enough</h1>
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </svg>
                 </button>
             </div>
-            <img src="/assets/popup_signup_gotoweb.png" alt="Dashboard Preview" class="w-full mb-8 rounded-lg">
+            <img src="assets/popup_signup_gotoweb.png" alt="Dashboard Preview" class="w-full mb-8 rounded-lg">
             <h1 class="text-3xl font-bold mb-4 text-center">Visit website to signup</h1>
             <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">To access our specialized parent features, please create your account on our website</p>
             <a href="https://studyreel.com" target="_blank" rel="noopener noreferrer" class="w-full bg-[#3D75EA] text-white py-4 px-6 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold flex items-center justify-center">
@@ -262,14 +263,15 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.innerHTML = `
             <div class="bg-white rounded-[20px] p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-end">
-                    <button id="closePopup" class="text-gray-500 hover:text-gray-700">
+                    <button id="closePopup" class="text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-2">
+                        <!-- Close icon SVG -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>  
+                        </svg>
                     </button>
                 </div>
                 <div id="popupLogo" data-component="Logo" class="mx-auto mb-4 h-12"></div>
-                <h1 class="mb-4">Are you 13 years old or older?</h1>
+                <h1 class="mb-4 text-center">Are you 13 years old or older?</h1>
                 <p class="text-gray-600 text-center mb-8 font-archivo text-xl font-normal text-black text-opacity-55">You're about to start an amazing learning adventure. StudyReel is here to make learning fun, exciting, and just for you!</p>
                 <div class="flex space-x-4">
                     <button id="yesButton" class="flex-1 bg-[#3D75EA] text-white py-3 px-4 rounded-[16px] hover:bg-[#3D75EA]/90 font-archivo text-2xl font-semibold">Yes, I'm 13 or older</button>
@@ -351,22 +353,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // {{ Begin: Added Code to Handle "Continue" Button State }}
-
-    const verifyButton = document.getElementById('verifyButton');
+    // Update function to verify email OTP
 
     function updateVerifyButtonState() {
         const allFilled = Array.from(verificationInputs).every(input => input.value.length === 1);
-        if (allFilled) {
-        // Enable the button and change its color to #3D75EA
-        verifyButton.classList.remove('bg-[#C7C5CC]', 'hover:bg-[#B8B6BD]', 'cursor-not-allowed');
-        verifyButton.classList.add('bg-[#3D75EA]', 'cursor-pointer');
-        verifyButton.disabled = false;
+        const verifyButton = document.getElementById('verifyButton');
+        
+        console.log('All inputs filled:', allFilled);
+        // Parse the current props
+        const props = JSON.parse(verifyButton.getAttribute('data-props'));
+        
+        // Update the isActive state
+        props.isActive = allFilled;
+        console.log('Updated props:', props);
+        
+        // Update the data-props attribute
+        verifyButton.setAttribute('data-props', JSON.stringify(props));
+        
+       // Re-render the component
+        if (typeof window.renderComponents === 'function') {
+            window.renderComponents();
         } else {
-        // Disable the button and revert its color
-        verifyButton.classList.add('bg-[#C7C5CC]', 'hover:bg-[#B8B6BD]', 'cursor-not-allowed');
-        verifyButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
-        verifyButton.disabled = true;
+            console.error('renderComponents is not a function');
         }
     }
 
@@ -377,70 +385,63 @@ document.addEventListener('DOMContentLoaded', () => {
     verificationInputs.forEach((input) => {
     input.addEventListener('input', updateVerifyButtonState);
     });
-    // {{ End: Added Code to Handle "Continue" Button State }}
 
-    // **Email Validation Logic**
-    // Wait for components to render
+    // New function to validate email and update "continue with email" button state
     setTimeout(() => {
-        // Select the email input field
+        initializeEmailValidation();
+    }, 1000); // Increased timeout to ensure components are rendered
+
+    function initializeEmailValidation() {
         const emailInput = document.querySelector('input[type="email"]');
         const continueButton = document.getElementById('continueButton');
 
         if (emailInput && continueButton) {
             // Initially disable the button
-            continueButton.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
-            continueButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
-            continueButton.disabled = true;
+            updateButtonState(continueButton, false);
 
             // Add event listener for input changes
             emailInput.addEventListener('input', function() {
-            const email = emailInput.value;
+                const email = emailInput.value;
+                const isValid = validateEmail(email);
+                updateButtonState(continueButton, isValid);
+            });
 
-        if (validateEmail(email)) {
-            // Enable the button and change its background color
-            continueButton.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
-            continueButton.classList.add('bg-[#3D75EA]', 'cursor-pointer');
-            continueButton.disabled = false;
-        } else {
-            // Disable the button and reset its background color
-            continueButton.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
-            continueButton.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
-            continueButton.disabled = true;
-        }
-    });
-        continueButton.addEventListener('click', function() {
-            const email = emailInput.value.trim();
+            continueButton.addEventListener('click', function() {
+                const email = emailInput.value.trim();
 
-            // Optional: Re-validate the email before proceeding
-            if (validateEmail(email)) {
-                // Hide the signup form and related elements
-                initialContent.classList.add('hidden');
-                signupForm.classList.add('hidden');
-                termsText.classList.add('hidden');
-
-                // Show the verification form
-                verificationForm.classList.remove('hidden');
-                signupTitle.textContent = 'Verify your email';
-
-                // Set the user email in the verification form
-                userEmailSpan.textContent = email;
-
-                // Optional: Focus the first input of the verification form
-                verificationForm.querySelector('input[type="text"]').focus();
-            } else {
-                // Optionally, display an error message or handle invalid email
-                alert('Please enter a valid email address.');
-            }
-        });
-        } else {
-                    if (!emailInput) {
-                        console.error("Email input field not found");
-                    }
-                    if (!continueButton) {
-                        console.error('"Continue with email" button not found');
-                    }
+                if (validateEmail(email)) {
+                    // Proceed with verification
+                    showVerificationForm(email);
+                } else {
+                    alert('Please enter a valid email address.');
                 }
-    }, 500); // Adjust timeout as needed based on component rendering time
+            });
+        } else {
+            console.error("Email input or continue button not found");
+        }
+    }
+
+    function updateButtonState(button, isActive) {
+        if (isActive) {
+            button.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
+            button.classList.add('bg-[#3D75EA]', 'cursor-pointer');
+            button.disabled = false;
+        } else {
+            button.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
+            button.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+            button.disabled = true;
+        }
+    }
+
+    function showVerificationForm(email) {
+        initialContent.classList.add('hidden');
+        signupForm.classList.add('hidden');
+        termsText.classList.add('hidden');
+        verificationForm.classList.remove('hidden');
+        signupTitle.textContent = 'Verify your email';
+        userEmailSpan.textContent = email;
+        verificationForm.querySelector('input[type="text"]').focus();
+    }
 
     // **Email Validation Function**
     function validateEmail(email) {
@@ -448,122 +449,179 @@ document.addEventListener('DOMContentLoaded', () => {
         return re.test(String(email).toLowerCase());
     }
 
-    // **Transistion validation form to set password**
-    const setPassword = document.getElementById('setPassword');
-    verifyButton.addEventListener('click', function() {
-       // Hide the verification form
-       verificationForm.classList.add('hidden');
-       
-       // Show the set password section
-       setPassword.classList.remove('hidden');
-   });
+    // Function to initialize the password screen
+    // Declare variables at a higher scope
+    let fullNameInput, createPasswordInput, confirmPasswordInput, continuePassword;
 
-    // Enable button only when all fields are filled
-    const continuePassword = document.getElementById('continuePassword');
-    const fullNameInput = document.querySelector('#setPassword input[placeholder="Full Name"]');
-    const createPasswordInput = document.querySelector('#setPassword input[placeholder="Create Password"]');
-    const confirmPasswordInput = document.querySelector('#setPassword input[placeholder="Confirm Password"]');
+    function initializePasswordScreen() {
+        // Select inputs after they are rendered
+        fullNameInput = document.querySelector('#setPassword input[placeholder="Full Name"]');
+        createPasswordInput = document.querySelector('#setPassword input[placeholder="Create Password"]');
+        confirmPasswordInput = document.querySelector('#setPassword input[placeholder="Confirm Password"]');
+        continuePassword = document.getElementById('continuePassword');
 
-    function updateContinuePasswordState() {
-        const allFilled = fullNameInput.value.trim() !== '' &&
-            createPasswordInput.value.trim() !== '' &&
-            confirmPasswordInput.value.trim() !== '';
+        console.log('Full Name Input:', fullNameInput);
+        console.log('Create Password Input:', createPasswordInput);
+        console.log('Confirm Password Input:', confirmPasswordInput);
+        console.log('Continue Password Button:', continuePassword);
+
+        if (!fullNameInput || !createPasswordInput || !confirmPasswordInput || !continuePassword) {
+            console.error('Password inputs or continue button not found');
+            return;
+        }
+
+        // Function to update the state of the "Continue" button
+        function updateContinuePasswordState() {
+            const allFilled = fullNameInput.value.trim() !== '' &&
+                createPasswordInput.value.trim() !== '' &&
+                confirmPasswordInput.value.trim() !== '';
+            const createPassword = createPasswordInput.value.trim();
+            const confirmPassword = confirmPasswordInput.value.trim();
+            const passwordsMatch = createPassword === confirmPassword;
+            const isPasswordValid = validatePassword(createPassword);
+
+            // Get message elements
+            const passwordMatchMessage = document.getElementById('passwordMatchMessage');
+            const passwordCriteriaMessage = document.getElementById('passwordCriteriaMessage');
+
+            // Update password match message
+            if (confirmPassword !== '') {
+                if (passwordsMatch) {
+                    passwordMatchMessage.textContent = 'Passwords match.';
+                    passwordMatchMessage.classList.remove('text-red-500');
+                    passwordMatchMessage.classList.add('text-green-500');
+                } else {
+                    passwordMatchMessage.textContent = 'Passwords do not match.';
+                    passwordMatchMessage.classList.remove('text-green-500');
+                    passwordMatchMessage.classList.add('text-red-500');
+                }
+            } else {
+                passwordMatchMessage.textContent = '';
+            }
+
+            // Update password criteria message
+            if (createPassword !== '') {
+                if (isPasswordValid) {
+                    passwordCriteriaMessage.textContent = 'Password meets all criteria.';
+                    passwordCriteriaMessage.classList.remove('text-red-500');
+                    passwordCriteriaMessage.classList.add('text-green-500');
+                } else {
+                    passwordCriteriaMessage.textContent = 'Password must be at least 8 characters, include 1 number, 1 special character, and both uppercase and lowercase letters.';
+                    passwordCriteriaMessage.classList.remove('text-green-500');
+                    passwordCriteriaMessage.classList.add('text-red-500');
+                }
+            } else {
+                passwordCriteriaMessage.textContent = '';
+            }
+
+            if (allFilled && passwordsMatch && isPasswordValid) {
+                continuePassword.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
+                continuePassword.classList.add('bg-[#3D75EA]', 'cursor-pointer');
+                continuePassword.disabled = false;
+            } else {
+                continuePassword.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
+                continuePassword.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
+                continuePassword.disabled = true;
+            }
+        }
+
+        // Attach event listeners to input fields
+        fullNameInput.addEventListener('input', updateContinuePasswordState);
+        createPasswordInput.addEventListener('input', updateContinuePasswordState);
+        confirmPasswordInput.addEventListener('input', updateContinuePasswordState);
+
+        continuePassword.addEventListener('click', handleContinuePasswordClick);
+
+        // Initialize button state
+        updateContinuePasswordState();
+    }
+
+    function handleContinuePasswordClick() {
         const fullName = fullNameInput.value.trim();
-        const createPassword = createPasswordInput.value.trim();
+        const password = createPasswordInput.value.trim();
         const confirmPassword = confirmPasswordInput.value.trim();
-        const passwordsMatch = createPassword === confirmPassword;
-        const isPasswordValid = validatePassword(createPassword);
-            
-        // Get message elements
-        const passwordMatchMessage = document.getElementById('passwordMatchMessage');
-        const passwordCriteriaMessage = document.getElementById('passwordCriteriaMessage');
 
-        // Update password match message
-        if (confirmPassword !== '') {
-            if (passwordsMatch) {
-                passwordMatchMessage.textContent = 'Passwords match.';
-                passwordMatchMessage.classList.remove('text-red-500');
-                passwordMatchMessage.classList.add('text-green-500');
-            } else {
-                passwordMatchMessage.textContent = 'Passwords do not match.';
-                passwordMatchMessage.classList.remove('text-green-500');
-                passwordMatchMessage.classList.add('text-red-500');
-            }
-        } else {
-            passwordMatchMessage.textContent = '';
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
         }
 
-        // Update password criteria message
-        if (createPassword !== '') {
-            if (isPasswordValid) {
-                passwordCriteriaMessage.textContent = 'Password meets all criteria.';
-                passwordCriteriaMessage.classList.remove('text-red-500');
-                passwordCriteriaMessage.classList.add('text-green-500');
-            } else {
-                passwordCriteriaMessage.textContent = 'Password must be at least 8 characters, include 1 number, 1 special character, and both uppercase and lowercase letters.';
-                passwordCriteriaMessage.classList.remove('text-green-500');
-                passwordCriteriaMessage.classList.add('text-red-500');
-            }
-        } else {
-            passwordCriteriaMessage.textContent = '';
-        }
-        
-        if (allFilled && passwordsMatch && isPasswordValid) {
-            continuePassword.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
-            continuePassword.classList.add('bg-[#3D75EA]', 'cursor-pointer');
-            continuePassword.disabled = false;
-            } else {
-            continuePassword.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
-            continuePassword.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
-            continuePassword.disabled = true;
-            }
+        if (!validatePassword(password)) {
+            alert("Password does not meet the required criteria.");
+            return;
         }
 
-    // Initialize button state on page load
-    updateContinuePasswordState();
-
-    // Attach event listeners to input fields
-    fullNameInput.addEventListener('input', updateContinuePasswordState);
-    createPasswordInput.addEventListener('input', updateContinuePasswordState);
-    confirmPasswordInput.addEventListener('input', updateContinuePasswordState);
-
-    updatedContinuePassword.addEventListener('click', function() {
-    const fullName = fullNameInput.value.trim();
-    const password = createPasswordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
-
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+        // Proceed with account creation
+        alert("Account created successfully!");
     }
 
-    if (!validatePassword(password)) {
-        alert("Password does not meet the required criteria.");
-        return;
-    }
+    // Modify the verifyButton click handler to initialize the password screen
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            const verifyButton = document.getElementById('verifyButton');
+            if (verifyButton && !verifyButton.hasAttribute('data-listener-attached')) {
+                verifyButton.addEventListener('click', function() {
+                    // Hide the verification form
+                    verificationForm.classList.add('hidden');
 
-    // Proceed with account creation
-    // Example:
-    // sendDataToServer({ fullName, email, password })
-    alert("Account created successfully!");
+                    // Show the set password section
+                    setPassword.classList.remove('hidden');
+
+                    // Render components and initialize password screen
+                    if (typeof window.renderComponents === 'function') {
+                        window.renderComponents(function() {
+                            initializePasswordScreen();
+                        });
+                    } else {
+                        console.error('renderComponents is not a function');
+                    }
+                });
+                verifyButton.setAttribute('data-listener-attached', 'true');
+            }
+        });
     });
 
-    /**
-     * Validates if the password meets the required criteria:
-     * - At least 8 characters
-     * - Contains at least 1 number
-     * - Contains at least 1 special character
-     * - Includes both uppercase and lowercase letters
-     *
-     * @param {string} password - The password string to validate.
-     * @returns {boolean} - Returns true if valid, false otherwise.
-     */
+    // Start observing the document body for changes
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Password validation function
     function validatePassword(password) {
         const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~])[A-Za-z\d@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~]{8,}$/;
         return re.test(password);
     }
-    
 });
+
+   // Transistion validation form to set password
+    document.addEventListener('DOMContentLoaded', function() {
+        const verificationForm = document.getElementById('verificationForm');
+        const setPassword = document.getElementById('setPassword');
+
+        // Use a mutation observer to watch for changes to the verifyButton
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    const verifyButton = document.getElementById('verifyButton');
+                    if (verifyButton && !verifyButton.hasAttribute('data-listener-attached')) {
+                        console.log('Attaching click listener to verifyButton');
+                        verifyButton.addEventListener('click', function() {
+                            console.log('Verify button clicked');
+                            // Hide the verification form
+                            verificationForm.classList.add('hidden');
+                            
+                            // Show the set password section
+                            setPassword.classList.remove('hidden');
+
+                            console.log('Transition completed');
+                        });
+                        verifyButton.setAttribute('data-listener-attached', 'true');
+                    }
+                }
+            });
+        });
+
+        // Start observing the document body for changes
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
 </script>
 
 </body>
