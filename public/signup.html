@@ -134,7 +134,7 @@
                     <p id="passwordMatchMessage" class="text-red-500 text-12"></p>
                     <p id="passwordCriteriaMessage" class="text-red-500 text-12"></p>
                     <p class="font-archivo font-bold text-14 text-gray-700">Create a password with at least 8 characters, 1 number and 1 special character and a combination of uppercase and lowercase</p>
-                    <div data-component="SecondaryButton" id="continuePassword" data-props='{"text": "Continue", "customClass": "bg-[#C7C5CC] text-white text-16 hover:bg-[#B8B6BD]", "id":"continuePassword", "isActive": false}'></div>
+                    <div data-component="SecondaryButton" id="continuePassword" data-props='{"text": "Continue", "customClass": "", "id":"continuePassword", "isActive": false}'></div>
                 </div>
 
             </div>
@@ -472,6 +472,7 @@
 
         // Function to update the state of the "Continue" button
         function updateContinuePasswordState() {
+            console.log('Updating continue password state');
             const allFilled = fullNameInput.value.trim() !== '' &&
                 createPasswordInput.value.trim() !== '' &&
                 confirmPasswordInput.value.trim() !== '';
@@ -480,9 +481,16 @@
             const passwordsMatch = createPassword === confirmPassword;
             const isPasswordValid = validatePassword(createPassword);
 
+            console.log('All filled:', allFilled);
+            console.log('Passwords match:', passwordsMatch);
+            console.log('Password valid:', isPasswordValid);
+
             // Get message elements
             const passwordMatchMessage = document.getElementById('passwordMatchMessage');
             const passwordCriteriaMessage = document.getElementById('passwordCriteriaMessage');
+
+            console.log('Password match message element:', passwordMatchMessage);
+            console.log('Password criteria message element:', passwordCriteriaMessage);
 
             // Update password match message
             if (confirmPassword !== '') {
@@ -515,9 +523,11 @@
             }
 
             if (allFilled && passwordsMatch && isPasswordValid) {
-                continuePassword.classList.remove('bg-[#C7C5CC]', 'cursor-not-allowed');
-                continuePassword.classList.add('bg-[#3D75EA]', 'cursor-pointer');
-                continuePassword.disabled = false;
+                const props = JSON.parse(continuePassword.getAttribute('data-props'));
+                props.isActive = allFilled && passwordsMatch && isPasswordValid;
+                props.customClass = props.isActive ? 'bg-[#3D75EA] text-white cursor-pointer' : 'bg-[#C7C5CC] text-white cursor-not-allowed';
+                continuePassword.setAttribute('data-props', JSON.stringify(props));
+                window.renderComponents();
             } else {
                 continuePassword.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
                 continuePassword.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
@@ -561,20 +571,20 @@
             const verifyButton = document.getElementById('verifyButton');
             if (verifyButton && !verifyButton.hasAttribute('data-listener-attached')) {
                 verifyButton.addEventListener('click', function() {
+                    console.log('Verify button clicked');
                     // Hide the verification form
                     verificationForm.classList.add('hidden');
-
+                    
                     // Show the set password section
                     setPassword.classList.remove('hidden');
 
-                    // Render components and initialize password screen
-                    if (typeof window.renderComponents === 'function') {
-                        window.renderComponents(function() {
-                            initializePasswordScreen();
-                        });
-                    } else {
-                        console.error('renderComponents is not a function');
-                    }
+                    console.log('Transition completed');
+
+                    // Add a slight delay before initializing the password screen
+                    setTimeout(() => {
+                        console.log('Initializing password screen');
+                        initializePasswordScreen();
+                    }, 100);
                 });
                 verifyButton.setAttribute('data-listener-attached', 'true');
             }
@@ -588,6 +598,34 @@
     function validatePassword(password) {
         const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~])[A-Za-z\d@$!%*?&#^()\-_=+{}[\]|;:'",.<>/?\\`~]{8,}$/;
         return re.test(password);
+    }
+
+    function updateContinuePasswordState() {
+        const allFilled = fullNameInput.value.trim() !== '' &&
+            createPasswordInput.value.trim() !== '' &&
+            confirmPasswordInput.value.trim() !== '';
+        const createPassword = createPasswordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+        const passwordsMatch = createPassword === confirmPassword;
+        const isPasswordValid = validatePassword(createPassword);
+
+        // Update password match and criteria messages (keep existing code)
+
+        // Update button state
+        const continuePassword = document.getElementById('continuePassword');
+        if (continuePassword) {
+            const props = JSON.parse(continuePassword.getAttribute('data-props'));
+            props.isActive = allFilled && passwordsMatch && isPasswordValid;
+            props.customClass = props.isActive ? 'bg-[#3D75EA] text-white cursor-pointer' : 'bg-[#C7C5CC] text-white cursor-not-allowed';
+            continuePassword.setAttribute('data-props', JSON.stringify(props));
+            
+            // Re-render the component
+            if (typeof window.renderComponents === 'function') {
+                window.renderComponents();
+            } else {
+                console.error('renderComponents is not a function');
+            }
+        }
     }
 });
 
