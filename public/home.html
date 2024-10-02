@@ -8,7 +8,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body style="background-color: #EFEDF5;" x-data="popupComponent()">
+<body style="background-color: #EFEDF5;" x-data="popupComponent()" x-init="initCountdown">
+    <!-- Countdown Overlay -->
+    <div id="countdownOverlay" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="flex flex-col items-center">
+            <div class="mb-16 bg-gray-50 text-black px-4 py-2 rounded-full">Recording starting in ...</div>
+            <div class="relative">
+                <svg class="w-48 h-48" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="arcGradient" gradientUnits="userSpaceOnUse" x1="50" y1="0" x2="50" y2="100">
+                            <stop offset="0%" stop-color="#8B5CF6" stop-opacity="1"/>
+                            <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.1"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="transparent" stroke-width="8"/>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#8B5CF6" stroke-width="8"
+                            stroke-dasharray="283" stroke-dashoffset="283"
+                            class="transform origin-center -rotate-90">
+                        <animate attributeName="stroke-dashoffset"
+                                 from="283" to="0" dur="3s"
+                                 repeatCount="1" fill="freeze" 
+                                 id="arcAnimation" begin="indefinite" />
+                    </circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-[#8B5CF6] text-6xl font-bold" id="countdownNumber"></div>
+                </div>
+            </div>
+        </div>
+        <button @click="cancelCountdown" class="absolute bottom-10 bg-gray-50 text-black px-4 py-2 rounded-full">
+            Cancel ×
+        </button>
+    </div>
+
     <!-- New Popup -->
     <div x-show="showPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
@@ -74,7 +106,7 @@
                                             <h3 class="font-semibold">Alpha Anywhere</h3>
                                         </div>
                                         <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
-                                        <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
+                                        <a href="#" @click.prevent="startCountdown('khan_academy', 'https://www.khanacademy.org')" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
                                             Start Learning
                                         </a>
                                     </div>
@@ -87,7 +119,7 @@
                                             <h3 class="font-semibold">Khan Academy</h3>
                                         </div>
                                         <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
-                                        <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
+                                        <a href="#" @click.prevent="startCountdown('khan_academy', 'https://www.khanacademy.org')" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
                                             Start Learning
                                         </a>
                                     </div>
@@ -303,11 +335,17 @@
             return {
                 showPopup: false,
                 popupTitle: "Welcome to StudyReel",
+                arcAnimation: null,
+                countdownInterval: null,
+                transitionTimeout: null,
                 init() {
                     // Check if it's the user's first visit
                     if (!localStorage.getItem('hasVisitedBefore')) {
                         this.showPopup = true;
                     }
+                },
+                initCountdown() {
+                    this.arcAnimation = document.querySelector('#arcAnimation');
                 },
                 closePopup() {
                     this.showPopup = false;
@@ -318,6 +356,51 @@
                 showLimitedVersionPopup() {
                     this.popupTitle = "Limited Version";
                     this.showPopup = true;
+                },
+                startCountdown(app, url) {
+                    const overlay = document.getElementById('countdownOverlay');
+                    const countdownNumber = document.getElementById('countdownNumber');
+                    overlay.classList.remove('hidden');
+                    
+                    let count = 3;
+                    countdownNumber.textContent = count;
+
+                    if (this.arcAnimation) {
+                        this.arcAnimation.beginElement();
+                    }
+
+                    this.countdownInterval = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownNumber.textContent = count;
+                        } else {
+                            clearInterval(this.countdownInterval);
+                            countdownNumber.textContent = 'Go!';
+                            this.transitionTimeout = setTimeout(() => {
+                                window.location.href = `learning_mode.html?app=${app}&url=${encodeURIComponent(url)}`;
+                            }, 500);
+                        }
+                    }, 1000);
+                },
+                cancelCountdown() {
+                    const overlay = document.getElementById('countdownOverlay');
+                    overlay.classList.add('hidden');
+                    
+                    if (this.arcAnimation) {
+                        this.arcAnimation.endElement();
+                    }
+
+                    if (this.countdownInterval) {
+                        clearInterval(this.countdownInterval);
+                    }
+
+                    if (this.transitionTimeout) {
+                        clearTimeout(this.transitionTimeout);
+                    }
+
+                    // Reset the countdown number
+                    const countdownNumber = document.getElementById('countdownNumber');
+                    countdownNumber.textContent = '3';
                 }
             }
         }
