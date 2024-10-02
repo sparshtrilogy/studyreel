@@ -1,5 +1,5 @@
 <!-- Left Navbar -->
-<nav class="bg-EFEDF5 h-full flex flex-col items-center justify-between py-5 px-2">
+<nav x-data="navbarComponent()" class="bg-EFEDF5 h-full flex flex-col items-center justify-between py-5 px-2">
     <div class="flex flex-col items-center w-full">
         <!-- Top icons -->
         <div class="flex flex-col items-center space-y-6">
@@ -36,17 +36,24 @@
         <!-- Separator line -->
         <div class="w-10 h-px bg-gray-300 my-6"></div>
 
-        <!-- Dynamic app icons -->
-        <div x-data class="flex flex-col items-start space-y-6">
+        <!-- Static app icons -->
+        <div class="flex flex-col items-start space-y-6">
+            <!-- Alpha Anywhere -->
+            <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="w-14 h-14 rounded-xl bg-white flex items-center justify-center cursor-pointer hover:bg-gray-100">
+                <img src="assets/app_logos/alpha_anywhere.png" alt="Alpha Anywhere" class="w-14 h-14 rounded-xl">
+            </a>
             
-            <!-- Dynamic app icons -->
-            <template x-if="$store.navbarApps">
-                <template x-for="app in $store.navbarApps.apps" :key="app.name">
-                    <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" class="w-14 h-14 rounded-xl bg-white flex items-center justify-center cursor-pointer hover:bg-gray-100">
-                        <img :src="app.logo" :alt="app.name" class="w-14 h-14 rounded-xl">
-                    </a>
-                </template>
-            </template>
+            <!-- Khan Academy -->
+            <a href="learning_mode.html?app=khan_academy&url=https://www.khanacademy.org" 
+               class="w-16 h-16 rounded-xl bg-transparent flex items-center justify-center cursor-pointer hover:bg-gray-100 relative">
+                <img src="assets/app_logos/khan_academy.png" alt="Khan Academy" class="w-14 h-14 rounded-xl">
+                <div x-show="isLearningMode" 
+                     class="absolute inset-0 border-2 border-red-500 rounded-xl pointer-events-none">
+                </div>
+                <div x-show="isLearningMode" class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 rounded-full p-1">
+                    <img src="assets/screen_recorder.svg" alt="Screen Recorder" class="w-3 h-3">
+                </div>
+            </a>
         </div>
     </div>
      
@@ -55,17 +62,3 @@
         J
     </div>
 </nav>
-
-<script>
-    function navbarApps() {
-        return {
-            apps: [],
-            init() {
-                const storedApps = localStorage.getItem('userApps');
-                if (storedApps) {
-                    this.apps = JSON.parse(storedApps);
-                }
-            }
-        }
-    }
-</script>

@@ -28,6 +28,7 @@
         </div>
     </div>
 
+    <script src="navbar.js"></script>
     <script>
         function learningModeComponent() {
             return {
@@ -63,16 +64,7 @@
                     const navbarContainer = document.getElementById('navbar-container');
                     if (navbarContainer) {
                         navbarContainer.innerHTML = data;
-                        const script = document.createElement('script');
-                        script.src = 'navbar.js';
-                        script.onload = () => {
-                            if (typeof window.setNavbarActive === 'function') {
-                                window.setNavbarActive('home');
-                            } else {
-                                console.error('setNavbarActive function not found');
-                            }
-                        };
-                        document.body.appendChild(script);
+                        // Alpine will automatically initialize the navbar component
                     } else {
                         console.error('Navbar container not found');
                     }

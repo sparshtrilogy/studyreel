@@ -226,36 +226,17 @@
     </div>
 
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('navbarApps', {
-                apps: [],
-                init() {
-                    const storedApps = localStorage.getItem('userApps');
-                    if (storedApps) {
-                        this.apps = JSON.parse(storedApps);
-                    }
-                }
-            });
-        });
 
         function appsComponent() {
             return {
                 appsState: 0,
-                apps: [
-                    { name: 'Alpha Anywhere', logo: 'assets/app_logos/alpha_anywhere.png' },
-                    { name: 'Khan Academy', logo: 'assets/app_logos/khan_academy.png' }
-                ],
                 init() {
                     const urlParams = new URLSearchParams(window.location.search);
                     const state = urlParams.get('apps_state');
                     if (state === '1') {
                         this.appsState = 1;
-                        localStorage.setItem('userApps', JSON.stringify(this.apps));
-                        Alpine.store('navbarApps').init();
                     } else {
                         this.appsState = 0;
-                        localStorage.removeItem('userApps');
-                        Alpine.store('navbarApps').apps = [];
                     }
                 }
             }
@@ -353,10 +334,10 @@
                             const script = document.createElement('script');
                             script.src = 'navbar.js';
                             script.onload = () => {
-                                if (typeof window.setNavbarActive === 'function') {
-                                    window.setNavbarActive('home');
+                                if (typeof window.setActiveNavIcon === 'function') {
+                                    window.setActiveNavIcon('home');
                                 } else {
-                                    console.error('setNavbarActive function not found');
+                                    console.error('setActiveNavIcon function not found');
                                 }
                             };
                             document.body.appendChild(script);

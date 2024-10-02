@@ -240,10 +240,10 @@
                             const script = document.createElement('script');
                             script.src = 'navbar.js';
                             script.onload = () => {
-                                if (typeof window.setNavbarActive === 'function') {
-                                    window.setNavbarActive('app_store');
+                                if (typeof window.setActiveNavIcon === 'function') {
+                                    window.setActiveNavIcon('app_store');
                                 } else {
-                                    console.error('setNavbarActive function not found');
+                                    console.error('setActiveNavIcon function not found');
                                 }
                             };
                             document.body.appendChild(script);
@@ -255,6 +255,5 @@
             });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="app_to_navbar.js"></script>
 </body>
 </html>

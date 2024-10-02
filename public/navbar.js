@@ -16,27 +16,28 @@ function setActiveNavIcon(currentPage) {
     });
 }
 
-// Expose the function globally
-window.setNavbarActive = setActiveNavIcon;
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const navIcons = document.querySelectorAll('.nav-icon');
 
-// Create a global Alpine store for navbar apps
-document.addEventListener('alpine:init', () => {
-    Alpine.store('navbarApps', {
-        apps: [],
-        init() {
-            const storedApps = localStorage.getItem('userApps');
-            if (storedApps) {
-                this.apps = JSON.parse(storedApps);
-            }
+    navIcons.forEach(icon => {
+        if (icon.href.includes(currentPath)) {
+            icon.classList.add('selected'); // This class should apply the blue background
         }
     });
 });
 
-function setNavbarActive(activeItem) {
-    // Existing code for setting active nav item
+// Make setActiveNavIcon available globally
+window.setNavbarActive = setActiveNavIcon;
 
-    // Refresh app icons when navbar is updated
-    if (Alpine.store('navbarApps')) {
-        Alpine.store('navbarApps').init();
+function navbarComponent() {
+    return {
+        isLearningMode: false,
+        init() {
+            // Determine if we're on the learning mode page
+            this.isLearningMode = window.location.pathname.includes('learning_mode.html');
+        }
     }
 }
+
+// No need for the Alpine.data call here
