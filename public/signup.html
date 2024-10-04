@@ -460,14 +460,13 @@
         confirmPasswordInput = document.querySelector('#setPassword input[placeholder="Confirm Password"]');
         continuePassword = document.getElementById('continuePassword');
 
-        console.log('Full Name Input:', fullNameInput);
-        console.log('Create Password Input:', createPasswordInput);
-        console.log('Confirm Password Input:', confirmPasswordInput);
-        console.log('Continue Password Button:', continuePassword);
-
         if (!fullNameInput || !createPasswordInput || !confirmPasswordInput || !continuePassword) {
             console.error('Password inputs or continue button not found');
             return;
+        }
+
+        if (continuePassword) {
+        continuePassword.addEventListener('click', handleContinuePasswordClick);
         }
 
         // Function to update the state of the "Continue" button
@@ -523,11 +522,20 @@
             }
 
             if (allFilled && passwordsMatch && isPasswordValid) {
-                const props = JSON.parse(continuePassword.getAttribute('data-props'));
-                props.isActive = allFilled && passwordsMatch && isPasswordValid;
-                props.customClass = props.isActive ? 'bg-[#3D75EA] text-white cursor-pointer' : 'bg-[#C7C5CC] text-white cursor-not-allowed';
-                continuePassword.setAttribute('data-props', JSON.stringify(props));
-                window.renderComponents();
+                continuePassword.outerHTML = renderSecondaryButton(
+                    'Continue',
+                    '', // No icon path
+                    '',
+                    'continuePassword',
+                    isActive = true
+                );
+                console.log('Button re-rendered');
+                setTimeout(() => {
+                    const rerenderedButton = document.getElementById('continuePassword');
+                    if (rerenderedButton) {
+                        rerenderedButton.addEventListener('click', handleContinuePasswordClick);
+                    }
+                }, 100);
             } else {
                 continuePassword.classList.add('bg-[#C7C5CC]', 'cursor-not-allowed');
                 continuePassword.classList.remove('bg-[#3D75EA]', 'cursor-pointer');
@@ -547,6 +555,7 @@
     }
 
     function handleContinuePasswordClick() {
+        console.log('Click handler is called');
         const fullName = fullNameInput.value.trim();
         const password = createPasswordInput.value.trim();
         const confirmPassword = confirmPasswordInput.value.trim();
@@ -562,7 +571,8 @@
         }
 
         // Proceed with account creation
-        alert("Account created successfully!");
+        window.location.href = 'onboarding.html';
+        console.log('Click handler reaches target');
     }
 
     // Modify the verifyButton click handler to initialize the password screen

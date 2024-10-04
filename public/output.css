@@ -2472,11 +2472,6 @@ h4{
   background-color: rgb(61 117 234 / 0.9);
 }
 
-.hover\:bg-\[\#B8B6BD\]:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(184 182 189 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-\[\#E5E5EA\]:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(229 229 234 / var(--tw-bg-opacity));
