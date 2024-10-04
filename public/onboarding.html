@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboarding</title>
-    <!-- Include Tailwind CSS via CDN -->
+    <link href="output.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body, html {
@@ -14,6 +14,9 @@
             height: 100%;
             overflow: hidden;
             font-family: 'Archivo', sans-serif;
+        }
+        * {
+        font-family: 'Archivo', sans-serif; /* Apply 'Archivo' font to all elements */
         }
         .slide {
             display: none;
@@ -28,13 +31,13 @@
         }
         .slide1 {
             background-color: #8374F7;
-            background-image: url('/assets/frame_onboarding1.png');
+            background-image: url('assets/frame_onboarding1.png');
             background-size: cover;
             background-position: center;
         }
         .slide2 {
             background-color: #14BF95;
-            background-image: url('/assets/frame_onboarding2.png');
+            background-image: url('assets/frame_onboarding2.png');
             background-size: cover;
             background-position: center;
         }
@@ -103,7 +106,7 @@
     <div class="flex items-center justify-left mx-4 mt-8 z-10 relative">
         <div class="flex items-center">
             <div class="mr-3">
-                <img src="/assets/studyreel_white.svg" alt="StudyReel" class="w-10 h-10 object-contain">
+                <img src="assets/studyreel_white.svg" alt="StudyReel" class="w-10 h-10 object-contain">
             </div>
             <div>
                 <h2 class="text-white text-xl font-semibold">StudyReel</h2>
@@ -130,64 +133,94 @@
                     <div class="avatar-grid-container">
                         <div class="avatar-grid grid grid-cols-4 sm:grid-cols-5 md:grid-cols-5 gap-2">
                             <!-- Avatar Options -->
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="albert_einstein">
+                                <img src="assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="george_washington">
+                                <img src="assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="thomas_jefferson">
+                                <img src="assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="susan_anthony">
+                                <img src="assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="albert_einstein">
+                                <img src="assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="george_washington">
+                                <img src="assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="thomas_jefferson">
+                                <img src="assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="susan_anthony">
+                                <img src="assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="albert_einstein">
+                                <img src="assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="george_washington">
+                                <img src="assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="thomas_jefferson">
+                                <img src="assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="susan_anthony">
+                                <img src="assets/avatars/avatar_susan_anthony.png" alt="Susan B Anthony" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Susan B Anthony</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="albert_einstein">
+                                <img src="assets/avatars/avatar_albert_einstein.png" alt="Albert Einstein" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Albert Einstein</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="george_washington">
+                                <img src="assets/avatars/avatar_george_washington.png" alt="George Washington" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">George Washington</span>
                             </div>
-                            <div class="flex flex-col items-center bg-white p-2 rounded-lg">
-                                <img src="/assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-blue-50 border-2 border-transparent" 
+                                 onclick="selectAvatar(this)" 
+                                 data-avatar="thomas_jefferson">
+                                <img src="assets/avatars/avatar_thomas_jefferson.png" alt="Thomas Jefferson" class="w-[60px] h-[60px] rounded-full mb-1">
                                 <span class="avatar-caption font-archivo text-black text-opacity-55 whitespace-normal text-center w-fit">Thomas Jefferson</span>
                             </div>
                         </div>
@@ -208,7 +241,7 @@
                 <p class="text-center mb-6 text-sm">We need you to grant StudyReel permissions on your computer. A pop-up will appear after you click "Give Permission" below</p>
                 <div class="bg-gradient-to-b from-[rgba(27,210,174,0.2)] to-[rgba(27,210,174,0)] rounded-lg p-6 mb-6">
                     <h3 class="text-lg font-semibold mb-4 text-center">Here's how it works, we will:</h3>
-                    <div class="flex items-center mb-4 bg-[#FEFEFE] rounded-xl p-3 space-x-3"">
+                    <div class="flex items-center justify-center mb-4 bg-[#FEFEFE] rounded-xl p-3 space-x-3"">
                         <div class="bg-white w-15 h-15 rounded-xl flex items-center justify-center mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-[#15C39A]">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
@@ -224,7 +257,7 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <button class="button-text bg-[#3D75EA] text-white rounded-[16px] w-full">Give Permission</button>
+                    <button class="button-text bg-[#3D75EA] text-white rounded-[16px] w-full" onclick="window.location.href='home.html?apps_state=1'">Give Permission</button>
                 </div>
             </div>
         </div>
@@ -244,6 +277,30 @@
                 indicator.classList.toggle('bg-opacity-20', i > index);
             });
         }
+        
+        function selectAvatar(element) {
+            // Remove selected class from all avatars
+            document.querySelectorAll('.avatar-grid > div').forEach(avatar => {
+                avatar.classList.remove('bg-blue-50', 'border-[#3D75EA]');
+                avatar.querySelector('.avatar-caption').classList.remove('text-[#3D75EA]', 'opacity-100');
+            });
+            
+            // Add selected class to clicked avatar
+            element.classList.add('bg-blue-50', 'border-[#3D75EA]');
+            element.querySelector('.avatar-caption').classList.add('text-[#3D75EA]', 'opacity-100');
+            
+            // You can also store the selected avatar name if needed
+            const selectedAvatar = element.getAttribute('data-avatar');
+            console.log('Selected avatar:', selectedAvatar);
+        }
+        
+        // Select the first avatar by default when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstAvatar = document.querySelector('.avatar-grid > div');
+            if (firstAvatar) {
+                selectAvatar(firstAvatar);
+            }
+        });
     </script>
 </body>
 </html>
