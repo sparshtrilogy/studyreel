@@ -39,18 +39,18 @@ function createWindow() {
     calculateOverlayOffset();
     updateOverlayPosition();
   });
+}
 
-  // Add this IPC listener here
-  ipcMain.on('learning-mode-started', () => {
-    createOverlayWindow();
-    createAiTutorOverlayWindow();
-  });
+// Move these listeners outside of createWindow
+ipcMain.on('learning-mode-started', () => {
+  createOverlayWindow();
+  createAiTutorOverlayWindow();
+});
 
-  ipcMain.on('learning-mode-exited', () => {
-    destroyOverlayWindow();
-    destroyAiTutorOverlayWindow();
-  });
-}  
+ipcMain.on('learning-mode-exited', () => {
+  destroyOverlayWindow();
+  destroyAiTutorOverlayWindow();
+});
 
 function createOverlayWindow() {
   if (overlayWindow) return;
