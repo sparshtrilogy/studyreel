@@ -23,7 +23,7 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, '..', 'public', 'signup.html'));
+  mainWindow.loadFile(path.join(__dirname, '..', 'public', 'test_avatar.html'));
 
   mainWindow.on('moved', updateOverlayPosition);
   mainWindow.on('resized', updateOverlayPosition);
