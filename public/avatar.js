@@ -1,7 +1,23 @@
+// import { OpenAIClient, ClaudeAIClient } from 'alpha-ai-avatar-sdk-js';
+
 const AVATAR_CLIENT = new Avatar.AvatarClient({ 
     apiKey: 'Hy781mdjalfi1990d',
     conversational: true
 });
+
+// Check if OpenAIClient is available directly or as a property of Avatar
+const OpenAIClient = Avatar.OpenAIClient || Avatar.AvatarClient.OpenAIClient;
+const ClaudeAIClient = Avatar.ClaudeAIClient || Avatar.AvatarClient.ClaudeAIClient;
+
+const openai = new OpenAIClient({
+    apiKey: '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',
+
+});
+
+const claude = new ClaudeAIClient({
+    apiKey: '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',
+});
+
 let currentAvatarId;
 let avatarInitialized = false;
 
@@ -73,8 +89,28 @@ async function sendMessage() {
         chatInput.value = '';
         
         console.log('Sending message to LLM:', text);
-        await AVATAR_CLIENT.say(text);
-        console.log('Message sent to LLM');
+        
+        // Choose which LLM to use (you can modify this logic as needed)
+        const useClaude = true; // Set to false to use OpenAI instead
+        
+        let response;
+        if (useClaude) {
+            const claudeResponse = await claude.getCompletions(
+                'claude-3-opus-20240229',
+                [{ role: 'user', content: text }]
+            );
+            response = claudeResponse.content[0].text;
+        } else {
+            const openAIResponse = await openai.getCompletions(
+                'alpha-avatar-gpt-4o',
+                [{ role: 'user', content: text }]
+            );
+            response = openAIResponse;
+        }
+        
+        console.log('Received LLM response:', response);
+        await AVATAR_CLIENT.say(response);
+        console.log('Avatar speaking LLM response');
     }
 }
 
@@ -123,5 +159,4 @@ chatInput.addEventListener('keypress', (e) => {
 document.addEventListener('click', onFirstUserInteraction);
 document.addEventListener('keydown', onFirstUserInteraction);
 
-// Initialize the app
-// The avatar will be initialized after the first user interaction
+console.log('Avatar object:', Avatar);

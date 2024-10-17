@@ -1119,6 +1119,10 @@ h4{
   max-height: 90vh;
 }
 
+.min-h-full{
+  min-height: 100%;
+}
+
 .min-h-screen{
   min-height: 100vh;
 }
@@ -1266,6 +1270,10 @@ h4{
 
 .w-full{
   width: 100%;
+}
+
+.min-w-full{
+  min-width: 100%;
 }
 
 .max-w-2xl{

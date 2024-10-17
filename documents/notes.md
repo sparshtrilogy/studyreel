@@ -6,5 +6,7 @@
 ### Instructions-
 1. Do not make theoritical assumptions, review the given files first before answering.
 
-###Pending items for demo-
-1. Parent signup flow on web
+### API Keys-
+1. Open AI studyreel-staging: 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
+
+2. Claude studyreel-staging: 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
