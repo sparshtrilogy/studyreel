@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron'); // Import ipcMain
+const { app, BrowserWindow, ipcMain, screen, systemPreferences } = require('electron'); // Import ipcMain
 const path = require('path');
 const fs = require('fs'); // Added fs for reading CSS file
+// const { MediaRecorder, getSources } = require('mediastream');
+
 app.name = 'StudyReel';
 
 let mainWindow;
@@ -16,14 +18,16 @@ function createWindow() {
     width: width,
     height: height,
     webPreferences: {
-      preload: path.join(__dirname, '..', 'preload.js'),
+      preload: path.join(app.getAppPath(), 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
       webviewTag: true
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, '..', 'public', 'test_avatar.html'));
+  mainWindow.webContents.session.clearCache().then(() => {
+    mainWindow.loadFile(path.join(__dirname, '..', 'public', 'index.html'));
+  });
 
   mainWindow.on('moved', updateOverlayPosition);
   mainWindow.on('resized', updateOverlayPosition);
@@ -326,4 +330,48 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+// Add these handlers for microphone permissions and recording
+ipcMain.handle('check-microphone-permission', async () => {
+  // Check if the app has permission to access the microphone
+  if (process.platform === 'darwin') {
+    // macOS specific permission check
+    return systemPreferences.getMediaAccessStatus('microphone');
+  } else {
+    // For Windows and Linux, you might need to implement custom checks
+    // For now, we'll assume permission is granted
+    return 'granted';
+  }
+});
+
+ipcMain.handle('request-microphone-permission', async () => {
+  // Request permission to access the microphone
+  if (process.platform === 'darwin') {
+    // macOS specific permission request
+    return systemPreferences.askForMediaAccess('microphone');
+  } else {
+    // For Windows and Linux, you might need to implement custom requests
+    // For now, we'll assume permission is granted
+    return true;
+  }
+});
+
+// Add handlers for starting and stopping recording
+// let mediaRecorder; // You'll need to define the MediaRecorder instance
+
+// const recorder = require('node-record-lpcm16');
+
+ipcMain.handle('start-recording', async () => {
+  // Send a message to the renderer to start web audio recording
+  mainWindow.webContents.send('start-web-audio-recording');
+  console.log('Recording started');
+  return { success: true, message: 'Recording started' };
+});
+
+ipcMain.handle('stop-recording', async () => {
+  // Send a message to the renderer to stop web audio recording
+  mainWindow.webContents.send('stop-web-audio-recording');
+  console.log('Recording stopped');
+  return { success: true, message: 'Recording stopped' };
 });

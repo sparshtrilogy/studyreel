@@ -18,3 +18,9 @@ This file should include very concise summaries of issues faced for future conte
 
 7. SDK documentation may not always reflect the exact structure of the provided objects.
    - Lesson: Be prepared to adapt your code based on the actual structure of SDK objects, which may require runtime inspection and flexible coding approaches.
+
+8. Audio Stream Management: Always ensure to properly close media streams when stopping audio recording. This is crucial for releasing system resources and preventing unintended microphone access.
+
+9. Web APIs in Desktop Environments: Using Web APIs (like the Web Audio API) in Electron can be powerful, but requires careful handling of the differences between browser and desktop environments.
+
+10. 

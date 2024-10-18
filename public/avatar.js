@@ -245,7 +245,7 @@ function onFirstUserInteraction() {
 }
 
 // Event listeners
-speakButton.addEventListener('click', sendMessage);
+// speakButton.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         console.log('Enter key pressed, calling sendMessage');
@@ -255,3 +255,86 @@ chatInput.addEventListener('keypress', (e) => {
 
 document.addEventListener('click', onFirstUserInteraction);
 document.addEventListener('keydown', onFirstUserInteraction);
+
+let mediaRecorder;
+let audioChunks = [];
+let isRecording = false;
+let mediaStream;
+
+// ... existing code ...
+
+// Handle start recording message from main process
+window.electronAPI.receive('start-web-audio-recording', async () => {
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(mediaStream);
+        audioChunks = [];
+
+        mediaRecorder.addEventListener('dataavailable', event => {
+            audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener('stop', () => {
+            const audioBlob = new Blob(audioChunks);
+            // Here you can send the audioBlob to your server or process it as needed
+            console.log('Recording stopped, audio blob created');
+            
+            // Stop all tracks on the media stream
+            mediaStream.getTracks().forEach(track => track.stop());
+        });
+
+        mediaRecorder.start();
+        console.log('Web Audio recording started');
+    } catch (error) {
+        console.error('Error starting recording:', error);
+    }
+});
+
+// Handle stop recording message from main process
+window.electronAPI.receive('stop-web-audio-recording', () => {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        console.log('Web Audio recording stopped');
+    }
+});
+
+// Modify the click event listener for the mic button
+const micButton = document.getElementById('mic-button');
+if (micButton) {
+    micButton.addEventListener('click', async () => {
+        try {
+            const permissionStatus = await window.microphoneAPI.checkPermission();
+            
+            if (permissionStatus !== 'granted') {
+                const permissionGranted = await window.microphoneAPI.requestPermission();
+                if (!permissionGranted) {
+                    throw new Error('Microphone permission denied');
+                }
+            }
+            
+            if (!isRecording) {
+                // Start recording
+                await window.microphoneAPI.startRecording();
+                micButton.classList.remove('bg-[#49D7D5]', 'hover:bg-[#3AC5C3]');
+                micButton.classList.add('bg-[#F07C10]', 'hover:[#D17F19]');
+                isRecording = true;
+            } else {
+                // Stop recording
+                await window.microphoneAPI.stopRecording();
+                micButton.classList.remove('bg-[#F07C10]', 'hover:[#D17F19]');
+                micButton.classList.add('bg-[#49D7D5]', 'hover:bg-[#3AC5C3]');
+                isRecording = false;
+                
+                // Ensure we stop all tracks on the media stream
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(track => track.stop());
+                }
+            }
+            
+        } catch (error) {
+            console.error('Microphone error:', error);
+        }
+    });
+} else {
+    console.error('Mic button not found');
+}
