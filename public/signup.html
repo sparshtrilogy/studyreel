@@ -406,18 +406,31 @@
                 updateButtonState(continueButton, isValid);
             });
 
-            continueButton.addEventListener('click', function() {
-                const email = emailInput.value.trim();
+            // Remove existing click listeners
+            continueButton.removeEventListener('click', handleContinueButtonClick);
 
-                if (validateEmail(email)) {
-                    // Proceed with verification
+            // Add new click listener
+            continueButton.addEventListener('click', handleContinueButtonClick);
+        } else {
+            console.error("Email input or continue button not found");
+        }
+    }
+
+    function handleContinueButtonClick() {
+        const emailInput = document.querySelector('input[type="email"]');
+        const email = emailInput.value.trim();
+
+        if (validateEmail(email)) {
+            // Proceed with verification
+            validateEmailAndSendOTP(email).then(success => {
+                if (success) {
                     showVerificationForm(email);
                 } else {
-                    alert('Please enter a valid email address.');
+                    alert('Failed to send OTP. Please try again.');
                 }
             });
         } else {
-            console.error("Email input or continue button not found");
+            alert('Please enter a valid email address.');
         }
     }
 
@@ -557,6 +570,7 @@
     function handleContinuePasswordClick() {
         console.log('Click handler is called');
         const fullName = fullNameInput.value.trim();
+        const email = userEmailSpan.textContent;
         const password = createPasswordInput.value.trim();
         const confirmPassword = confirmPasswordInput.value.trim();
 
@@ -570,9 +584,15 @@
             return;
         }
 
-        // Proceed with account creation
-        window.location.href = 'onboarding.html';
-        console.log('Click handler reaches target');
+        finalizeSignup(email, fullName).then(success => {
+            if (success) {
+                // Proceed with account creation
+                console.log('Finalize signup called with success condition');
+                window.location.href = 'onboarding.html';
+            } else {
+                alert('Failed to complete signup. Please try again.');
+            }
+        });
     }
 
     // Modify the verifyButton click handler to initialize the password screen
@@ -582,19 +602,21 @@
             if (verifyButton && !verifyButton.hasAttribute('data-listener-attached')) {
                 verifyButton.addEventListener('click', function() {
                     console.log('Verify button clicked');
-                    // Hide the verification form
-                    verificationForm.classList.add('hidden');
-                    
-                    // Show the set password section
-                    setPassword.classList.remove('hidden');
+                    const email = userEmailSpan.textContent;
+                    const otp = Array.from(verificationInputs).map(input => input.value).join('');
 
-                    console.log('Transition completed');
-
-                    // Add a slight delay before initializing the password screen
-                    setTimeout(() => {
-                        console.log('Initializing password screen');
-                        initializePasswordScreen();
-                    }, 100);
+                    validateOTP(email, otp).then(success => {
+                        if (success) {
+                            // Existing code to transition to password screen
+                            verificationForm.classList.add('hidden');
+                            setPassword.classList.remove('hidden');
+                            setTimeout(() => {
+                                initializePasswordScreen();
+                            }, 100);
+                        } else {
+                            alert('Failed to verify OTP. Please try again.');
+                        }
+                    });
                 });
                 verifyButton.setAttribute('data-listener-attached', 'true');
             }
@@ -672,5 +694,7 @@
     });
 </script>
 
+<!-- Add this line near the end of the file, before the closing </body> tag -->
+<script src="../src/signup-api.js"></script>
 </body>
 </html>

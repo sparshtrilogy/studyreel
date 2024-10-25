@@ -72,131 +72,7 @@
                     </div>
 
                     <!-- App cards grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Swift Playgrounds -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Swift Playground')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/swift_playground.png" alt="Swift Playground Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/swift_playground.png" alt="Swift Playgrounds" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Swift Playground</h3-left>
-                                <p class="text-gray-600 text-sm">Learn to code Swift on iPad and Mac</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Swift Playground"
-                                  data-app-icon="assets/app_logos/swift_playground.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Khan Academy -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Khan Academy')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/khan_academy.png" alt="Khan Academy Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/khan_academy.png" alt="Khan Academy" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Khan Academy</h3-left>
-                                <p class="text-gray-600 text-sm">Free world-class education for anyone, anywhere</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Khan Academy"
-                                  data-app-icon="assets/app_logos/khan_academy.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Prodigy Math -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Prodigy Math')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/prodigy_math.png" alt="Prodigy Math Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/prodigy_math.png" alt="Prodigy Math" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Prodigy Math</h3-left>
-                                <p class="text-gray-600 text-sm">Where Learning Becomes an Epic Adventure!</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Prodigy Math"
-                                  data-app-icon="assets/app_logos/prodigy_math.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Swift Playgrounds -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Swift Playground')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/swift_playground.png" alt="Swift Playground Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/swift_playground.png" alt="Swift Playgrounds" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Swift Playground</h3-left>
-                                <p class="text-gray-600 text-sm">Learn to code Swift on iPad and Mac</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Swift Playground"
-                                  data-app-icon="assets/app_logos/swift_playground.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Khan Academy -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Khan Academy')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/khan_academy.png" alt="Khan Academy Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/khan_academy.png" alt="Khan Academy" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Khan Academy</h3-left>
-                                <p class="text-gray-600 text-sm">Free world-class education for anyone, anywhere</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Khan Academy"
-                                  data-app-icon="assets/app_logos/khan_academy.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Prodigy Math -->
-                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('Prodigy Math')">
-                            <div class="h-48 bg-[#F15A24] relative p-4">
-                                <img src="assets/app_images/prodigy_math.png" alt="Prodigy Math Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                                <img src="assets/app_logos/prodigy_math.png" alt="Prodigy Math" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
-                            </div>
-                            <div class="p-6 text-left space-y-4">
-                                <h3-left class="text-xl font-medium text-left w-full block">Prodigy Math</h3-left>
-                                <p class="text-gray-600 text-sm">Where Learning Becomes an Epic Adventure!</p>
-                                <button 
-                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                                  onclick="addAppToNavbar(event, this)"
-                                  data-app-name="Prodigy Math"
-                                  data-app-icon="assets/app_logos/prodigy_math.png"
-                                >
-                                  Get App
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
             </main>
         </div>
@@ -268,6 +144,42 @@
             const appIcon = button.getAttribute('data-app-icon');
             // Your existing addAppToNavbar logic here
         }
+
+        // Function to fetch apps and render them
+        async function fetchAndRenderApps() {
+            try {
+                const response = await fetch('http://localhost:3000/applications');
+                const apps = await response.json();
+                const appGrid = document.getElementById('app-grid');
+                
+                appGrid.innerHTML = apps.map(app => `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('${app.app_name}')">
+                        <div class="h-48 bg-[#F15A24] relative p-4">
+                            <img src="${app.cover_image_url}" alt="${app.app_name} Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                            <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                            <img src="${app.logo_url}" alt="${app.app_name}" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                        </div>
+                        <div class="p-6 text-left space-y-4">
+                            <h3-left class="text-xl font-medium text-left w-full block">${app.app_name}</h3-left>
+                            <p class="text-gray-600 text-sm">${app.app_desc}</p>
+                            <button 
+                              class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
+                              onclick="addAppToNavbar(event, this)"
+                              data-app-name="${app.app_name}"
+                              data-app-icon="${app.logo_url}"
+                            >
+                              Get App
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching apps:', error);
+            }
+        }
+
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAndRenderApps);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
