@@ -1,8 +1,10 @@
 function renderInput(inputType, placeholder) {
+  // Add a specific class or data attribute to make the input easier to select
   return `<input
     type="${inputType}"
     placeholder="${placeholder}"
-    class="w-full px-4 py-3 rounded-2xl bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-archivo font-bold text-14 text-black placeholder-black-45"
+    class="w-full px-4 py-3 rounded-2xl bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-archivo font-bold text-14 text-black placeholder-black-45 email-input"
+    data-input-type="${inputType}"
   />`;
 }
 
@@ -24,21 +26,21 @@ function renderSocialButton(icon, buttonText) {
   `;
 }
 
-function renderSecondaryButton(text, iconPath, customClass = '', id = '', isActive = false) {
-  const defaultClass = "w-full py-3 px-4 rounded-2xl font-archivo font-bold transition-colors flex items-center justify-center gap-2";
-  const activeClass = "bg-[#3D75EA] py-3 px-4 rounded-2xl text-white text-16 hover:bg-[#3D75EA]/90 cursor-pointer";
-  const inactiveClass = "bg-[#C7C5CC] py-3 px-4 rounded-2xl text-white text-16 cursor-not-allowed";
-  const buttonClass = isActive ? activeClass : inactiveClass;
+function renderSecondaryButton(text, iconPath, customClass = '', id = '', isActive = false) {    
+    const defaultClass = "w-full py-3 px-4 rounded-2xl font-archivo font-bold transition-colors flex items-center justify-center gap-2";
+    const activeClass = "bg-[#3D75EA] text-white text-16 hover:bg-[#3D75EA]/90 cursor-pointer";
+    const inactiveClass = "bg-[#C7C5CC] text-white text-16 cursor-not-allowed";
+    
+    const buttonClass = isActive ? activeClass : inactiveClass;
+    const idAttribute = id ? `id="${id}"` : '';
+    const disabledAttribute = isActive ? '' : 'disabled';
 
-  const idAttribute = id ? `id="${id}"` : '';
-  const disabledAttribute = isActive ? '' : 'disabled';
-
-  return `
-    <button ${idAttribute} ${disabledAttribute} class="${defaultClass} ${buttonClass} ${customClass}">
-      ${iconPath ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">${iconPath}</svg>` : ''}
-      ${text}
-    </button>
-  `;
+    return `
+        <button ${idAttribute} ${disabledAttribute} class="${defaultClass} ${buttonClass} ${customClass}">
+            ${iconPath ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">${iconPath}</svg>` : ''}
+            ${text}
+        </button>
+    `;
 }
 
 function renderLogo() {
@@ -63,9 +65,7 @@ function renderH1(text) {
 
 // Update the renderComponents function to include the new Logo component
 function renderComponents() {
-  console.log('renderComponents called');
   const componentPlaceholders = document.querySelectorAll('[data-component]');
-  console.log('Found components:', componentPlaceholders.length);
   componentPlaceholders.forEach(placeholder => {
     const componentName = placeholder.getAttribute('data-component');
     const props = JSON.parse(placeholder.getAttribute('data-props') || '{}');
@@ -123,8 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Only initialize slide functionality if slides and indicators exist
     if (slides.length > 0 && indicators.length > 0) {
-      console.log('Slides and indicators found, initializing slide functionality');
-
     function showSlide(index) {
         slides.forEach((slide, i) => {
             slide.style.opacity = i === index ? '1' : '0';
