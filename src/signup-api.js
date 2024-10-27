@@ -48,36 +48,30 @@ window.SignupAPI = {
         localStorage.setItem('userEmail', email);
     },
 
-    // Function to finalize signup
-    async finalizeSignup(email, displayName) {
+    // Function to finalize signup with profile data
+    async finalizeSignup(email, fullName, grade) {
         try {
-            await this.updateDisplayName(email, displayName);
-            this.storeUserEmail(email);
-            return true;
-        } catch (error) {
-            console.error('Failed to update display name:', error);
-            return false;
-        }
-    },
-
-    // Function to update display name
-    async updateDisplayName(email, displayName) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/update-display-name`, {
+            const response = await fetch(`${API_BASE_URL}/update-profile`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, displayName }),
+                body: JSON.stringify({ 
+                    email,
+                    fullName,
+                    grade: parseInt(grade, 10)  // Ensure grade is an integer
+                }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update display name');
+                throw new Error('Failed to create profile');
             }
 
-            return await response.json();
+            // Store email in local storage
+            this.storeUserEmail(email);
+            return true;
         } catch (error) {
-            console.error('Error updating display name:', error);
+            console.error('Failed to create profile:', error);
             throw error;
         }
     }

@@ -57,6 +57,14 @@ class OTPForm {
 
                 this.updateVerifyButtonState();
             });
+
+            // Add enter key support
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !this.verifyButton.disabled) {
+                    e.preventDefault();
+                    this.verifyOTP();
+                }
+            });
         });
     }
 
@@ -115,6 +123,7 @@ class OTPForm {
                 // Hide verification form and show password setup
                 this.verificationForm.classList.add('hidden');
                 document.getElementById('setPassword').classList.remove('hidden');
+                window.profileForm.show();  // Add this line to properly show the profile form
             } else {
                 // Show error message below button
                 this.showErrorMessage('Invalid verification code. Please try again.');
@@ -162,8 +171,8 @@ class OTPForm {
         // Show form
         this.verificationForm.classList.remove('hidden');
         
-        // Focus first input
-        this.otpInputs[0].focus();
+        // Focus first input with a small delay to ensure DOM is ready
+        setTimeout(() => this.otpInputs[0].focus(), 100);
     }
 }
 

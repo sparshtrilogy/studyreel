@@ -84,6 +84,7 @@ class EmailForm {
         // Reset form state when showing
         this.emailInput.value = '';
         this.updateButtonState(false);
+        this.clearErrorMessage();  // Add this line
         
         this.initialContent.classList.add('hidden');
         this.signupForm.classList.remove('hidden');
@@ -99,40 +100,49 @@ class EmailForm {
         if (!this.validateEmail(email)) return;
 
         try {
-            // Update button state to loading
+            this.clearErrorMessage();
             this.continueButton.disabled = true;
             this.continueButton.textContent = 'Sending...';
             
-            // Call the API to send OTP
             const success = await window.SignupAPI.validateEmailAndSendOTP(email);
             
             if (success) {
-                // Store email for later use
                 window.SignupAPI.storeUserEmail(email);
-                
-                // Show verification form and hide signup form
                 this.signupForm.classList.add('hidden');
-                const verificationForm = document.getElementById('verificationForm');
-                if (verificationForm) {
-                    // Update email display
-                    const userEmailSpan = document.getElementById('userEmail');
-                    if (userEmailSpan) {
-                        userEmailSpan.textContent = email;
-                    }
-                    verificationForm.classList.remove('hidden');
-                } else {
-                    console.error('Verification form not found');
-                }
+                // Use the OTP form's show method directly
+                window.otpForm.show(email);
+            } else {
+                this.showErrorMessage('Failed to send verification code. Please try again.');
             }
         } catch (error) {
             console.error('Error sending OTP:', error);
-            alert('Failed to send verification code. Please try again.');
+            this.showErrorMessage('Failed to send verification code. Please try again.');
         } finally {
-            // Reset button state if there was an error
             if (this.continueButton.textContent === 'Sending...') {
                 this.continueButton.textContent = 'Continue with email';
                 this.updateButtonState(true);
             }
+        }
+    }
+
+    // Add these helper methods
+    showErrorMessage(message) {
+        let errorDiv = this.signupForm.querySelector('.error-message');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.style.color = 'red';
+            errorDiv.style.marginTop = '10px';
+            errorDiv.style.textAlign = 'center';
+            this.continueButton.parentNode.insertBefore(errorDiv, this.continueButton.nextSibling);
+        }
+        errorDiv.textContent = message;
+    }
+
+    clearErrorMessage() {
+        const errorDiv = this.signupForm.querySelector('.error-message');
+        if (errorDiv) {
+            errorDiv.remove();
         }
     }
 }
