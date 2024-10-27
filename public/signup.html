@@ -142,6 +142,8 @@
 
     <script src="components.js"></script>
 
+    <script src="../src/signup-api.js"></script>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         let initialContent = document.getElementById('initialContent');
@@ -151,6 +153,7 @@
         let verificationForm = document.getElementById('verificationForm');
         let userEmailSpan = document.getElementById('userEmail');
 
+        
         function showSignupForm() {
             initialContent.classList.add('hidden');
             signupForm.classList.remove('hidden');
@@ -461,7 +464,7 @@
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
     }
-
+   
     // Function to initialize the password screen
     // Declare variables at a higher scope
     let fullNameInput, createPasswordInput, confirmPasswordInput, continuePassword;
@@ -694,7 +697,5 @@
     });
 </script>
 
-<!-- Add this line near the end of the file, before the closing </body> tag -->
-<script src="../src/signup-api.js"></script>
 </body>
 </html>

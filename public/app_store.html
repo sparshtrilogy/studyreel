@@ -130,56 +130,133 @@
                 }, 100);
             });
 
+        let userApps = [];
+
+        async function fetchUserApps() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (!userEmail) {
+                console.error('User email not found. Please ensure the user is logged in.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userEmail}/apps`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user apps');
+                }
+                userApps = await response.json();
+                console.log('User apps:', userApps);
+            } catch (error) {
+                console.error('Error fetching user apps:', error);
+            }
+        }
+
         function navigateToAppDetails(appName) {
             // Encode the app name to handle spaces and special characters
             const encodedAppName = encodeURIComponent(appName);
             window.location.href = `app_details.html?app=${encodedAppName}`;
         }
 
-        function addAppToNavbar(event, button) {
-            // Prevent the click event from bubbling up to the parent div
+        async function addAppToNavbar(event, button) {
             event.stopPropagation();
 
             const appName = button.getAttribute('data-app-name');
             const appIcon = button.getAttribute('data-app-icon');
-            // Your existing addAppToNavbar logic here
+            const appId = button.getAttribute('data-app-id');
+
+            const userEmail = localStorage.getItem('userEmail');
+            if (!userEmail) {
+                console.error('User email not found. Please ensure the user is logged in.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userEmail}/apps/${appId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to add app to user');
+                }
+
+                const result = await response.json();
+                console.log('App added successfully:', result);
+
+                // Your existing addAppToNavbar logic here
+                // For example, updating the UI to show the app has been added
+                button.textContent = 'Added';
+                button.disabled = true;
+
+            } catch (error) {
+                console.error('Error adding app to user:', error);
+            }
         }
 
         // Function to fetch apps and render them
         async function fetchAndRenderApps() {
             try {
+                await fetchUserApps();
+                console.log('User apps after fetching:', userApps);
+
                 const response = await fetch('http://localhost:3000/applications');
                 const apps = await response.json();
                 const appGrid = document.getElementById('app-grid');
                 
-                appGrid.innerHTML = apps.map(app => `
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('${app.app_name}')">
-                        <div class="h-48 bg-[#F15A24] relative p-4">
-                            <img src="${app.cover_image_url}" alt="${app.app_name} Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
-                            <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
-                            <img src="${app.logo_url}" alt="${app.app_name}" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                appGrid.innerHTML = apps.map(app => {
+                    // Check if the app is in the user's apps list
+                    const isAppAdded = userApps.some(userApp => 
+                        String(userApp.app_id) === String(app.id) || 
+                        (userApp.applications && String(userApp.applications.id) === String(app.id))
+                    );
+                    console.log(`App ${app.app_name} (ID: ${app.id}) added: ${isAppAdded}`);
+                    return `
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg cursor-pointer" onclick="navigateToAppDetails('${app.app_name}')">
+                            <div class="h-48 bg-[#F15A24] relative p-4">
+                                <img src="${app.cover_image_url}" alt="${app.app_name} Background" class="absolute inset-x-12 top-6 w-[calc(100%-6rem)] h-[calc(100%-1.5rem)] object-cover rounded-2xl opacity-80">
+                                <div class="absolute inset-x-4 top-4 bottom-0 bg-gradient-to-b from-transparent to-[#F15A24] rounded-lg"></div>
+                                <img src="${app.logo_url}" alt="${app.app_name}" class="absolute -bottom-4 left-4 w-20 h-20 rounded-2xl shadow-md z-10">
+                            </div>
+                            <div class="p-6 text-left space-y-4">
+                                <h3-left class="text-xl font-medium text-left w-full block">${app.app_name}</h3-left>
+                                <p class="text-gray-600 text-sm">${app.app_desc}</p>
+                                <button 
+                                  class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300 ${isAppAdded ? 'opacity-50 cursor-not-allowed' : ''}"
+                                  onclick="addAppToNavbar(event, this)"
+                                  data-app-name="${app.app_name}"
+                                  data-app-icon="${app.logo_url}"
+                                  data-app-id="${app.id}"
+                                  ${isAppAdded ? 'disabled' : ''}
+                                >
+                                  ${isAppAdded ? 'Added' : 'Get App'}
+                                </button>
+                            </div>
                         </div>
-                        <div class="p-6 text-left space-y-4">
-                            <h3-left class="text-xl font-medium text-left w-full block">${app.app_name}</h3-left>
-                            <p class="text-gray-600 text-sm">${app.app_desc}</p>
-                            <button 
-                              class="bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#3D75EA] text-30 px-6 py-3 rounded-lg font-semibold transition duration-300"
-                              onclick="addAppToNavbar(event, this)"
-                              data-app-name="${app.app_name}"
-                              data-app-icon="${app.logo_url}"
-                            >
-                              Get App
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             } catch (error) {
                 console.error('Error fetching apps:', error);
             }
         }
 
-        // Call the function when the page loads
+        // Call this function when the page loads
         document.addEventListener('DOMContentLoaded', fetchAndRenderApps);
+
+        // Add this function to check if the user is logged in
+        function checkLoggedInUser() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                console.log('User is logged in:', userEmail);
+                // You can use this email to make API calls or display user information
+            } else {
+                console.log('No user logged in');
+            }
+        }
+
+        // Call this function when the page loads
+        checkLoggedInUser();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>

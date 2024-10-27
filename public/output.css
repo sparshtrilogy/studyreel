@@ -1664,11 +1664,6 @@ h4{
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
-.bg-\[\#33D4D0\]{
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 212 208 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#38D7D3\]{
   --tw-bg-opacity: 1;
   background-color: rgb(56 215 211 / var(--tw-bg-opacity));
@@ -1706,11 +1701,6 @@ h4{
 .bg-\[\#E5E3EB\]{
   --tw-bg-opacity: 1;
   background-color: rgb(229 227 235 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#E8F7F2\]{
-  --tw-bg-opacity: 1;
-  background-color: rgb(232 247 242 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#EFEDF5\]{

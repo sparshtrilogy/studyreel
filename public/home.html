@@ -88,7 +88,7 @@
                                 </div>
                                 <h3 class="text-xl font-semibold mb-2">No apps added</h3>
                                 <p class="text-gray-500 mb-6">Ready to start your app adventure?<br>Explore our app store for a world of free apps!</p>
-                                <button class="bg-[#3D75EA] hover:bg-blue-600 text-white font-semibold py-2 px-10 rounded-lg">
+                                <button @click="goToAppStore()" class="bg-[#3D75EA] hover:bg-blue-600 text-white font-semibold py-2 px-10 rounded-lg">
                                     Explore free apps
                                 </button>
                             </div>
@@ -98,31 +98,19 @@
                         <template x-if="appsState === 1">
                             <div>
                                 <div class="grid grid-cols-2 gap-4">
-                                    <!-- Alpha Anywhere app -->
-                                    <div class="bg-[#F1EEFF] p-6 rounded-lg relative overflow-hidden">
-                                        <div class="absolute top-0 left-0 right-0 h-2 bg-[#7D6BF3]"></div>
-                                        <div class="flex items-center mb-2">
-                                            <img src="assets/app_logos/alpha_anywhere.png" alt="Alpha Anywhere" class="w-10 h-10 mr-3">
-                                            <h3 class="font-semibold">Alpha Anywhere</h3>
+                                    <template x-for="userApp in userApps" :key="userApp.id">
+                                        <div class="bg-[#F1EEFF] p-6 rounded-lg relative overflow-hidden">
+                                            <div class="absolute top-0 left-0 right-0 h-2 bg-[#7D6BF3]"></div>
+                                            <div class="flex items-center mb-2">
+                                                <img :src="userApp.applications.logo_url" :alt="userApp.applications.app_name" class="w-10 h-10 mr-3">
+                                                <h3 class="font-semibold" x-text="userApp.applications.app_name"></h3>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mb-3" x-text="userApp.applications.app_desc"></p>
+                                            <a href="#" @click.prevent="startCountdown(userApp.applications.app_name, userApp.applications.app_url)" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
+                                                Start Learning
+                                            </a>
                                         </div>
-                                        <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
-                                        <a href="#" @click.prevent="startCountdown('khan_academy', 'https://www.khanacademy.org')" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
-                                            Start Learning
-                                        </a>
-                                    </div>
-                                    
-                                    <!-- Khan Academy app -->
-                                    <div class="bg-[#E8F7F2] p-6 rounded-lg relative overflow-hidden">
-                                        <div class="absolute top-0 left-0 right-0 h-2 bg-[#33D4D0]"></div>
-                                        <div class="flex items-center mb-2">
-                                            <img src="assets/app_logos/khan_academy.png" alt="Khan Academy" class="w-10 h-10 mr-3">
-                                            <h3 class="font-semibold">Khan Academy</h3>
-                                        </div>
-                                        <p class="text-sm text-gray-600 mb-3">Get recommended lessons and guidance through dash!</p>
-                                        <a href="#" @click.prevent="startCountdown('khan_academy', 'https://www.khanacademy.org')" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-block">
-                                            Start Learning
-                                        </a>
-                                    </div>
+                                    </template>
                                 </div>
                             </div>
                         </template>
@@ -258,18 +246,38 @@
     </div>
 
     <script>
+        let userApps = [];
+
+        async function fetchUserApps() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (!userEmail) {
+                console.error('User email not found. Please ensure the user is logged in.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userEmail}/apps`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user apps');
+                }
+                userApps = await response.json();
+                console.log('User apps:', userApps);
+            } catch (error) {
+                console.error('Error fetching user apps:', error);
+            }
+        }
 
         function appsComponent() {
             return {
                 appsState: 0,
-                init() {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const state = urlParams.get('apps_state');
-                    if (state === '1') {
-                        this.appsState = 1;
-                    } else {
-                        this.appsState = 0;
-                    }
+                userApps: [],
+                async init() {
+                    await fetchUserApps();
+                    this.userApps = userApps;
+                    this.appsState = this.userApps.length > 0 ? 1 : 0;
+                },
+                goToAppStore() {
+                    window.location.href = 'app_store.html';
                 }
             }
         }
