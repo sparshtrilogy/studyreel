@@ -23,4 +23,4 @@ This file should include very concise summaries of issues faced for future conte
 
 9. Web APIs in Desktop Environments: Using Web APIs (like the Web Audio API) in Electron can be powerful, but requires careful handling of the differences between browser and desktop environments.
 
-10. 
+10. Avoid using the components.js file. It caused lot of issues and complications in signup.
