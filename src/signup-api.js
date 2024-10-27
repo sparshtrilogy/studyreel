@@ -36,10 +36,27 @@ window.SignupAPI = {
                 },
                 body: JSON.stringify({ email, otp }),
             });
-            return response.ok;
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                return {
+                    success: true,
+                    userType: data.user.user_metadata.user_type,
+                    userId: data.user.id
+                };
+            } else {
+                return {
+                    success: false,
+                    errorMessage: data.message || 'Verification failed'
+                };
+            }
         } catch (error) {
             console.error('Error verifying OTP:', error);
-            return false;
+            return {
+                success: false,
+                errorMessage: 'Error verifying OTP'
+            };
         }
     },
 
@@ -73,6 +90,29 @@ window.SignupAPI = {
         } catch (error) {
             console.error('Failed to create profile:', error);
             throw error;
+        }
+    },
+
+    // Add this new function to the SignupAPI object
+    async updateUserType(userId, userType) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/update-user-type`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, userType }),
+            });
+            
+            if (response.ok) {
+                // Update local storage
+                localStorage.setItem('userType', 'existing');
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Error updating user type:', error);
+            return false;
         }
     }
 };

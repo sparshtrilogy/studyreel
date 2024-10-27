@@ -7,6 +7,8 @@
     <link href="output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add this line to include signup-api.js -->
+    <script src="../src/signup-api.js"></script>
 </head>
 <body style="background-color: #EFEDF5;" x-data="popupComponent()" x-init="initCountdown">
     <!-- Countdown Overlay -->
@@ -443,5 +445,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="navbar.js"></script>
+
+    <script>
+        // Add this function to handle user type check and update
+        async function handleUserTypeCheck() {
+            const userType = localStorage.getItem('userType');
+            const userId = localStorage.getItem('userId');
+    
+            if (userType === 'new' && userId) {
+                try {
+                    const success = await window.SignupAPI.updateUserType(userId, 'existing');
+                    if (!success) {
+                        console.error('Failed to update user type');
+                    }
+                } catch (error) {
+                    console.error('Error handling user type update:', error);
+                }
+            }
+        }
+    
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', handleUserTypeCheck);
+    </script>
 </body>
 </html>

@@ -114,20 +114,26 @@ class OTPForm {
         const email = this.userEmailSpan.textContent;
 
         try {
-            // Clear any existing error message
             this.clearErrorMessage();
             
-            const success = await window.SignupAPI.validateOTP(email, otp);
+            const response = await window.SignupAPI.validateOTP(email, otp);
             
-            if (success) {
-                // Hide verification form and show password setup
-                this.verificationForm.classList.add('hidden');
-                document.getElementById('setPassword').classList.remove('hidden');
-                window.profileForm.show();  // Add this line to properly show the profile form
+            if (response.success) {
+                // Store both userId and userType in localStorage
+                localStorage.setItem('userId', response.userId);
+                localStorage.setItem('userType', response.userType);
+
+                if (response.userType === 'new') {
+                    // Continue with signup flow
+                    this.verificationForm.classList.add('hidden');
+                    document.getElementById('setPassword').classList.remove('hidden');
+                    window.profileForm.show();
+                } else {
+                    // Redirect to home page for returning users
+                    window.location.href = '../public/home.html';
+                }
             } else {
-                // Show error message below button
-                this.showErrorMessage('Invalid verification code. Please try again.');
-                // Clear inputs and focus first one
+                this.showErrorMessage(response.errorMessage);
                 this.otpInputs.forEach(input => input.value = '');
                 this.otpInputs[0].focus();
                 this.updateVerifyButtonState();
