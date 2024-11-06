@@ -73,7 +73,43 @@ async function selectAvatar(element) {
     }
 }
 
+async function handlePermissionRequest() {
+    console.log('Permission button clicked');
+    
+    try {
+        // Request permission
+        console.log('Requesting screen permission...');
+        const granted = await window.electronAPI.requestScreenPermission();
+        console.log('Permission request result:', granted);
+        
+        if (granted) {
+            // Double-check that we actually have permission
+            const hasPermission = await window.electronAPI.checkScreenPermission();
+            if (hasPermission) {
+                console.log('Permission confirmed, proceeding to next step');
+                window.location.href = 'home.html?apps_state=1';
+            } else {
+                console.log('Permission not actually granted');
+                // Optionally show an error message to the user
+            }
+        } else {
+            console.log('Permission request denied or timed out');
+            // Optionally show an error message to the user
+        }
+    } catch (error) {
+        console.error('Error handling screen permission:', error);
+    }
+}
+
 // Initialize avatars when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    loadAvatars();
+    console.log('Onboarding page loaded, setting up permission button handler');
+    
+    const permissionButton = document.getElementById('permission-button');
+    if (permissionButton) {
+        console.log('Permission button found, attaching click handler');
+        permissionButton.addEventListener('click', handlePermissionRequest);
+    } else {
+        console.error('Permission button not found!');
+    }
 });

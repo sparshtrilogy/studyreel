@@ -18,6 +18,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     moveOverlay: (x, y) => ipcRenderer.send('overlay-move', { x, y }),
 
     // Screen recording
+    checkScreenPermission: () => ipcRenderer.invoke('check-screen-permission'),
+    requestScreenPermission: () => ipcRenderer.invoke('request-screen-permission'),
     startScreenRecording: () => ipcRenderer.invoke('start-screen-recording'),
     stopScreenRecording: () => ipcRenderer.invoke('stop-screen-recording'),
     handleStream: (sourceId) => ipcRenderer.invoke('handle-stream', sourceId),

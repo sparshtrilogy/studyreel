@@ -379,6 +379,14 @@ async function requestScreenCapturePermission() {
   if (process.platform !== 'darwin') {
     return true;
   }
+  
+  // First check if we already have permission
+  let hasPermission = await checkScreenCapturePermission();
+  if (hasPermission) {
+    return true;
+  }
+
+  // If we don't have permission, show the dialog
   const result = await dialog.showMessageBox({
     type: 'info',
     title: 'Screen Capture Permission Required',
@@ -389,8 +397,33 @@ async function requestScreenCapturePermission() {
   });
 
   if (result.response === 0) {
-    return systemPreferences.askForMediaAccess('screen');
+    // Open macOS System Preferences to Screen Recording settings
+    const { shell } = require('electron');
+    shell.openExternal('x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture');
+    
+    // Important: Don't return true here! Instead, wait for actual permission
+    console.log('Waiting for user to grant permission...');
+    
+    // Wait for the user to grant permission
+    let attempts = 0;
+    const maxAttempts = 60; // Maximum 60 seconds wait
+    
+    while (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
+        console.log(`Checking permission attempt ${attempts + 1}/${maxAttempts}`);
+        hasPermission = await checkScreenCapturePermission();
+        if (hasPermission) {
+            console.log('Permission granted!');
+            return true;
+        }
+        attempts++;
+    }
+    
+    console.log('Permission not granted within timeout period');
+    return false;
   }
+  
+  console.log('User cancelled permission request');
   return false;
 }
 
@@ -561,6 +594,31 @@ ipcMain.handle('request-microphone-access', async () => {
         return true;
     } catch (error) {
         console.error('Error requesting microphone access:', error);
+        return false;
+    }
+});
+
+// Add these IPC handlers near the other permission-related handlers
+ipcMain.handle('check-screen-permission', async () => {
+    console.log('Checking screen permission...');
+    try {
+        const result = await checkScreenCapturePermission();
+        console.log('Screen permission status:', result);
+        return result;
+    } catch (error) {
+        console.error('Error checking screen permission:', error);
+        return false;
+    }
+});
+
+ipcMain.handle('request-screen-permission', async () => {
+    console.log('Requesting screen permission...');
+    try {
+        const result = await requestScreenCapturePermission();
+        console.log('Screen permission request result:', result);
+        return result;
+    } catch (error) {
+        console.error('Error requesting screen permission:', error);
         return false;
     }
 });
