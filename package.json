@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "@tailwindcss/typography": "^0.5.15",
     "alpha-ai-avatar-sdk-js": "^0.0.33",
     "autoprefixer": "^10.4.20",

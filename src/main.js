@@ -1,7 +1,10 @@
-const { app, BrowserWindow, ipcMain, screen, systemPreferences } = require('electron'); // Import ipcMain
+const { app, BrowserWindow, ipcMain, screen, systemPreferences, desktopCapturer, dialog } = require('electron'); // Import ipcMain
 const path = require('path');
 const fs = require('fs'); // Added fs for reading CSS file
-// const { MediaRecorder, getSources } = require('mediastream');
+const { enable } = require('@electron/remote/main');
+require('@electron/remote/main').initialize();
+const ScreenRecorder = require('./utils/recorder');
+let recorder = null;
 
 app.name = 'StudyReel';
 
@@ -13,12 +16,14 @@ let aiTutorOverlayOffset = { x: 20, y: 20 }; // Add this line
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const preloadPath = path.join(__dirname, '..', 'preload.js');
+console.log('Preload path:', preloadPath);
 
   mainWindow = new BrowserWindow({
     width: width,
     height: height,
     webPreferences: {
-      preload: path.join(app.getAppPath(), 'preload.js'),
+      preload: path.join(__dirname, '..', 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
       webviewTag: true
@@ -43,6 +48,11 @@ function createWindow() {
     calculateOverlayOffset();
     updateOverlayPosition();
   });
+
+  enable(mainWindow.webContents);
+
+  // Initialize the recorder with mainWindow
+  recorder = new ScreenRecorder(mainWindow);
 }
 
 // Move these listeners outside of createWindow
@@ -357,21 +367,109 @@ ipcMain.handle('request-microphone-permission', async () => {
   }
 });
 
-// Add handlers for starting and stopping recording
-// let mediaRecorder; // You'll need to define the MediaRecorder instance
+// Add these permission-related functions
+async function checkScreenCapturePermission() {
+  if (process.platform !== 'darwin') {
+    return true;
+  }
+  return systemPreferences.getMediaAccessStatus('screen') === 'granted';
+}
 
-// const recorder = require('node-record-lpcm16');
+async function requestScreenCapturePermission() {
+  if (process.platform !== 'darwin') {
+    return true;
+  }
+  const result = await dialog.showMessageBox({
+    type: 'info',
+    title: 'Screen Capture Permission Required',
+    message: 'StudyReel needs permission to capture your screen for the screen recording feature.',
+    buttons: ['Open System Preferences', 'Cancel'],
+    defaultId: 0,
+    cancelId: 1
+  });
 
-ipcMain.handle('start-recording', async () => {
-  // Send a message to the renderer to start web audio recording
-  mainWindow.webContents.send('start-web-audio-recording');
-  console.log('Recording started');
-  return { success: true, message: 'Recording started' };
+  if (result.response === 0) {
+    return systemPreferences.askForMediaAccess('screen');
+  }
+  return false;
+}
+
+// Update the existing screen recording handlers
+ipcMain.handle('start-screen-recording', async () => {
+    try {
+        if (!recorder) {
+            recorder = new ScreenRecorder(mainWindow);
+        }
+        if (!await checkScreenCapturePermission()) {
+            const granted = await requestScreenCapturePermission();
+            if (!granted) {
+                throw new Error('Screen capture permission denied');
+            }
+        }
+        
+        const sources = await desktopCapturer.getSources({ 
+            types: ['screen', 'window'],
+            thumbnailSize: { width: 0, height: 0 }
+        });
+        
+        if (sources.length > 0) {
+            await recorder.startRecording(sources[0].id);
+        }
+        
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
 });
 
-ipcMain.handle('stop-recording', async () => {
-  // Send a message to the renderer to stop web audio recording
-  mainWindow.webContents.send('stop-web-audio-recording');
-  console.log('Recording stopped');
-  return { success: true, message: 'Recording stopped' };
+ipcMain.handle('stop-screen-recording', async () => {
+  try {
+    if (recorder) {
+      await recorder.stopRecording();
+    }
+    return { success: true };
+  } catch (error) {
+    console.error('Error stopping recording:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('handle-stream', async (event, sourceId) => {
+  try {
+    // This will be handled in the renderer process
+    return { success: true, sourceId };
+  } catch (error) {
+    console.error('Error handling stream:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('get-screen-sources', async () => {
+    try {
+        const sources = await desktopCapturer.getSources({ 
+            types: ['screen', 'window'],
+            thumbnailSize: { width: 0, height: 0 }
+        });
+        return sources;
+    } catch (error) {
+        throw error;
+    }
+});
+
+ipcMain.on('save-recording', async (event, arrayBuffer) => {
+    try {
+        const { filePath } = await dialog.showSaveDialog({
+            buttonLabel: 'Save Recording',
+            defaultPath: `recording-${Date.now()}.webm`,
+            filters: [{ name: 'WebM files', extensions: ['webm'] }]
+        });
+
+        if (filePath) {
+            const buffer = Buffer.from(arrayBuffer);
+            fs.writeFileSync(filePath, buffer);
+            event.sender.send('recording-status', `Recording saved to ${filePath}`);
+        }
+    } catch (error) {
+        event.sender.send('recording-status', 'Failed to save recording');
+    }
 });

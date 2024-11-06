@@ -20,6 +20,29 @@
             <button @click="exitLearningMode" class="absolute top-4 left-4 bg-white bg-opacity-50 hover:bg-opacity-75 text-gray-800 font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out z-10">
                 ← Back
             </button>
+            <div class="absolute bottom-4 right-4 flex items-center gap-4">
+                <!-- Recording indicator -->
+                <div x-show="isRecording" 
+                     class="flex items-center bg-white bg-opacity-75 px-4 py-2 rounded-full shadow-md">
+                    <div class="animate-pulse w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                    <span class="text-red-500 font-medium">Recording</span>
+                </div>
+                
+                <!-- Enhanced recording button -->
+                <button 
+                    @click="toggleRecording" 
+                    :class="isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'"
+                    class="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out">
+                    <svg x-show="!isRecording" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                    </svg>
+                    <svg x-show="isRecording" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <rect x="6" y="6" width="12" height="12" />
+                    </svg>
+                    <span x-text="isRecording ? 'Stop Recording' : 'Start Recording'"></span>
+                </button>
+            </div>
             
             <!-- Learning mode content -->
             <div class="flex-1 bg-white m-2 rounded-2xl overflow-hidden">
@@ -34,6 +57,11 @@
             return {
                 appName: '',
                 appUrl: '',
+                isRecording: false,
+                mediaRecorder: null,
+                recordedChunks: [],
+                stream: null,
+
                 init() {
                     const urlParams = new URLSearchParams(window.location.search);
                     this.appName = urlParams.get('app') || 'Unknown App';
@@ -43,16 +71,96 @@
                     console.log('App Name:', this.appName);
                     console.log('App URL:', this.appUrl);
 
-                    // Notify the main process that learning mode has started
-                    if (window.electron) {
-                        window.electron.send('learning-mode-started');
+                    if (window.electronAPI) {
+                        window.electronAPI.send('learning-mode-started');
                     }
                 },
                 exitLearningMode() {
-                    if (window.electron) {
-                        window.electron.send('learning-mode-exited');
+                    if (window.electronAPI) {
+                        window.electronAPI.send('learning-mode-exited');
                     }
                     window.location.href = 'home.html?apps_state=1';
+                },
+                async toggleRecording() {
+                    try {
+                        if (!this.isRecording) {
+                            const sources = await window.electronAPI.getScreenSources();
+                            
+                            if (!sources || sources.length === 0) {
+                                throw new Error('No screen sources available');
+                            }
+
+                            const constraints = {
+                                audio: false,
+                                video: {
+                                    mandatory: {
+                                        chromeMediaSource: 'desktop',
+                                        chromeMediaSourceId: sources[0].id
+                                    }
+                                }
+                            };
+                            
+                            this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+                            this.mediaRecorder = new MediaRecorder(this.stream, {
+                                mimeType: 'video/webm; codecs=vp9'
+                            });
+
+                            this.mediaRecorder.ondataavailable = (event) => {
+                                if (event.data.size > 0) {
+                                    this.recordedChunks.push(event.data);
+                                }
+                            };
+
+                            this.mediaRecorder.start(1000);
+                            this.isRecording = true;
+                            window.dispatchEvent(new CustomEvent('recording-status', {
+                                detail: 'Recording started'
+                            }));
+                        } else {
+                            if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+                                return new Promise((resolve) => {
+                                    this.mediaRecorder.onstop = async () => {
+                                        try {
+                                            const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+                                            const arrayBuffer = await blob.arrayBuffer();
+                                            await window.electronAPI.saveRecording(arrayBuffer);
+                                            this.recordedChunks = [];
+                                            resolve();
+                                        } catch (error) {
+                                            throw error;
+                                        }
+                                    };
+                                    
+                                    this.mediaRecorder.stop();
+                                    this.stream.getTracks().forEach(track => track.stop());
+                                    this.isRecording = false;
+                                    window.dispatchEvent(new CustomEvent('recording-status', {
+                                        detail: 'Saving recording...'
+                                    }));
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        this.isRecording = false;
+                        window.dispatchEvent(new CustomEvent('recording-status', {
+                            detail: `Error: ${error.message}`
+                        }));
+                    }
+                },
+
+                handleScreenSources(sources) {
+                    console.log('Learning Mode: Handling screen sources:', sources);
+                    try {
+                        const source = sources[0];
+                        window.dispatchEvent(new CustomEvent('recording-status', {
+                            detail: 'Preparing to record...'
+                        }));
+                    } catch (error) {
+                        console.error('Learning Mode: Failed to handle stream:', error);
+                        window.dispatchEvent(new CustomEvent('recording-status', {
+                            detail: `Error: ${error.message}`
+                        }));
+                    }
                 }
             }
         }
@@ -73,6 +181,28 @@
                     console.error('Error loading navbar:', error);
                 });
         });
+
+        window.electronAPI?.on?.('got-screen-sources', (sources) => {
+            console.log('Learning Mode: Received screen sources');
+            // Get Alpine.js component instance
+            const component = Alpine.$data(document.querySelector('[x-data]'));
+            component.handleScreenSources(sources);
+        });
     </script>
+
+    <!-- Add this toast notification near the end of the body but before the closing div -->
+    <div 
+        x-data="{ show: false, message: '' }"
+        x-show="show"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform translate-y-2"
+        x-transition:enter-end="opacity-100 transform translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 transform translate-y-0"
+        x-transition:leave-end="opacity-0 transform translate-y-2"
+        @recording-status.window="show = true; message = $event.detail; setTimeout(() => show = false, 3000)"
+        class="fixed bottom-20 right-4 bg-black bg-opacity-75 text-white px-6 py-3 rounded-lg shadow-lg">
+        <span x-text="message"></span>
+    </div>
 </body>
 </html>

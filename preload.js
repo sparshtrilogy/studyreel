@@ -1,32 +1,44 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+console.log('Preload: Script starting...');
+
+// Single electronAPI exposure with all functionality
 contextBridge.exposeInMainWorld('electronAPI', {
-  send: (channel, data) => ipcRenderer.send(channel, data),
-  receive: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
-  toggleLearningMode: (isLearningMode) => ipcRenderer.send('toggle-learning-mode', isLearningMode),
-  checkMicrophonePermission: () => ipcRenderer.invoke('check-microphone-permission'),
-  requestMicrophonePermission: () => ipcRenderer.invoke('request-microphone-permission'),
-  // Add this line to handle the start-web-audio-recording event
-  onStartWebAudioRecording: (callback) => ipcRenderer.on('start-web-audio-recording', callback),
-  onStopWebAudioRecording: (callback) => ipcRenderer.on('stop-web-audio-recording', callback),
+    // IPC communication
+    send: (channel, data) => {
+        ipcRenderer.send(channel, data);
+    },
+    on: (channel, func) => {
+        ipcRenderer.on(channel, (event, ...args) => func(...args));
+    },
+    receive: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
+
+    // Learning mode
+    toggleLearningMode: (isLearningMode) => ipcRenderer.send('toggle-learning-mode', isLearningMode),
+    moveOverlay: (x, y) => ipcRenderer.send('overlay-move', { x, y }),
+
+    // Screen recording
+    startScreenRecording: () => ipcRenderer.invoke('start-screen-recording'),
+    stopScreenRecording: () => ipcRenderer.invoke('stop-screen-recording'),
+    handleStream: (sourceId) => ipcRenderer.invoke('handle-stream', sourceId),
+    getScreenSources: () => ipcRenderer.invoke('get-screen-sources'),
+    saveRecording: (buffer) => ipcRenderer.send('save-recording', buffer),
+
+    // Microphone
+    checkMicrophonePermission: () => ipcRenderer.invoke('check-microphone-permission'),
+    requestMicrophonePermission: () => ipcRenderer.invoke('request-microphone-permission'),
+    startMicrophoneRecording: () => ipcRenderer.invoke('start-recording'),
+    stopMicrophoneRecording: () => ipcRenderer.invoke('stop-recording'),
+    onStartWebAudioRecording: (callback) => ipcRenderer.on('start-web-audio-recording', callback),
+    onStopWebAudioRecording: (callback) => ipcRenderer.on('stop-web-audio-recording', callback),
 });
 
-contextBridge.exposeInMainWorld('electron', {
-  moveOverlay: (x, y) => ipcRenderer.send('overlay-move', { x, y }),
-});
-
-// Expose microphone utility functions
-contextBridge.exposeInMainWorld('microphoneAPI', {
-  checkPermission: () => ipcRenderer.invoke('check-microphone-permission'),
-  requestPermission: () => ipcRenderer.invoke('request-microphone-permission'),
-  startRecording: () => ipcRenderer.invoke('start-recording'),
-  stopRecording: () => ipcRenderer.invoke('stop-recording'),
-});
-
+// Event listener for overlay movement
 window.addEventListener('message', (event) => {
-  if (event.data.type === 'move') {
-    window.electron.moveOverlay(event.data.x, event.data.y);
-  }
+    if (event.data.type === 'move') {
+        window.electronAPI.moveOverlay(event.data.x, event.data.y);
+    }
 });
 
 console.log('Preload script loaded');
+
