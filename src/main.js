@@ -30,9 +30,22 @@ console.log('Preload path:', preloadPath);
     }
   });
 
-  mainWindow.webContents.session.clearCache().then(() => {
-    mainWindow.loadFile(path.join(__dirname, '..', 'public', 'index.html'));
-  });
+  // First load signup.html
+  mainWindow.loadFile(path.join(__dirname, '..', 'public', 'signup.html'))
+    .then(() => {
+      // Then check localStorage after the page is loaded
+      mainWindow.webContents.executeJavaScript(`
+        const userType = localStorage.getItem('userType');
+        if (userType === 'existing') {
+          window.location.href = 'home.html';
+        }
+      `).catch(error => {
+        console.error('Error executing JavaScript:', error);
+      });
+    })
+    .catch(error => {
+      console.error('Error loading initial page:', error);
+    });
 
   mainWindow.on('moved', updateOverlayPosition);
   mainWindow.on('resized', updateOverlayPosition);
