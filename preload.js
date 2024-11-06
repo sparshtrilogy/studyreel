@@ -22,7 +22,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     stopScreenRecording: () => ipcRenderer.invoke('stop-screen-recording'),
     handleStream: (sourceId) => ipcRenderer.invoke('handle-stream', sourceId),
     getScreenSources: () => ipcRenderer.invoke('get-screen-sources'),
-    saveRecording: (buffer) => ipcRenderer.send('save-recording', buffer),
+    saveRecording: (buffer, type) => ipcRenderer.send('save-recording', buffer, type),
 
     // Microphone
     checkMicrophonePermission: () => ipcRenderer.invoke('check-microphone-permission'),
@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     stopMicrophoneRecording: () => ipcRenderer.invoke('stop-recording'),
     onStartWebAudioRecording: (callback) => ipcRenderer.on('start-web-audio-recording', callback),
     onStopWebAudioRecording: (callback) => ipcRenderer.on('stop-web-audio-recording', callback),
+    requestWebcamAccess: () => ipcRenderer.invoke('request-webcam-access'),
+    requestMicrophoneAccess: () => ipcRenderer.invoke('request-microphone-access'),
 });
 
 // Event listener for overlay movement

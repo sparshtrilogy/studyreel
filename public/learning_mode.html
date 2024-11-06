@@ -28,7 +28,17 @@
                     <span class="text-red-500 font-medium">Recording</span>
                 </div>
                 
-                <!-- Enhanced recording button -->
+                <!-- New Test Webcam Button -->
+                <button 
+                    @click="testWebcam" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Test Webcam</span>
+                </button>
+                
+                <!-- Existing recording button -->
                 <button 
                     @click="toggleRecording" 
                     :class="isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'"
@@ -61,6 +71,9 @@
                 mediaRecorder: null,
                 recordedChunks: [],
                 stream: null,
+                webcamStream: null,
+                webcamRecorder: null,
+                webcamChunks: [],
 
                 init() {
                     const urlParams = new URLSearchParams(window.location.search);
@@ -84,13 +97,16 @@
                 async toggleRecording() {
                     try {
                         if (!this.isRecording) {
+                            const webcamAccess = await window.electronAPI.requestWebcamAccess();
+                            const micAccess = await window.electronAPI.requestMicrophoneAccess();
                             const sources = await window.electronAPI.getScreenSources();
                             
                             if (!sources || sources.length === 0) {
                                 throw new Error('No screen sources available');
                             }
 
-                            const constraints = {
+                            // Initialize screen recording
+                            const screenConstraints = {
                                 audio: false,
                                 video: {
                                     mandatory: {
@@ -100,18 +116,51 @@
                                 }
                             };
                             
-                            this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+                            this.stream = await navigator.mediaDevices.getUserMedia(screenConstraints);
                             this.mediaRecorder = new MediaRecorder(this.stream, {
                                 mimeType: 'video/webm; codecs=vp9'
                             });
 
+                            // Initialize webcam and microphone if permissions granted
+                            if (webcamAccess && micAccess) {
+                                this.webcamStream = await navigator.mediaDevices.getUserMedia({
+                                    video: {
+                                        width: { ideal: 1280 },
+                                        height: { ideal: 720 }
+                                    },
+                                    audio: {
+                                        echoCancellation: true,
+                                        noiseSuppression: true,
+                                        sampleRate: 44100
+                                    }
+                                });
+                                
+                                this.webcamRecorder = new MediaRecorder(this.webcamStream, {
+                                    mimeType: 'video/webm; codecs=vp9,opus'
+                                });
+                            }
+
+                            // Set up data handlers
                             this.mediaRecorder.ondataavailable = (event) => {
                                 if (event.data.size > 0) {
                                     this.recordedChunks.push(event.data);
                                 }
                             };
 
+                            if (this.webcamRecorder) {
+                                this.webcamRecorder.ondataavailable = (event) => {
+                                    if (event.data.size > 0) {
+                                        this.webcamChunks.push(event.data);
+                                    }
+                                };
+                            }
+
+                            // Start recordings
                             this.mediaRecorder.start(1000);
+                            if (this.webcamRecorder) {
+                                this.webcamRecorder.start(1000);
+                            }
+
                             this.isRecording = true;
                             window.dispatchEvent(new CustomEvent('recording-status', {
                                 detail: 'Recording started'
@@ -119,23 +168,52 @@
                         } else {
                             if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
                                 return new Promise((resolve) => {
+                                    let savedCount = 0;
+                                    const totalToSave = this.webcamRecorder ? 2 : 1;
+
+                                    const checkComplete = () => {
+                                        savedCount++;
+                                        if (savedCount === totalToSave) {
+                                            resolve();
+                                        }
+                                    };
+
+                                    // Stop webcam recording first if available
+                                    if (this.webcamRecorder && this.webcamRecorder.state !== 'inactive') {
+                                        this.webcamRecorder.onstop = async () => {
+                                            try {
+                                                const blob = new Blob(this.webcamChunks, { type: 'video/webm' });
+                                                const arrayBuffer = await blob.arrayBuffer();
+                                                await window.electronAPI.saveRecording(arrayBuffer, 'webcam');
+                                                this.webcamChunks = [];
+                                                checkComplete();
+                                            } catch (error) {
+                                                throw error;
+                                            }
+                                        };
+                                        this.webcamRecorder.stop();
+                                        this.webcamStream.getTracks().forEach(track => track.stop());
+                                    }
+
+                                    // Stop screen recording
                                     this.mediaRecorder.onstop = async () => {
                                         try {
                                             const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
                                             const arrayBuffer = await blob.arrayBuffer();
-                                            await window.electronAPI.saveRecording(arrayBuffer);
+                                            await window.electronAPI.saveRecording(arrayBuffer, 'screen');
                                             this.recordedChunks = [];
-                                            resolve();
+                                            checkComplete();
                                         } catch (error) {
                                             throw error;
                                         }
                                     };
-                                    
+
                                     this.mediaRecorder.stop();
                                     this.stream.getTracks().forEach(track => track.stop());
+                                    
                                     this.isRecording = false;
                                     window.dispatchEvent(new CustomEvent('recording-status', {
-                                        detail: 'Saving recording...'
+                                        detail: 'Saving recordings...'
                                     }));
                                 });
                             }
@@ -159,6 +237,33 @@
                         console.error('Learning Mode: Failed to handle stream:', error);
                         window.dispatchEvent(new CustomEvent('recording-status', {
                             detail: `Error: ${error.message}`
+                        }));
+                    }
+                },
+
+                async testWebcam() {
+                    try {
+                        console.log('Testing webcam access...');
+                        window.dispatchEvent(new CustomEvent('recording-status', {
+                            detail: 'Requesting webcam access...'
+                        }));
+
+                        const webcamAccess = await window.electronAPI.requestWebcamAccess();
+                        console.log('Webcam access response:', webcamAccess);
+
+                        if (webcamAccess) {
+                            window.dispatchEvent(new CustomEvent('recording-status', {
+                                detail: 'Webcam access granted!'
+                            }));
+                        } else {
+                            window.dispatchEvent(new CustomEvent('recording-status', {
+                                detail: 'Webcam access denied.'
+                            }));
+                        }
+                    } catch (error) {
+                        console.error('Webcam test error:', error);
+                        window.dispatchEvent(new CustomEvent('recording-status', {
+                            detail: `Webcam error: ${error.message}`
                         }));
                     }
                 }

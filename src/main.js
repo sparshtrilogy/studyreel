@@ -394,19 +394,68 @@ async function requestScreenCapturePermission() {
   return false;
 }
 
-// Update the existing screen recording handlers
+// Add these handlers near other permission-related functions
+async function checkCameraPermission() {
+    if (process.platform !== 'darwin') {
+        return true;
+    }
+    return systemPreferences.getMediaAccessStatus('camera') === 'granted';
+}
+
+async function requestCameraPermission() {
+    if (process.platform !== 'darwin') {
+        return true;
+    }
+    return systemPreferences.askForMediaAccess('camera');
+}
+
+// Add this new IPC handler
+ipcMain.handle('request-webcam-access', async () => {
+    try {
+        if (process.platform === 'darwin') {
+            const status = systemPreferences.getMediaAccessStatus('camera');
+            console.log('Current camera status:', status);
+            
+            if (status !== 'granted') {
+                const granted = await systemPreferences.askForMediaAccess('camera');
+                console.log('Camera access granted:', granted);
+                return granted;
+            }
+            return true;
+        }
+        return true;
+    } catch (error) {
+        console.error('Error requesting webcam access:', error);
+        return false;
+    }
+});
+
+// Update the existing screen recording handler
 ipcMain.handle('start-screen-recording', async () => {
     try {
+        console.log('Starting recording process...');
+        
         if (!recorder) {
             recorder = new ScreenRecorder(mainWindow);
         }
+
+        // First check webcam permission
+        console.log('Checking webcam permission...');
+        const webcamPermission = await ipcMain.handle('request-webcam-access');
+        if (!webcamPermission) {
+            console.log('Webcam permission denied');
+        } else {
+            console.log('Webcam permission granted');
+        }
+
+        // Then check screen capture permission
         if (!await checkScreenCapturePermission()) {
-            const granted = await requestScreenCapturePermission();
-            if (!granted) {
+            const screenGranted = await requestScreenCapturePermission();
+            if (!screenGranted) {
                 throw new Error('Screen capture permission denied');
             }
         }
-        
+
         const sources = await desktopCapturer.getSources({ 
             types: ['screen', 'window'],
             thumbnailSize: { width: 0, height: 0 }
@@ -418,6 +467,7 @@ ipcMain.handle('start-screen-recording', async () => {
         
         return { success: true };
     } catch (error) {
+        console.error('Error in start-screen-recording:', error);
         return { success: false, error: error.message };
     }
 });
@@ -456,20 +506,61 @@ ipcMain.handle('get-screen-sources', async () => {
     }
 });
 
-ipcMain.on('save-recording', async (event, arrayBuffer) => {
+ipcMain.on('save-recording', async (event, arrayBuffer, type) => {
     try {
+        const timestamp = Date.now();
+        const defaultPath = type === 'webcam' 
+            ? `webcam-${timestamp}.webm`
+            : `screen-${timestamp}.webm`;
+        
         const { filePath } = await dialog.showSaveDialog({
-            buttonLabel: 'Save Recording',
-            defaultPath: `recording-${Date.now()}.webm`,
+            buttonLabel: `Save ${type} Recording`,
+            defaultPath: defaultPath,
             filters: [{ name: 'WebM files', extensions: ['webm'] }]
         });
 
         if (filePath) {
             const buffer = Buffer.from(arrayBuffer);
             fs.writeFileSync(filePath, buffer);
-            event.sender.send('recording-status', `Recording saved to ${filePath}`);
+            event.sender.send('recording-status', `${type} recording saved successfully`);
+        } else {
+            event.sender.send('recording-status', `${type} recording save cancelled`);
         }
     } catch (error) {
-        event.sender.send('recording-status', 'Failed to save recording');
+        event.sender.send('recording-status', `Failed to save ${type} recording: ${error.message}`);
+    }
+});
+
+// Add these handlers near other permission-related functions
+async function checkMicrophonePermission() {
+    if (process.platform !== 'darwin') {
+        return true;
+    }
+    return systemPreferences.getMediaAccessStatus('microphone') === 'granted';
+}
+
+async function requestMicrophonePermission() {
+    if (process.platform !== 'darwin') {
+        return true;
+    }
+    return systemPreferences.askForMediaAccess('microphone');
+}
+
+// Add this IPC handler
+ipcMain.handle('request-microphone-access', async () => {
+    try {
+        if (process.platform === 'darwin') {
+            const status = systemPreferences.getMediaAccessStatus('microphone');
+            
+            if (status !== 'granted') {
+                const granted = await systemPreferences.askForMediaAccess('microphone');
+                return granted;
+            }
+            return true;
+        }
+        return true;
+    } catch (error) {
+        console.error('Error requesting microphone access:', error);
+        return false;
     }
 });
